@@ -1695,9 +1695,12 @@ final class Browser: NSObject, ObservableObject {
         let restored = restoreRow(saved, space: spaceID, groups: tabGroups)
         splits = restored.splits
         tabs += restored.tabs
-        // No tab in front (a fresh start, see Session.startFresh): an empty
-        // one beside the pins.
-        let front = saved.tabs.isEmpty || saved.active < 0 ? nil
+        // No tab in front (a fresh start, see Session.startFresh), or only
+        // pins to come back to: an empty one beside the pins, rather than
+        // waking the last pin — a file written by an older build may still
+        // name one.
+        let onlyPins = !restored.tabs.contains { $0.pin == nil }
+        let front = saved.tabs.isEmpty || saved.active < 0 || onlyPins ? nil
             : restored.active.flatMap { id in tabs.first { $0.id == id } } ?? tabs.first { $0.pin == nil } ?? tabs.first
         guard let first = front else {
             // A blank tab costs nothing until it is asked for its page. Its
@@ -2274,8 +2277,15 @@ final class Browser: NSObject, ObservableObject {
         }
         // The tab you were on isn't kept — a private or blank one: the one
         // kept just before it comes back in front, not the first of the row.
+        // A blank one with only pins kept beside it is the exception: -1,
+        // no tab in front, and the next launch opens on a blank tab as you
+        // left it rather than inside the last pin (see restoreSession).
         if let id, let at = tabs.firstIndex(where: { $0.id == id }), indices[id] == nil {
-            active = max(0, tabs[..<at].filter(kept).count - 1)
+            if tabs[at].isBlank, !tabs[at].shy, !entries.contains(where: { $0.pin == nil }) {
+                active = -1
+            } else {
+                active = max(0, tabs[..<at].filter(kept).count - 1)
+            }
         }
         let keptGroups = groups?.filter { group in
             entries.contains { $0.groupID == group.id }
