@@ -396,6 +396,17 @@ struct ContentView: View {
             // ground: a gap on the far side and along the bottom here, at the
             // top and on the column's side in the room (see chrome). Two pages
             // side by side are a card each (see PaneStage).
+            // The card's top, under the page so the page's round corners show
+            // its white (see AddressBand).
+            if cards {
+                AddressBand(browser: browser, bar: bandBar)
+                    .frame(height: AddressBand.height(bar: bandBar) + Metrics.cardRadius)
+                    .padding(.leading, sideOnRight ? farGap : chrome.width)
+                    .padding(.trailing, sideOnRight ? chrome.width : farGap)
+                    .padding(.top, chrome.height - AddressBand.height(bar: bandBar))
+                    .transition(.opacity)
+            }
+
             stage
                 .modifier(CardEdge(on: cards && !browser.prefs.splitView))
                 .padding(.leading, sideOnRight ? farGap : 0)
@@ -421,10 +432,10 @@ struct ContentView: View {
                     .transition(.move(edge: .top).combined(with: .opacity))
             }
 
-            // The bookmarks bar, under the strip or beside the column's top —
-            // there on the window's ground above the page's card, and no wider.
-            if barShown {
-                BookmarksBar(browser: browser, bookmarks: browser.bookmarks, onFrame: cards)
+            // The bookmarks bar, under the strip. With the tabs down the side
+            // it is in the page card's band instead (AddressBand).
+            if barShown, !cards {
+                BookmarksBar(browser: browser, bookmarks: browser.bookmarks)
                     .padding(.leading, sideOnRight ? farGap : chrome.width)
                     .padding(.trailing, sideOnRight ? chrome.width : farGap)
                     .padding(.top, band)
@@ -485,8 +496,10 @@ struct ContentView: View {
     private var chrome: CGSize {
         let bar = barShown ? BookmarksBar.height : 0
         if cards {
+            // The address band is the card's top, the bookmarks bar inside it
+            // (AddressBand): the page starts under them.
             return CGSize(width: sidebar ? browser.prefs.sideWidth : Metrics.cardGap,
-                          height: barShown ? bar : Metrics.cardGap)
+                          height: Metrics.cardGap + AddressBand.height(bar: bandBar))
         }
         return CGSize(width: sidebar ? browser.prefs.sideWidth : 0, height: band + bar)
     }
@@ -503,9 +516,16 @@ struct ContentView: View {
     /// The bookmarks bar is up: asked for, there are bookmarks, and the tabs
     /// aren't folded away or under a video filling the screen.
     private var barShown: Bool {
-        browser.prefs.bookmarksBar && !browser.bookmarks.isEmpty && !browser.folded
+        // In the card's band, it stays with the column folded away, as the
+        // band does.
+        browser.prefs.bookmarksBar && !browser.bookmarks.isEmpty && (cards || !browser.folded)
             && fullscreenTab == nil
     }
+
+    /// The bookmarks bar in the card's band: on an empty page only, as in
+    /// Dia, where there is nothing yet to read and a bookmark is what you
+    /// are likely to want.
+    private var bandBar: Bool { barShown && browser.active?.isBlank ?? true }
 
     /// The room the page is laid out to leave them, which is not animated.
     private var roomed: CGSize { room ?? chrome }

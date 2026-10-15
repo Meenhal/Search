@@ -52,9 +52,6 @@ struct SideBar: View {
     private var onRight: Bool { prefs.sidePosition == .right }
     private var innerEdge: Alignment { onRight ? .leading : .trailing }
 
-    /// The window's buttons' corner: gone in full screen, where macOS takes
-    /// them away, and back, forward and reload move up to the edge (idea 184).
-    private var lights: CGFloat { browser.fullScreen ? 0 : Metrics.sideLights }
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -63,30 +60,16 @@ struct SideBar: View {
             DragStrip(reserved: 0, below: browser.makingSpace ? .greatestFiniteMagnitude : rowsEnd, onDoubleClick: browser.newTab)
 
             // The band the lights sit in is this mode's title bar: the window
-            // is dragged by it and a double-click fills the screen with it,
-            // everywhere but over the three doors, which take their own
-            // clicks. The lights are the title bar's own and answer first.
-            HStack(spacing: 0) {
-                DragStrip()
-                    .frame(width: 10 + lights)
-                Color.clear
-                    .frame(width: Metrics.helm)
-                    .allowsHitTesting(false)
-                DragStrip()
-            }
-            .frame(height: Metrics.strip)
+            // is dragged by it and a double-click fills the screen with it.
+            // The lights are the title bar's own and answer first.
+            DragStrip()
+                .frame(height: Metrics.strip)
 
             VStack(alignment: .leading, spacing: 0) {
-                // The traffic lights' corner, with back, forward and reload
-                // sitting right of them — the same three doors as the top
-                // bar, moved beside the lights since there's no far end of a
-                // row to put them at in this mode.
-                HStack(spacing: 0) {
-                    Color.clear.frame(width: lights)
-                    Helm(browser: browser)
-                    Spacer(minLength: 0)
-                }
-                .frame(height: Metrics.strip)
+                // The traffic lights' corner. Back, forward and reload are on
+                // the page's card, in its address band (AddressBand).
+                Color.clear
+                    .frame(height: Metrics.strip)
 
                 // The spaces side by side, as pages: two fingers sideways move
                 // the one on screen and the next one together, the next one
@@ -644,43 +627,25 @@ struct SideBar: View {
 
     /// One small door at the bottom: the settings.
     private var foot: some View {
-        SideFoot(browser: browser, prefs: prefs, fetches: browser.fetches)
+        SideFoot(browser: browser, prefs: prefs)
     }
 
 }
 
-/// The row at the bottom of the column. Never wider than the column: wider,
-/// the column took its width, and centred in its own frame it slid half the
-/// overflow off each side (#535). The space's door, the puzzle, bookmarks and
-/// downloads stay put; the pinned extensions that don't fit give way, from
-/// the last, and are still in the puzzle's list.
+/// The row at the bottom of the column: the space's door. The extensions,
+/// bookmarks and downloads are at the far end of the page's address band
+/// (AddressBand).
 private struct SideFoot: View {
     @ObservedObject var browser: Browser
     @ObservedObject var prefs: Preferences
-    @ObservedObject var fetches: Fetches
 
     var body: some View {
         HStack(spacing: 2) {
             if prefs.usesSpaces { SpaceDot(browser: browser) }
-            ExtensionSlot(edge: .trailing, room: room)
-            BookmarkDoor(browser: browser, arrowEdge: .trailing)
-            // Only while a download is running, and a moment after.
-            FetchDoor(browser: browser, fetches: fetches)
             Spacer(minLength: 0)
         }
         .padding(.horizontal, 10)
         .padding(.bottom, 10)
-    }
-
-    /// How many pinned extensions fit beside the doors that stay. Every door
-    /// is 26 points, with 2 between them.
-    private var room: Int {
-        let door: CGFloat = 26 + 2
-        var kept = 2  // the puzzle and bookmarks
-        if prefs.usesSpaces { kept += 1 }
-        if FetchDoor.shows(fetches, prefs) { kept += 1 }
-        let free = prefs.sideWidth - 2 * 10 + 2 - CGFloat(kept) * door
-        return max(0, Int((free / door).rounded(.down)))
     }
 }
 

@@ -15,6 +15,9 @@ struct BookmarksBar: View {
     /// side: the ground's colour and no line of its own, the card's edge
     /// being the line (see CardEdge).
     var onFrame = false
+    /// Inside the page card's address band (AddressBand): the band's white,
+    /// and no line, the page's own edge under it being the line.
+    var inBand = false
 
     static let height: CGFloat = 30
 
@@ -40,9 +43,9 @@ struct BookmarksBar: View {
         }
         .frame(height: BookmarksBar.height)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(onFrame ? Palette.frame : Palette.ground)
+        .background(inBand ? .clear : onFrame ? Palette.frame : Palette.ground)
         .overlay(alignment: .bottom) {
-            if !onFrame { Rectangle().fill(Palette.hairline).frame(height: 1) }
+            if !onFrame, !inBand { Rectangle().fill(Palette.hairline).frame(height: 1) }
         }
     }
 
