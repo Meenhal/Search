@@ -131,7 +131,7 @@ struct Omnibox: View {
                     .onTapGesture { _ = browser.lockSiteOffer() }
             }
             ForEach(Array(browser.offers.enumerated()), id: \.element.id) { index, offer in
-                Row(offer: offer, picked: browser.picked == index)
+                Row(offer: offer, picked: browser.picked == index || (browser.picked == nil && browser.leads && index == 0))
                     .contentShape(Rectangle())
                     .onTapGesture { browser.take(offer) }
             }

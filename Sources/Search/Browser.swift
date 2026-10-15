@@ -313,6 +313,9 @@ final class Browser: NSObject, ObservableObject {
     @Published private(set) var ending: String?
     /// Which row the arrow keys have walked to, if any.
     @Published var picked: Int?
+    /// The top row is what Return does with nothing picked, and is shown so
+    /// (see lead): the list never makes you press ↓ to see where you go.
+    @Published private(set) var leads = false
     /// Bumped when what was typed isn't an address and can't be searched for.
     @Published private(set) var refusals = 0
     /// Bumped whenever the cursor should go back into the field.
@@ -3969,6 +3972,7 @@ final class Browser: NSObject, ObservableObject {
             // The most recent page is already chosen, so ⌘K then Return is the
             // whole gesture.
             picked = offers.isEmpty ? nil : 0
+            leads = false
             return
         }
 
@@ -3981,6 +3985,7 @@ final class Browser: NSObject, ObservableObject {
             offers = words.isEmpty ? [] : site.url(for: words).map {
                 [Suggestion(key: words, title: site.name, url: $0, kind: .search)]
             } ?? []
+            leads = !offers.isEmpty
             return
         }
 
@@ -3988,6 +3993,7 @@ final class Browser: NSObject, ObservableObject {
             offers = []
             ending = nil
             picked = nil
+            leads = false
             siteOffer = nil
             return
         }
@@ -4021,9 +4027,34 @@ final class Browser: NSObject, ObservableObject {
         // would promise a place Return doesn't go to.
         ending = command != nil ? nil
             : history.completion(for: typed, among: offers.filter { $0.kind != .open && !$0.kind.isCommand })
+        lead(command: command != nil)
         // A row that was picked stops being the right row the moment the
         // question changes.
         picked = nil
+    }
+
+    /// The row Return goes to with nothing picked, brought to the top of the
+    /// list and shown chosen, as the first row is in Chrome, Arc and Dia: a
+    /// command (already on top), the page the field is finishing towards, or
+    /// the search for what was typed. Only a row Return really goes to, so
+    /// what is shown and what happens never differ; an address typed out in
+    /// full that no row leads to shows none.
+    private func lead(command: Bool) {
+        let found: Int?
+        if command {
+            found = 0
+        } else if ending != nil {
+            found = offers.firstIndex { offer in
+                offer.kind != .open && !offer.kind.isCommand
+                    && history.completion(for: typed, among: [offer]) == ending
+            }
+        } else if Address.url(from: typed) == nil {
+            found = offers.firstIndex { $0.kind == .search }
+        } else {
+            found = nil
+        }
+        if let found, found > 0 { offers.insert(offers.remove(at: found), at: 0) }
+        leads = found != nil
     }
 
     /// What is open, most recently looked at first, filtered by what has been
@@ -4096,7 +4127,8 @@ final class Browser: NSObject, ObservableObject {
         guard !offers.isEmpty else { return }
         switch picked {
         case nil:
-            picked = step > 0 ? 0 : offers.count - 1
+            // The top row already shown chosen: ↓ goes on to the next.
+            picked = step > 0 ? (leads ? min(1, offers.count - 1) : 0) : offers.count - 1
         case let here?:
             let next = here + step
             picked = (next < 0 || next >= offers.count) ? nil : next
