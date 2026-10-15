@@ -345,12 +345,11 @@ struct SideBar: View {
         prefs.showsPinRows && listed + loose > 0
     }
 
-    /// How many squares go in each row: at most four — fewer only when the
-    /// column is too narrow for four of the classic width — and as even as
-    /// they go, the fuller rows first. Five are three and two, seven four
-    /// and three, nine three, three and three, ten four, three and three.
-    /// Up to three stay the one row of three places they always were, with
-    /// a place or two empty rather than a lonely button the column's width.
+    /// How many squares go in each row: at most three — fewer only when the
+    /// column is too narrow for three of the classic width — and as even as
+    /// they go, the fuller rows first. Four are two and two, five three and
+    /// two, seven three, two and two. Every row fills the column's width,
+    /// so two pins are two halves and one pin is the whole row.
     static func pinRows(_ count: Int, most: Int) -> [Int] {
         guard count > 0 else { return [] }
         let most = max(1, most)
@@ -369,10 +368,8 @@ struct SideBar: View {
         let room = prefs.sideWidth - 20
         let gap = SideBar.pinGap
         let fits = Int((room + gap) / (SideBar.square + gap))
-        let rows = SideBar.pinRows(count, most: min(4, max(1, fits)))
-        // A row of fewer than three keeps three places.
-        let slots = rows.map { rows.count == 1 ? max($0, min(3, fits)) : $0 }
-        let widths = slots.map { max(20, (room - CGFloat($0 - 1) * gap) / CGFloat($0)) }
+        let rows = SideBar.pinRows(count, most: min(3, max(1, fits)))
+        let widths = rows.map { max(20, (room - CGFloat($0 - 1) * gap) / CGFloat($0)) }
         let height = min(SideBar.square, widths.min() ?? SideBar.square)
         var cells: [CGRect] = []
         for (row, n) in rows.enumerated() {
@@ -385,8 +382,8 @@ struct SideBar: View {
         return cells
     }
 
-    /// The grid itself: fixed-size cells, left-aligned, so a half-empty last
-    /// row holds its ground rather than stretching to fill it.
+    /// The grid itself: each row's cells share the column's width between
+    /// them (see pinCells).
     private var pinned: some View {
         let tabs = pinnedTabs
         let cells = pinCells(tabs.count)
