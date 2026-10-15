@@ -751,6 +751,11 @@ private struct TabPill: View {
 /// of three spaces, each frame, and the tab trailed behind the hand). The row
 /// only redraws when the tab actually changes place.
 struct Carried: ViewModifier {
+    /// A tab is being carried along some row: the others are drawn where
+    /// they were and glide to their new places, rather than being moved by
+    /// an animation the carried one would share.
+    @MainActor static var holding = false
+
     let index: Int
     let count: Int
     /// One place in the row: the tab's length and the gap after it.
@@ -767,18 +772,42 @@ struct Carried: ViewModifier {
     var outside: (() -> Bool)? = nil
     var browser: Browser? = nil
     var tab: Tab? = nil
+    /// Each move of the hand, for a place to drop outside the row's own
+    /// space: the pinned squares (see SideBar.carry).
+    var onTravel: (() -> Void)? = nil
+    /// Carried free: under the hand on both axes, the row not making way.
+    var free = false
+    /// Let go or given up, after whatever the drop did.
+    var onRelease: (() -> Void)? = nil
+    /// Kept between the first place in the row and the last: a tab with
+    /// nowhere else to go (a blank one, a private one, which can't be
+    /// pinned) stops at the row's ends rather than flying off over the pins
+    /// and out of the window.
+    var bounded = false
     let move: (Int) -> Void
 
     @State private var held = false
     @State private var from = 0
     @State private var travel: CGFloat = 0
+    @State private var across: CGFloat = 0
+    /// Whether the hand still holds it, reset by SwiftUI even when the drag
+    /// is dropped without its end being told: the row is put down then too,
+    /// rather than left lifted for good.
+    @GestureState private var pressing = false
+    /// The place it is drawn at while another tab is carried past it: the
+    /// place it had, gliding to the one it has (see the move below).
+    @State private var placed: Int?
+    @State private var sliding = false
 
     func body(content: Content) -> some View {
         // What it has travelled, less the ground its new place has already
         // given it.
         let shift = held ? travel - CGFloat(index - from) * step : 0
+        // Making way for a carried tab: drawn where it was, then gliding.
+        let lag = !held && (sliding || Carried.holding) ? CGFloat((placed ?? index) - index) * step : 0
+        let side = held && free ? across : 0
         return content
-            .offset(x: vertical ? 0 : shift, y: vertical ? shift : 0)
+            .offset(x: vertical ? side : shift + lag, y: vertical ? shift + lag : side)
             // Under the hand exactly. Its place in the row springs when it
             // passes another tab, and the offset springs back the same way —
             // until the next move of the hand cuts the offset's spring short
@@ -789,18 +818,34 @@ struct Carried: ViewModifier {
             .shadow(color: .black.opacity(held ? 0.14 : 0), radius: 12, y: 4)
             .gesture(
                 DragGesture(minimumDistance: 5, coordinateSpace: .named(space))
+                    .updating($pressing) { _, pressing, _ in pressing = true }
                     .onChanged { value in
                         if !held {
                             held = true
                             from = index
+                            Carried.holding = true
                         }
                         travel = vertical ? value.translation.height : value.translation.width
+                        if bounded {
+                            travel = min(max(travel, -CGFloat(from) * step), CGFloat(count - 1 - from) * step)
+                        }
+                        across = vertical ? value.translation.width : value.translation.height
+                        onTravel?()
+                        if free { return }
                         if let browser, let tab, browser.prefs.splitView,
                            TabDrag.shared.update(browser: browser, tab: tab,
                                                  translation: value.translation) { return }
                         let target = min(max(0, from + Int((travel / step).rounded())), count - 1)
                         if target != index {
-                            withAnimation(Motion.settle) { move(target) }
+                            // With no animation: the carried tab is in its new
+                            // place at once and its offset says so in the same
+                            // frame. Animated, its place in the list sprang on
+                            // its own for a frame while the offset had already
+                            // moved, and it jumped a slot as it crossed the
+                            // next tab. The others glide by themselves (placed).
+                            var still = Transaction()
+                            still.disablesAnimations = true
+                            withTransaction(still) { move(target) }
                         }
                     }
                     .onEnded { value in
@@ -826,17 +871,46 @@ struct Carried: ViewModifier {
                             if let onDropTab, let tab { onDropTab(tab, value.location) }
                             else { onDrop?(value.location) }
                         }
+                        onRelease?()
+                        Carried.holding = false
                         withAnimation(Motion.settle) {
                             held = false
                             travel = 0
+                            across = 0
                         }
                     }
             )
+            .onAppear { placed = index }
+            .onChange(of: index) { _, now in
+                guard !held, Carried.holding else {
+                    placed = now
+                    return
+                }
+                sliding = true
+                withAnimation(Motion.settle) {
+                    placed = now
+                } completion: {
+                    if placed == now { sliding = false }
+                }
+            }
+            .onChange(of: pressing) { _, pressing in
+                guard !pressing, held else { return }
+                Carried.holding = false
+                withAnimation(Motion.settle) {
+                    held = false
+                    travel = 0
+                    across = 0
+                }
+                onRelease?()
+            }
             .onReceive(TabDrag.shared.$cancelledID) { id in
                 guard id == tab?.id, held else { return }
                 move(from)
+                Carried.holding = false
                 held = false
                 travel = 0
+                across = 0
+                onRelease?()
             }
     }
 }

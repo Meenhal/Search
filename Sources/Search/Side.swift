@@ -28,6 +28,20 @@ struct SideBar: View {
     @Namespace private var after
 
     @State private var groupFrames: [UUID: CGRect] = [:]
+    /// A loose row carried up onto the squares, and the cell it would take:
+    /// the squares make way for it there, as in Dia (see carry).
+    @State private var pinning: Pinning?
+    /// A square carried down out of the grid: drawn as a row under the hand,
+    /// and a row again once let go.
+    @State private var unpinning: Tab.ID?
+    @State private var releaseWatch: Any?
+
+    struct Pinning: Equatable {
+        let id: Tab.ID
+        var at: Int
+        /// The hand, in the grid's own space: the square floats there.
+        var point: CGPoint
+    }
 
     // Sized as in Dia: roomier rows and taller pins than the strip's.
     fileprivate static let row: CGFloat = 34
@@ -386,12 +400,17 @@ struct SideBar: View {
     /// them (see pinCells).
     private var pinned: some View {
         let tabs = pinnedTabs
-        let cells = pinCells(tabs.count)
+        // A row carried over the squares has a cell of its own among them,
+        // the others laid out around it; it is placed last in the grid's list.
+        let slot = pinning?.at
+        let all = pinCells(tabs.count + (slot == nil ? 0 : 1))
+        let cells = slot.map { slot in all.indices.filter { $0 != slot }.map { all[$0] } } ?? all
+        let grid = cells + (slot.map { [all[$0]] } ?? [])
         // Measured in the grid's own space, not the square's: a square that
         // has just been moved to a new cell would otherwise report the drag
         // from where it now is, the target would jump back, and the square
         // would shuttle between two cells for as long as the finger stayed.
-        return VStack(spacing: 0) { PinGrid(cells: cells) {
+        return VStack(spacing: 0) { PinGrid(cells: grid) {
             ForEach(Array(tabs.enumerated()), id: \.element.id) { index, tab in
                 PinSquare(
                     browser: browser,
@@ -402,13 +421,95 @@ struct SideBar: View {
                     width: cells[index].width,
                     height: cells[index].height
                 )
+                // On its way out, it is drawn as the row it will be, at the
+                // head of the rows (see loose); never swapped for another
+                // view here, which would lose the drag under the hand.
+                .opacity(unpinning == tab.id ? 0 : 1)
                 // The hand's travel is the square's own, as a row's is
                 // (Carried): a move redraws the one square being carried,
                 // not the column (idea 31).
-                .modifier(PinCarried(index: index, cells: cells) { browser.move(tab, to: $0) })
+                .modifier(PinCarried(index: index, cells: cells,
+                                     out: { out in
+                                         let id: Tab.ID? = out ? tab.id : nil
+                                         if unpinning != id { withAnimation(Motion.settle) { unpinning = id } }
+                                     },
+                                     dropOut: {
+                                         SideBar.still {
+                                             unpinning = nil
+                                             browser.unpin(tab)
+                                         }
+                                     }) { browser.move(tab, to: $0) })
+            }
+            // The cell kept open for the carried row: empty, the square
+            // itself floats under the hand (below).
+            if slot != nil {
+                Color.clear
             }
         } }
+        // The carried row as a square, lifted over the others and under the
+        // hand, as a square carried within the grid is (PinCarried).
+        .overlay(alignment: .topLeading) {
+            if let pinning, let slot, let tab = browser.tabs.first(where: { $0.id == pinning.id }) {
+                let cell = all[slot]
+                CarriedSquare(prefs: prefs, tab: tab, width: cell.width, height: cell.height)
+                    .shadow(color: .black.opacity(0.16), radius: 10, y: 3)
+                    .offset(x: pinning.point.x - cell.width / 2, y: pinning.point.y - cell.height / 2)
+                    .transaction { $0.animation = nil }
+                    .allowsHitTesting(false)
+            }
+        }
         .coordinateSpace(name: "pins")
+        .background(PinDropZone(browser: browser).padding(.vertical, -6))
+        // Let go anywhere, the carrying ends: a drag SwiftUI dropped without
+        // telling its end (its view drawn again mid-way) can't leave a cell
+        // held open or a pin half out.
+        .onAppear {
+            guard releaseWatch == nil else { return }
+            releaseWatch = NSEvent.addLocalMonitorForEvents(matching: .leftMouseUp) { event in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { settleCarrying() }
+                return event
+            }
+        }
+        .onDisappear {
+            if let releaseWatch { NSEvent.removeMonitor(releaseWatch) }
+            releaseWatch = nil
+            settleCarrying()
+        }
+    }
+
+    /// Changes made with no animation at all, not even one already under way.
+    static func still(_ change: () -> Void) {
+        var quiet = Transaction()
+        quiet.disablesAnimations = true
+        withTransaction(quiet, change)
+    }
+
+    private func settleCarrying() {
+        guard pinning != nil || unpinning != nil else { return }
+        withAnimation(Motion.settle) {
+            pinning = nil
+            unpinning = nil
+        }
+    }
+
+    /// Where the hand is, while a loose row is carried: over the squares,
+    /// the cell it would take there; anywhere else, nothing.
+    private func carry(_ tab: Tab) {
+        let wanted: Pinning? = {
+            guard tab.pin == nil, !tab.isBlank, !tab.shy,
+                  let point = PinDropZone.point(browser, NSEvent.mouseLocation) else { return nil }
+            let cells = pinCells(pinnedTabs.count + 1)
+            func distance(_ cell: CGRect) -> CGFloat { hypot(cell.midX - point.x, cell.midY - point.y) }
+            let at = cells.indices.min { distance(cells[$0]) < distance(cells[$1]) } ?? cells.count - 1
+            return Pinning(id: tab.id, at: at, point: point)
+        }()
+        guard pinning != wanted else { return }
+        // The squares make way with a spring; the hand alone moves nothing else.
+        if pinning?.at != wanted?.at || pinning?.id != wanted?.id {
+            withAnimation(Motion.settle) { pinning = wanted }
+        } else {
+            pinning = wanted
+        }
     }
 
     // MARK: - the rows
@@ -452,16 +553,28 @@ struct SideBar: View {
             if showsLine(listed: browser.listedPins.count, loose: loose.count) {
                 KeepLine(clears: !loose.isEmpty) { browser.clearTabs() }
             }
+            // A square carried down out of the grid: the row it will be, where
+            // it will land.
+            if let id = unpinning, let tab = browser.tabs.first(where: { $0.id == id }) {
+                CarriedRow(prefs: prefs, tab: tab, width: prefs.sideWidth - 20)
+                    .transition(.opacity)
+            }
             ForEach(Array(loose.enumerated()), id: \.element.id) { index, tab in
                 let step = SideBar.row + SideBar.gap
                 rowItem(tab, tabs: browser.tabs, splits: browser.splits,
                         activeID: browser.activeID, interactive: true, pill: pill,
                         close: { browser.close(tab) })
+                // Over the squares it is drawn among them (see pinned), not
+                // here; only hidden, never swapped, so the drag stays held.
+                .opacity(pinning?.id == tab.id ? 0 : 1)
                 // Positions here are among the loose rows; the pinned block
                 // sits in front of them in the real list.
                 .modifier(Carried(index: index, count: loose.count, step: step, vertical: true,
                                   space: "rows", onDropTab: { source, point in drop(source, at: point) },
-                                  outside: { browser.dragOut(tab) }, browser: browser, tab: tab) {
+                                  outside: { browser.dragOut(tab) }, browser: browser, tab: tab,
+                                  onTravel: { carry(tab) }, free: pinning?.id == tab.id,
+                                  onRelease: { if pinning != nil { withAnimation(Motion.settle) { pinning = nil } } },
+                                  bounded: tab.isBlank || tab.shy) {
                     if prefs.usesTabGroups {
                         browser.move(tab, within: nil, to: $0)
                     } else {
@@ -475,6 +588,18 @@ struct SideBar: View {
     }
 
     private func drop(_ tab: Tab, at point: CGPoint) {
+        // Carried up onto the squares: pinned, in the cell they made for it,
+        // as in Arc and Dia.
+        // At once: it is already where it lands, and an animation only sent
+        // the live tab's grey travelling from its old row (SideBar.still).
+        if let pinning, pinning.id == tab.id {
+            SideBar.still {
+                self.pinning = nil
+                browser.pin(tab)
+                browser.move(tab, to: pinning.at)
+            }
+            return
+        }
         guard prefs.usesTabGroups, tab.pin == nil else { return }
         if let id = groupFrames.first(where: { $0.value.contains(point) })?.key {
             browser.move(tab, toGroup: id)
@@ -556,6 +681,91 @@ private struct SideFoot: View {
         if FetchDoor.shows(fetches, prefs) { kept += 1 }
         let free = prefs.sideWidth - 2 * 10 + 2 - CGFloat(kept) * door
         return max(0, Int((free / door).rounded(.down)))
+    }
+}
+
+/// Where the squares are, for a tab carried up onto them (SideBar.drop). The
+/// drag is measured among the rows, which scroll; the squares don't, and sit
+/// outside the rows' space. So, as for Split View (TabDrag), a view that
+/// takes no clicks marks the place, and the drop asks it about the pointer.
+private struct PinDropZone: NSViewRepresentable {
+    let browser: Browser
+
+    @MainActor private static var zones: [ObjectIdentifier: Weak] = [:]
+    private final class Weak { weak var view: NSView?; init(_ view: NSView) { self.view = view } }
+
+    final class Zone: NSView {
+        override func hitTest(_ point: NSPoint) -> NSView? { nil }
+    }
+
+    func makeNSView(context: Context) -> Zone {
+        let zone = Zone()
+        PinDropZone.zones[ObjectIdentifier(browser)] = Weak(zone)
+        return zone
+    }
+
+    func updateNSView(_ zone: Zone, context: Context) {
+        PinDropZone.zones[ObjectIdentifier(browser)] = Weak(zone)
+    }
+
+    /// `point`, on the screen, in the grid's own space (its top left, y
+    /// down) when it is over this window's squares; nil anywhere else.
+    @MainActor static func point(_ browser: Browser, _ point: NSPoint) -> CGPoint? {
+        guard let zone = zones[ObjectIdentifier(browser)]?.view, let window = zone.window,
+              window === browser.window else { return nil }
+        let local = zone.convert(window.convertPoint(fromScreen: point), from: nil)
+        guard zone.bounds.contains(local) else { return nil }
+        let down = zone.isFlipped ? local.y : zone.bounds.height - local.y
+        // The zone reaches 6 points past the grid above and below.
+        return CGPoint(x: local.x, y: down - 6)
+    }
+}
+
+/// A loose row carried over the squares, drawn as one of them in the cell
+/// it would take.
+private struct CarriedSquare: View {
+    @ObservedObject var prefs: Preferences
+    @ObservedObject var tab: Tab
+    let width: CGFloat
+    let height: CGFloat
+
+    var body: some View {
+        let scale = min(width, height)
+        Group {
+            if prefs.glyph == .icons, let icon = tab.icon {
+                Mark(icon: icon, letter: tab.monogram, size: scale * 16 / 34)
+            } else {
+                Text(tab.monogram)
+                    .font(.system(size: scale * 12 / 34, weight: .medium))
+                    .foregroundStyle(Palette.ink)
+            }
+        }
+        .frame(width: width, height: height)
+        .background(Palette.sideWash, in: RoundedRectangle(cornerRadius: scale * 9 / 34, style: .continuous))
+    }
+}
+
+/// A square carried down out of the grid, drawn as the row it will become,
+/// at the head of the rows where it will land.
+private struct CarriedRow: View {
+    @ObservedObject var prefs: Preferences
+    @ObservedObject var tab: Tab
+    let width: CGFloat
+
+    var body: some View {
+        HStack(spacing: 8) {
+            if prefs.glyph == .icons, let icon = tab.icon {
+                Mark(icon: icon, letter: tab.monogram, size: 15)
+            }
+            Text(tab.label)
+                .font(.system(size: 13))
+                .lineLimit(1)
+                .foregroundStyle(Palette.ink)
+            Spacer(minLength: 0)
+        }
+        .padding(.horizontal, 10)
+        .frame(width: width, height: SideBar.row, alignment: .leading)
+        .background(Palette.sideWash, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
     }
 }
 
@@ -969,15 +1179,25 @@ struct Door: View {
 struct PinCarried: ViewModifier {
     let index: Int
     let cells: [CGRect]
+    /// Carried below the grid, or back into it.
+    var out: ((Bool) -> Void)? = nil
+    /// Let go below the grid: the pin is to be a row again.
+    var dropOut: (() -> Void)? = nil
     let move: (Int) -> Void
 
     @State private var held = false
     @State private var from = 0
     @State private var travel: CGSize = .zero
+    @State private var below = false
+
+    private var shift: CGSize { PinCarried.offset(travel: travel, from: from, index: index, cells: cells) }
+    /// Whether the hand still holds it, reset by SwiftUI even when the drag
+    /// is dropped without its end being told.
+    @GestureState private var pressing = false
 
     func body(content: Content) -> some View {
         content
-            .offset(held ? PinCarried.offset(travel: travel, from: from, index: index, cells: cells) : .zero)
+            .offset(held ? shift : .zero)
             // Under the hand exactly, as a row is (see Carried).
             .transaction { if held { $0.animation = nil } }
             .zIndex(held ? 1 : 0)
@@ -987,24 +1207,48 @@ struct PinCarried: ViewModifier {
             // the drag from where it now is, and shuttle between two cells.
             .gesture(
                 DragGesture(minimumDistance: 5, coordinateSpace: .named("pins"))
+                    .updating($pressing) { _, pressing, _ in pressing = true }
                     .onChanged { value in
                         if !held {
                             held = true
                             from = index
                         }
                         travel = value.translation
+                        // Past the grid's foot by half a row: on its way out.
+                        let foot = cells.map(\.maxY).max() ?? 0
+                        let now = out != nil && value.location.y > foot + 16
+                        if now != below {
+                            below = now
+                            out?(now)
+                        }
+                        guard !below else { return }
                         let target = PinCarried.target(travel: travel, from: from, cells: cells)
                         if target != index {
                             withAnimation(Motion.settle) { move(target) }
                         }
                     }
                     .onEnded { _ in
+                        if below {
+                            below = false
+                            dropOut?()
+                        }
                         withAnimation(Motion.settle) {
                             held = false
                             travel = .zero
                         }
                     }
             )
+            .onChange(of: pressing) { _, pressing in
+                guard !pressing, held else { return }
+                if below {
+                    below = false
+                    out?(false)
+                }
+                withAnimation(Motion.settle) {
+                    held = false
+                    travel = .zero
+                }
+            }
     }
 
     /// The held square stays glued to the fingers; every other square is

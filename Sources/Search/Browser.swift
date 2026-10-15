@@ -3132,7 +3132,8 @@ final class Browser: NSObject, ObservableObject {
     /// Safari. False when it was let go over this window, where the drag
     /// keeps its meaning, or can't leave (a pin).
     func dragOut(_ tab: Tab, at point: NSPoint = NSEvent.mouseLocation) -> Bool {
-        guard tab.pin == nil, !tab.bench, let window,
+        // A blank tab has nothing to take to another window.
+        guard tab.pin == nil, !tab.bench, !tab.isBlank, let window,
               !window.frame.insetBy(dx: -12, dy: -12).contains(point)
         else { return false }
         let over = Browsers.all.first { $0 !== self && $0.isOpen && $0.window?.frame.contains(point) == true }
