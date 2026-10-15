@@ -229,7 +229,7 @@ enum Vault {
 
     /// A password is shown only to the person the Mac belongs to. Touch ID,
     /// the watch, or the account password — whatever the Mac itself takes.
-    static func prove(_ reason: String, _ done: @escaping (Bool) -> Void) {
+    static func prove(_ reason: LocalizedStringResource, _ done: @escaping (Bool) -> Void) {
         let context = LAContext()
         var trouble: NSError?
         guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &trouble) else {
@@ -238,7 +238,7 @@ enum Vault {
             done(true)
             return
         }
-        context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { ok, _ in
+        context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: String(localized: reason)) { ok, _ in
             DispatchQueue.main.async { done(ok) }
         }
     }

@@ -21,22 +21,32 @@ enum AddressCommand: CaseIterable, Equatable {
     case passwords
     case toggleSidebar
 
-    /// What you'd type to reach it. The first is what the list shows.
+    /// What you'd type to reach it. The first is what the list shows: the
+    /// word in the app's language, then the English ones, which always work.
     var aliases: [String] {
+        let english: [String]
+        let own: String
         switch self {
-        case .settings: return ["settings", "preferences"]
-        case .newTab: return ["new tab"]
-        case .newPrivateTab: return ["new private tab", "private tab"]
-        case .newSpace: return ["new space"]
-        case .bookmarks: return ["bookmarks"]
-        case .history: return ["history"]
-        case .downloads: return ["downloads"]
-        case .passwords: return ["passwords"]
-        case .toggleSidebar: return ["toggle sidebar", "sidebar"]
+        case .settings: english = ["settings", "preferences"]; own = String(localized: "settings", comment: "Typed alone in the address field to open Settings, in lowercase")
+        case .newTab: english = ["new tab"]; own = String(localized: "new tab", comment: "Typed alone in the address field, in lowercase")
+        case .newPrivateTab: english = ["new private tab", "private tab"]; own = String(localized: "new private tab", comment: "Typed alone in the address field, in lowercase")
+        case .newSpace: english = ["new space"]; own = String(localized: "new space", comment: "Typed alone in the address field, in lowercase")
+        case .bookmarks: english = ["bookmarks"]; own = String(localized: "bookmarks", comment: "Typed alone in the address field, in lowercase")
+        case .history: english = ["history"]; own = String(localized: "history", comment: "Typed alone in the address field, in lowercase")
+        case .downloads: english = ["downloads"]; own = String(localized: "downloads", comment: "Typed alone in the address field, in lowercase")
+        case .passwords: english = ["passwords"]; own = String(localized: "passwords", comment: "Typed alone in the address field, in lowercase")
+        case .toggleSidebar: english = ["toggle sidebar", "sidebar"]; own = String(localized: "toggle sidebar", comment: "Typed alone in the address field, in lowercase")
         }
+        return english.contains(own) ? english : [own] + english
     }
 
-    var title: String { aliases[0].localizedCapitalized }
+    /// Title Case in English, as menus have it; only the first letter
+    /// elsewhere, as French menus have it.
+    var title: String {
+        let words = aliases[0]
+        if Bundle.main.preferredLocalizations.first == "en" { return words.localizedCapitalized }
+        return words.prefix(1).localizedUppercase + words.dropFirst()
+    }
 
     /// Some only mean something once the feature behind them is even on.
     func available(in browser: Browser) -> Bool {

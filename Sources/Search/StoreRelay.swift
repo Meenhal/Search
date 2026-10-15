@@ -37,6 +37,12 @@ final class StoreRelay: NSObject, WKScriptMessageHandler {
     /// around the one enabled button that does — only that block, since the
     /// store puts the banner and the extension's own header, button and all,
     /// in the same section.
+    /// A string as JavaScript writes it: the button's words go into the
+    /// script in the app's language.
+    private static func quoted(_ text: String) -> String {
+        (try? JSONEncoder().encode(text)).flatMap { String(data: $0, encoding: .utf8) } ?? "''"
+    }
+
     static let script = """
     (function () {
       if (location.hostname !== 'chromewebstore.google.com' || window.__officeStore) return;
@@ -103,7 +109,7 @@ final class StoreRelay: NSObject, WKScriptMessageHandler {
         var id = pageID();
         var installed = !!id && state.installed.indexOf(id) >= 0;
         var busy = !!id && state.busy === id;
-        label(ours, installed ? 'Added to Search' : (busy ? 'Adding…' : 'Add to Search'));
+        label(ours, installed ? \(quoted(String(localized: "Added to Search"))) : (busy ? \(quoted(String(localized: "Adding…"))) : \(quoted(String(localized: "Add to Search")))));
         ours.disabled = installed || busy;
       }
 

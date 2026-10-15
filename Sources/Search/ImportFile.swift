@@ -48,8 +48,8 @@ enum ImportFile {
         let completed: Int
         let total: Int?
 
-        init(message: String, completed: Int = 0, total: Int? = nil) {
-            self.message = message
+        init(message: LocalizedStringResource, completed: Int = 0, total: Int? = nil) {
+            self.message = String(localized: message)
             self.completed = max(0, completed)
             self.total = total.map { max(0, $0) }
         }
@@ -112,7 +112,7 @@ enum ImportFile {
             }
             let completed = greatestCompleted
             let normalized = Progress(
-                message: progress.message,
+                message: "\(progress.message)",
                 completed: completed,
                 total: progress.total.map { max($0, completed) }
             )

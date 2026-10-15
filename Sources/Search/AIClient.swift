@@ -32,10 +32,10 @@ enum AIError: LocalizedError, Equatable {
 
     var errorDescription: String? {
         switch self {
-        case .noKey: return "No key is kept for this provider."
-        case .refusedHost: return "That address isn't the provider's."
-        case .http(let status, let said): return said.isEmpty ? "The provider answered \(status)." : "\(said) (\(status))"
-        case .unreadable: return "The provider's answer couldn't be read."
+        case .noKey: return String(localized: "No key is kept for this provider.")
+        case .refusedHost: return String(localized: "That address isn't the provider's.")
+        case .http(let status, let said): return said.isEmpty ? String(localized: "The provider answered \(status).") : String(localized: "\(said) (\(status))")
+        case .unreadable: return String(localized: "The provider's answer couldn't be read.")
         case .unreachable(let why): return why
         }
     }
@@ -300,13 +300,13 @@ final class AIClient: NSObject, URLSessionTaskDelegate, @unchecked Sendable {
 
     private static func reason(_ error: URLError, _ provider: AIProvider) -> String {
         switch error.code {
-        case .cannotConnectToHost where provider.isLocal: return "\(provider.name) isn't running on this Mac."
-        case .notConnectedToInternet: return "This Mac is offline."
-        case .timedOut: return "\(provider.name) took too long to answer."
+        case .cannotConnectToHost where provider.isLocal: return String(localized: "\(provider.name) isn't running on this Mac.")
+        case .notConnectedToInternet: return String(localized: "This Mac is offline.")
+        case .timedOut: return String(localized: "\(provider.name) took too long to answer.")
         case .serverCertificateUntrusted, .serverCertificateHasBadDate, .serverCertificateNotYetValid,
              .serverCertificateHasUnknownRoot, .secureConnectionFailed:
-            return "The connection to \(provider.name) isn't secure."
-        default: return "\(provider.name) couldn't be reached."
+            return String(localized: "The connection to \(provider.name) isn't secure.")
+        default: return String(localized: "\(provider.name) couldn't be reached.")
         }
     }
 }

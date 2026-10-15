@@ -1169,7 +1169,7 @@ struct TabMenu: View {
         // to. Not the tab on screen, nor one that has to stay awake (#310).
         Button("Put to Sleep") {
             browser.sleep(tab) { outcome in
-                if outcome != "asleep" { browser.announce("Stays awake: \(outcome)") }
+                if outcome != "asleep" { browser.announce("Stays awake: \(Browser.said(outcome))") }
             }
         }
         .disabled(browser.awake(because: tab) != nil)

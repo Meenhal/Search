@@ -149,9 +149,9 @@ struct LittleView: View {
         guard let url = tab.pageAddress else { return "" }
         switch url.scheme?.lowercased() {
         case "https": return SiteCard.site(url)
-        case "http": return "Not secure — " + SiteCard.site(url)
-        case "chrome-extension", "webkit-extension": return "Extension page"
-        default: return url.absoluteString == "about:blank" ? "" : "Not a website"
+        case "http": return String(localized: "Not secure — \(SiteCard.site(url))")
+        case "chrome-extension", "webkit-extension": return String(localized: "Extension page")
+        default: return url.absoluteString == "about:blank" ? "" : String(localized: "Not a website")
         }
     }
 }

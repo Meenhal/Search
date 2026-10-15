@@ -526,7 +526,7 @@ final class Extensions: NSObject, ObservableObject {
     /// way to reach it from the real browser.
     func install(from text: String, confirm: Bool = true) {
         guard let id = Crx.id(in: text) else {
-            browser?.announce(Crx.Refused.notAnID.localizedDescription)
+            browser?.announce("\(Crx.Refused.notAnID.localizedDescription)")
             return
         }
         if installed.contains(where: { $0.id == id }) {
@@ -557,7 +557,7 @@ final class Extensions: NSObject, ObservableObject {
             try ExtensionShims.prepare(staged, fresh: true)
             try await admit(staged, as: id, fromStore: true, finalFolder: target, confirm: confirm || !Store.testing)
         } catch {
-            browser?.announce(error.localizedDescription)
+            browser?.announce("\(error.localizedDescription)")
         }
     }
 
@@ -567,8 +567,8 @@ final class Extensions: NSObject, ObservableObject {
         let panel = NSOpenPanel()
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
-        panel.prompt = "Load Extension"
-        panel.message = "Choose the folder that holds the extension's manifest.json."
+        panel.prompt = String(localized: "Load Extension")
+        panel.message = String(localized: "Choose the folder that holds the extension's manifest.json.")
         guard panel.runModal() == .OK, let source = panel.url else { return }
         installFolder(at: source)
     }
@@ -873,8 +873,8 @@ final class Extensions: NSObject, ObservableObject {
         guard let (id, url) = newTabCandidate, Store.settings.object(forKey: "extensions.newtab.\(id)") == nil,
               let name = installed.first(where: { $0.id == id })?.name else { return }
         Task {
-            let yes = await ask("Show “\(name)” in new tabs?", detail: "It asked to replace the new tab page. You can change this later in Settings › Extensions.",
-                                icon: contexts[id]?.webExtension.icon(for: CGSize(width: 64, height: 64)), yes: "Keep It", no: "Don't Allow")
+            let yes = await ask(String(localized: "Show “\(name)” in new tabs?"), detail: String(localized: "It asked to replace the new tab page. You can change this later in Settings › Extensions."),
+                                icon: contexts[id]?.webExtension.icon(for: CGSize(width: 64, height: 64)), yes: String(localized: "Keep It"), no: String(localized: "Don't Allow"))
             Store.settings.set(yes, forKey: "extensions.newtab.\(id)")
             if yes, tab.isBlank, let browser { browser.replaceBlank(tab, with: url) }
         }
@@ -964,7 +964,7 @@ final class Extensions: NSObject, ObservableObject {
             // allowed when it was added or last asked about.
             let wants = Set(Extensions.grants(found, in: staged))
             if !wants.isSubset(of: Set(current.permissions)) {
-                guard await ask(install: "An update to \(item.name)", wants: Extensions.describe(found, in: staged), icon: found.icon(for: CGSize(width: 64, height: 64))) else {
+                guard await ask(install: String(localized: "An update to \(item.name)"), wants: Extensions.describe(found, in: staged), icon: found.icon(for: CGSize(width: 64, height: 64))) else {
                     return
                 }
             }
@@ -1087,14 +1087,14 @@ final class Extensions: NSObject, ObservableObject {
     /// Chrome's own APIs, which Search answers itself, and what each lets an
     /// extension do.
     static let searchAnswered: [(String, String)] = [
-        ("userScripts", "Run scripts you add to it on websites"), ("history", "Read and change your history"),
-        ("bookmarks", "Read and change your bookmarks"), ("downloads", "Manage your downloads"),
-        ("privacy", "Change your privacy settings"), ("browsingData", "Clear your browsing data"),
-        ("management", "See your other extensions"), ("notifications", "Show notifications"),
-        ("sessions", "See your recently closed tabs"), ("topSites", "See your most visited sites"),
-        ("readingList", "Read and change your reading list"), ("downloads.open", "Open files it downloads"),
-        ("desktopCapture", "Record your screen or a window, when you choose what to share"),
-        ("tabCapture", "Record a tab, when you ask it to"),
+        ("userScripts", String(localized: "Run scripts you add to it on websites")), ("history", String(localized: "Read and change your history")),
+        ("bookmarks", String(localized: "Read and change your bookmarks")), ("downloads", String(localized: "Manage your downloads")),
+        ("privacy", String(localized: "Change your privacy settings")), ("browsingData", String(localized: "Clear your browsing data")),
+        ("management", String(localized: "See your other extensions")), ("notifications", String(localized: "Show notifications")),
+        ("sessions", String(localized: "See your recently closed tabs")), ("topSites", String(localized: "See your most visited sites")),
+        ("readingList", String(localized: "Read and change your reading list")), ("downloads.open", String(localized: "Open files it downloads")),
+        ("desktopCapture", String(localized: "Record your screen or a window, when you choose what to share")),
+        ("tabCapture", String(localized: "Record a tab, when you ask it to")),
     ]
 
     /// What an extension wants, in words.
@@ -1105,20 +1105,23 @@ final class Extensions: NSObject, ObservableObject {
         let declared = Set(((try? JSONSerialization.jsonObject(with: Data(contentsOf: folder.appendingPathComponent("manifest.json")))) as? [String: Any])?["permissions"] as? [String] ?? [])
         let patterns = found.allRequestedMatchPatterns
         if patterns.contains(where: { $0.matchesAllHosts || $0.matchesAllURLs }) {
-            out.append("Read and change everything on every website")
+            out.append(String(localized: "Read and change everything on every website"))
         } else if !patterns.isEmpty {
             let hosts = patterns.compactMap(\.host).filter { !$0.isEmpty }
-            out.append("Read and change what's on " + (hosts.prefix(4).joined(separator: ", ")) + (hosts.count > 4 ? " and \(hosts.count - 4) more" : ""))
+            let first = hosts.prefix(4).joined(separator: ", ")
+            out.append(hosts.count > 4
+                       ? String(localized: "Read and change what's on \(first) and \(hosts.count - 4) more")
+                       : String(localized: "Read and change what's on \(first)"))
         }
         let words: [WKWebExtension.Permission: String] = [
-            .tabs: "See your open tabs and their addresses",
-            .cookies: "Read and change cookies",
-            .webNavigation: "See where you go",
-            .webRequest: "See the requests pages make",
-            .declarativeNetRequest: "Block or change requests pages make",
-            .clipboardWrite: "Write to the clipboard",
-            .nativeMessaging: "Talk to apps on this Mac",
-            .scripting: "Run scripts in pages",
+            .tabs: String(localized: "See your open tabs and their addresses"),
+            .cookies: String(localized: "Read and change cookies"),
+            .webNavigation: String(localized: "See where you go"),
+            .webRequest: String(localized: "See the requests pages make"),
+            .declarativeNetRequest: String(localized: "Block or change requests pages make"),
+            .clipboardWrite: String(localized: "Write to the clipboard"),
+            .nativeMessaging: String(localized: "Talk to apps on this Mac"),
+            .scripting: String(localized: "Run scripts in pages"),
         ]
         for (permission, sentence) in words where found.requestedPermissions.contains(permission) && !added.contains(permission.rawValue) {
             out.append(sentence)
@@ -1130,33 +1133,33 @@ final class Extensions: NSObject, ObservableObject {
 
     private func ask(install name: String, wants: [String], icon: NSImage?) async -> Bool {
         await ask(
-            "Add “\(name)” to Search?",
-            detail: wants.isEmpty ? "It doesn't ask for anything special." : "It will be able to:\n• " + wants.joined(separator: "\n• "),
-            icon: icon, yes: "Add Extension", no: "Cancel"
+            String(localized: "Add “\(name)” to Search?"),
+            detail: wants.isEmpty ? String(localized: "It doesn't ask for anything special.") : String(localized: "It will be able to:") + "\n• " + wants.joined(separator: "\n• "),
+            icon: icon, yes: String(localized: "Add Extension"), no: String(localized: "Cancel")
         )
     }
 
     /// An extension asking, through permissions.request, for one of the
     /// permissions Search answers itself.
     func ask(more names: String, context: WKWebExtensionContext) async -> Bool {
-        await ask("asks for more access", detail: names, context: context)
+        await ask(String(localized: "asks for more access"), detail: names, context: context)
     }
 
     /// Recording the screen: asked once, naming the extension; the Mac's own
     /// picker still asks what to share, every time.
     func ask(capture context: WKWebExtensionContext) async -> Bool {
-        let name = context.webExtension.displayName ?? "An extension"
+        let name = context.webExtension.displayName ?? String(localized: "An extension")
         return await ask(
-            "“\(name)” wants to record your screen or a window.",
-            detail: "macOS will ask what to share. Search remembers your answer for \(name); Settings › Extensions takes it back.",
-            icon: context.webExtension.icon(for: CGSize(width: 64, height: 64)), yes: "Continue", no: "Don't Allow")
+            String(localized: "“\(name)” wants to record your screen or a window."),
+            detail: String(localized: "macOS will ask what to share. Search remembers your answer for \(name); Settings › Extensions takes it back."),
+            icon: context.webExtension.icon(for: CGSize(width: 64, height: 64)), yes: String(localized: "Continue"), no: String(localized: "Don't Allow"))
     }
 
     func ask(_ question: String, detail: String, context: WKWebExtensionContext) async -> Bool {
         await ask(
-            "\(context.webExtension.displayName ?? "An extension") \(question)",
+            "\(context.webExtension.displayName ?? String(localized: "An extension")) \(question)",
             detail: detail, icon: context.webExtension.icon(for: CGSize(width: 64, height: 64)),
-            yes: "Allow", no: "Don't Allow"
+            yes: String(localized: "Allow"), no: String(localized: "Don't Allow")
         )
     }
 
@@ -1438,7 +1441,7 @@ extension Extensions: WKWebExtensionControllerDelegate {
 
     func webExtensionController(_ controller: WKWebExtensionController, promptForPermissions permissions: Set<WKWebExtension.Permission>, in tab: (any WKWebExtensionTab)?, for extensionContext: WKWebExtensionContext) async -> (Set<WKWebExtension.Permission>, Date?) {
         let detail = permissions.map(\.rawValue).sorted().joined(separator: ", ")
-        return await ask("asks for more access", detail: detail, context: extensionContext) ? (permissions, nil) : ([], nil)
+        return await ask(String(localized: "asks for more access"), detail: detail, context: extensionContext) ? (permissions, nil) : ([], nil)
     }
 
     func webExtensionController(_ controller: WKWebExtensionController, promptForPermissionToAccess urls: Set<URL>, in tab: (any WKWebExtensionTab)?, for extensionContext: WKWebExtensionContext) async -> (Set<URL>, Date?) {
@@ -1457,8 +1460,8 @@ extension Extensions: WKWebExtensionControllerDelegate {
         let wanted = matchPatterns.filter { !Extensions.withheld($0) }
         guard !wanted.isEmpty else { return ([], nil) }
         let all = wanted.contains { $0.matchesAllHosts || $0.matchesAllURLs }
-        let what = all ? "every website" : wanted.map(\.string).sorted().joined(separator: ", ")
-        guard await ask("wants to read and change \(what)", detail: "Until you remove the extension.", context: extensionContext) else { return ([], nil) }
+        let what = all ? String(localized: "every website") : wanted.map(\.string).sorted().joined(separator: ", ")
+        guard await ask(String(localized: "wants to read and change \(what)"), detail: String(localized: "Until you remove the extension."), context: extensionContext) else { return ([], nil) }
         // Given only once this returns: fenced again right after.
         DispatchQueue.main.async { Extensions.fence(extensionContext) }
         return (wanted, nil)
@@ -1807,10 +1810,10 @@ private struct ExtensionActions: View {
 
     static func confirmRemove(_ id: String, name: String, _ extensions: Extensions) {
         let alert = NSAlert()
-        alert.messageText = "Remove “\(name)”?"
-        alert.informativeText = "Its settings and data go with it."
-        alert.addButton(withTitle: "Remove")
-        alert.addButton(withTitle: "Cancel")
+        alert.messageText = String(localized: "Remove “\(name)”?")
+        alert.informativeText = String(localized: "Its settings and data go with it.")
+        alert.addButton(withTitle: String(localized: "Remove"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         if alert.runModal() == .alertFirstButtonReturn { extensions.remove(id) }
     }
 }
@@ -1922,7 +1925,7 @@ private struct ExtensionMenu: View {
     /// A small icon button at the end of a row.
     private struct Tool: View {
         let symbol: String
-        let help: String
+        let help: LocalizedStringResource
         var on = false
         let act: () -> Void
         @State private var hovering = false
@@ -1938,17 +1941,17 @@ private struct ExtensionMenu: View {
             }
             .buttonStyle(.plain)
             .onHover { hovering = $0 }
-            .help(help)
+            .help(Text(help))
         }
     }
 
     private struct Foot: View {
         let symbol: String
-        let title: String
+        let title: LocalizedStringResource
         let act: () -> Void
         @State private var hovering = false
 
-        init(_ symbol: String, _ title: String, act: @escaping () -> Void) {
+        init(_ symbol: String, _ title: LocalizedStringResource, act: @escaping () -> Void) {
             self.symbol = symbol
             self.title = title
             self.act = act

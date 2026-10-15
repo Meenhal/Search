@@ -224,7 +224,7 @@ struct SiteCard: View {
         if let host = url.host(), !host.isEmpty {
             return host.hasPrefix("www.") ? String(host.dropFirst(4)) : host
         }
-        if url.isFileURL { return "File" }
+        if url.isFileURL { return String(localized: "File", comment: "A page from a file on this Mac, where a site's name would be") }
         return url.scheme ?? url.absoluteString
     }
 
@@ -395,8 +395,8 @@ struct SiteCard: View {
     /// and what WebKit knows of how it came.
     private struct Safety {
         let symbol: String
-        let title: String
-        let detail: String
+        let title: LocalizedStringResource
+        let detail: LocalizedStringResource
         let tint: Color
         /// The certificate the page came with, for an https page.
         let trust: SecTrust?
@@ -470,14 +470,14 @@ struct SiteCard: View {
     /// behind it and white letters under the pointer. A line that opens more
     /// ends in the submenu's chevron.
     private struct Row: View {
-        let title: String
+        let title: LocalizedStringResource
         var keys = ""
         var submenu = false
         let act: () -> Void
 
         @State private var hovering = false
 
-        init(_ title: String, keys: String = "", submenu: Bool = false, act: @escaping () -> Void) {
+        init(_ title: LocalizedStringResource, keys: String = "", submenu: Bool = false, act: @escaping () -> Void) {
             self.title = title
             self.keys = keys
             self.submenu = submenu
@@ -548,7 +548,7 @@ struct SiteCard: View {
     /// pointer as a menu's line would be.
     private struct Step: View {
         let symbol: String
-        let help: String
+        let help: LocalizedStringResource
         let act: () -> Void
 
         @State private var hovering = false
@@ -567,7 +567,7 @@ struct SiteCard: View {
             }
             .buttonStyle(.plain)
             .onHover { hovering = $0 }
-            .help(help)
+            .help(Text(help))
         }
     }
 }

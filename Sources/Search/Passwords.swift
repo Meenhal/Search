@@ -62,7 +62,7 @@ struct PasswordsPanel: View {
                     }
                     Pill("File…") { browser.importFile() }
                     Spacer(minLength: 0)
-                    Text(browser.saved.count == 1 ? "1 password" : "\(browser.saved.count) passwords")
+                    Text(counted(browser.saved.count, .password))
                         .font(.system(size: 12))
                         .foregroundStyle(Palette.muted)
                 }
@@ -97,7 +97,7 @@ struct PasswordsPanel: View {
                         .foregroundStyle(Palette.ink)
                         .lineLimit(1)
                     if logins.count > 1 {
-                        Text("\(logins.count) accounts")
+                        Text(counted(logins.count, .account))
                             .font(.system(size: 11.5))
                             .foregroundStyle(Palette.muted)
                     } else if let only = logins.first, !only.user.isEmpty, !open {
@@ -153,7 +153,7 @@ struct PasswordsPanel: View {
 
         var body: some View {
             HStack(spacing: 10) {
-                Text(login.user.isEmpty ? "No username" : login.user)
+                Text(login.user.isEmpty ? String(localized: "No username") : login.user)
                     .font(.system(size: 12))
                     .foregroundStyle(login.user.isEmpty ? Palette.faint : Palette.ink)
                     .lineLimit(1)
@@ -256,7 +256,7 @@ struct PasswordsPanel: View {
             .onAppear { focus = 0 }
         }
 
-        private func field(_ name: String, text: Binding<String>, tag: Int) -> some View {
+        private func field(_ name: LocalizedStringResource, text: Binding<String>, tag: Int) -> some View {
             ZStack(alignment: .leading) {
                 if text.wrappedValue.isEmpty {
                     Text(name).foregroundStyle(Palette.ink.opacity(0.3)).padding(.leading, 10)

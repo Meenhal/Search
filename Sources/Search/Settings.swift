@@ -19,7 +19,7 @@ struct SettingsPanel: View {
     enum Page: String, CaseIterable, Identifiable {
         case general, tabs, shortcuts, extensions, passwords, downloads, privacy, ai, about
         var id: String { rawValue }
-        var title: String {
+        var title: LocalizedStringResource {
             switch self {
             case .general: return "General"
             case .tabs: return "Tabs"
@@ -47,8 +47,10 @@ struct SettingsPanel: View {
         }
     }
 
-    private static let rail: CGFloat = 168
-    private static let width: CGFloat = 660
+    // Wide enough for the longest page name in every language Search
+    // speaks: French's Téléchargements was cut at 168.
+    private static let rail: CGFloat = 180
+    private static let width: CGFloat = 672
     private static let height: CGFloat = 500
 
     var body: some View {
@@ -294,7 +296,7 @@ struct SettingsPanel: View {
             Rule()
             Line("Page zoom", "Where every site starts. ⌘+ and ⌘− are still remembered for each site.") {
                 // The number itself takes it back to 100%.
-                Steps(stops: Preferences.zooms, value: $prefs.pageZoom, home: 1) { "\(Int(($0 * 100).rounded()))%" }
+                Steps(stops: Preferences.zooms, value: $prefs.pageZoom, home: 1) { ($0).formatted(.percent.precision(.fractionLength(0))) }
             }
             Rule()
             Line("Correct spelling as you type", "macOS's autocorrect inside pages — the one that capitalises for you") {
@@ -358,14 +360,15 @@ struct SettingsPanel: View {
         return Keyword.problem(word: draft.keyword, template: draft.template, among: prefs.keywords)
     }
 
-    private var keywordDetail: String {
+    private var keywordDetail: LocalizedStringResource {
         guard let draft else {
             return "A word before your search goes straight to that site, whatever engine you've picked — \"yt cats\" to YouTube"
         }
         if draft.keyword.isEmpty, draft.template.isEmpty {
             return "A word, then the site's search address with %s where the words go"
         }
-        return draftProblem ?? "\(draft.keyword.trimmingCharacters(in: .whitespacesAndNewlines)) will search \(draft.name)"
+        if let draftProblem { return "\(draftProblem)" }
+        return "\(draft.keyword.trimmingCharacters(in: .whitespacesAndNewlines)) will search \(draft.name)"
     }
 
     private func saveDraft() {
@@ -377,7 +380,7 @@ struct SettingsPanel: View {
         draft = nil
     }
 
-    private var searchDetail: String {
+    private var searchDetail: LocalizedStringResource {
         guard prefs.engine == .custom else { return "Where words that aren't an address go" }
         guard Engine.accepts(prefs.customEngine) else {
             return "An http or https address with %s where the words go. Until then, Google"
@@ -400,7 +403,9 @@ struct SettingsPanel: View {
 
     private var tabs: some View {
         Card {
-            Line("Tabs in a sidebar", "Down the \(prefs.sidePosition.rawValue) instead of across the top. Pull its edge to make it wider; double-click the edge to reset.") {
+            Line("Tabs in a sidebar", prefs.sidePosition == .left
+                 ? "Down the left instead of across the top. Pull its edge to make it wider; double-click the edge to reset."
+                 : "Down the right instead of across the top. Pull its edge to make it wider; double-click the edge to reset.") {
                 Switch(on: Binding(
                     get: { prefs.sidebar },
                     set: { on in withAnimation(Motion.glide) { prefs.sidebar = on } }
@@ -408,11 +413,13 @@ struct SettingsPanel: View {
             }
             if prefs.sidebar {
                 Rule()
-                Line("Sidebar position", "Tabs down the \(prefs.sidePosition.rawValue) edge of the window") {
+                Line("Sidebar position", prefs.sidePosition == .left ? "Tabs down the left edge of the window" : "Tabs down the right edge of the window") {
                     Segmented(options: SidebarPosition.allCases.map { ($0, $0.title) }, selection: $prefs.sidePosition)
                 }
                 Rule()
-                Line("Hide the sidebar until the pointer reaches the edge", "The page takes the whole window; push against its \(prefs.sidePosition.rawValue) edge for the tabs. ⌘S keeps them out.") {
+                Line("Hide the sidebar until the pointer reaches the edge", prefs.sidePosition == .left
+                     ? "The page takes the whole window; push against its left edge for the tabs. ⌘S keeps them out."
+                     : "The page takes the whole window; push against its right edge for the tabs. ⌘S keeps them out.") {
                     Switch(on: $prefs.sideHides)
                 }
             }
@@ -472,7 +479,7 @@ struct SettingsPanel: View {
     // MARK: - passwords
 
     /// Says so when a password manager extension has taken the saving over.
-    private var savingDetail: String {
+    private var savingDetail: LocalizedStringResource {
         if #available(macOS 15.4, *), let name = Extensions.shared.passwordSavingTakenBy {
             return "\(name) does the saving — it asked Search not to offer"
         }
@@ -509,7 +516,7 @@ struct SettingsPanel: View {
                 }
                 if !Vault.never.isEmpty {
                     Rule()
-                    Line("Sites never asked", "\(Vault.never.count) sites told to stop offering") {
+                    Line("Sites never asked", Vault.never.count == 1 ? "1 site told to stop offering" : "\(Vault.never.count.formatted()) sites told to stop offering") {
                         Pill("Forget") {
                             Vault.never = []
                             browser.announce("Every site can ask again")
@@ -532,7 +539,7 @@ struct SettingsPanel: View {
 
     private var downloads: some View {
         Card {
-            Line("Save to", prefs.downloads.path.replacingOccurrences(of: NSHomeDirectory(), with: "~")) {
+            Line("Save to", "\(prefs.downloads.path.replacingOccurrences(of: NSHomeDirectory(), with: "~"))") {
                 Pill("Change…") { chooseFolder() }
             }
             Rule()
@@ -551,12 +558,12 @@ struct SettingsPanel: View {
     private var privacy: some View {
         VStack(alignment: .leading, spacing: 18) {
             Card {
-                Line("Block ads and trackers", shield.trouble ?? "Third parties whose only job is to watch") {
+                Line("Block ads and trackers", shield.trouble.map { "\($0)" } ?? "Third parties whose only job is to watch") {
                     Switch(on: $prefs.shielded)
                 }
                 if let trouble = shield.trouble {
                     Rule()
-                    Line(trouble, "Nothing is being blocked until this clears — try again, or restart Search") {
+                    Line("\(trouble)", "Nothing is being blocked until this clears — try again, or restart Search") {
                         Pill("Try again") { shield.compile() }
                     }
                 }
@@ -668,7 +675,7 @@ struct SettingsPanel: View {
 
     /// The version line follows the newer build from found to fetched to
     /// in place; with none, it is simply this one.
-    private var versionTitle: String {
+    private var versionTitle: LocalizedStringResource {
         switch updater.stage {
         case .none: return "Updates"
         case .fetching(let next): return "Search \(next.version) is downloading…"
@@ -677,19 +684,19 @@ struct SettingsPanel: View {
         }
     }
 
-    private var versionDetail: String {
+    private var versionDetail: LocalizedStringResource {
         switch updater.stage {
         case .none:
             return updater.lastChecked.map { "Checked \($0.formatted(.relative(presentation: .named))) — every hour on its own" }
                 ?? "Checked every hour on its own"
         case .fetching(let next):
-            return next.notes ?? "Quietly, in the background — nothing you have set is touched"
+            return next.notes.map { "\($0)" } ?? "Quietly, in the background — nothing you have set is touched"
         case .ready(let next):
-            return next.notes ?? "It's there the next time you open Search"
+            return next.notes.map { "\($0)" } ?? "It's there the next time you open Search"
         case .offered(let next):
-            return next.notes ?? "Open the disk image, the same as the first time"
+            return next.notes.map { "\($0)" } ?? "Open the disk image, the same as the first time"
         case .waiting(let next):
-            return next.notes ?? "Checked and put in place when you press Install"
+            return next.notes.map { "\($0)" } ?? "Checked and put in place when you press Install"
         }
     }
 
@@ -723,7 +730,7 @@ struct SettingsPanel: View {
         panel.canChooseFiles = false
         panel.canCreateDirectories = true
         panel.directoryURL = prefs.downloads
-        panel.prompt = "Use this folder"
+        panel.prompt = String(localized: "Use this folder")
         guard panel.runModal() == .OK, let url = panel.url else { return }
         prefs.downloads = url
     }
@@ -733,8 +740,8 @@ struct SettingsPanel: View {
     /// A keystroke and what it does.
     private struct Shortcut: View {
         let keys: String
-        let does: String
-        init(_ keys: String, _ does: String) { self.keys = keys; self.does = does }
+        let does: LocalizedStringResource
+        init(_ keys: String, _ does: LocalizedStringResource) { self.keys = keys; self.does = does }
 
         var body: some View {
             HStack {
@@ -755,7 +762,7 @@ struct SettingsPanel: View {
 /// A row of choices in a grey track, one of them lifted out in white. The
 /// white slides to the one you pick rather than appearing there.
 struct Segmented<Option: Hashable>: View {
-    let options: [(Option, String)]
+    let options: [(Option, LocalizedStringResource)]
     @Binding var selection: Option
     /// True when the control has the whole width to itself, so the choices
     /// share it evenly instead of each taking only what its word needs.
@@ -879,14 +886,14 @@ struct Steps: View {
 /// A small capsule that does one thing. Outlined by default; filled in ink
 /// when it is the thing you came here to press.
 struct Pill: View {
-    let title: String
+    let title: LocalizedStringResource
     var filled = false
     var tint: Color = Palette.ink
     let action: () -> Void
 
     @State private var hovering = false
 
-    init(_ title: String, filled: Bool = false, tint: Color = Palette.ink, action: @escaping () -> Void) {
+    init(_ title: LocalizedStringResource, filled: Bool = false, tint: Color = Palette.ink, action: @escaping () -> Void) {
         self.title = title
         self.filled = filled
         self.tint = tint
@@ -920,7 +927,7 @@ private struct NotificationSites: View {
         if !sites.isEmpty {
             ForEach(sites, id: \.self) { site in
                 Rule()
-                Line(URL(string: site).map(SiteCard.site) ?? site, "Can send notifications") {
+                Line("\(URL(string: site).map(SiteCard.site) ?? site)", "Can send notifications") {
                     Pill("Remove") { SiteNotifications.forget(site) }
                 }
             }

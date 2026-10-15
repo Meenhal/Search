@@ -209,7 +209,7 @@ enum Chromium {
             for key in ["other", "synced"] {
                 if let more = roots[key] as? [String: Any] {
                     let kids = nodes(in: more["children"] as? [[String: Any]] ?? [])
-                    if !kids.isEmpty { out.append(.folder(key == "other" ? "Other" : "Mobile", kids)) }
+                    if !kids.isEmpty { out.append(.folder(key == "other" ? String(localized: "Other", comment: "Imported bookmarks: the browser's Other Bookmarks folder") : String(localized: "Mobile", comment: "Imported bookmarks: the browser's Mobile Bookmarks folder"), kids)) }
                 }
             }
         }
@@ -760,7 +760,7 @@ enum Mozilla {
                     return .site(item.title, url)
                 }
                 guard item.type == 2, item.guid != "tags________", taken.insert(item.id).inserted else { return nil }
-                return .folder(item.title.isEmpty ? "Folder" : item.title, children(of: item.id, depth: depth + 1))
+                return .folder(item.title.isEmpty ? String(localized: "Folder", comment: "An imported bookmarks folder with no name") : item.title, children(of: item.id, depth: depth + 1))
             }
         }
 
@@ -769,11 +769,11 @@ enum Mozilla {
         if let menu = byGuid["menu________"] { out += children(of: menu.id) }
         if let unfiled = byGuid["unfiled_____"] {
             let kids = children(of: unfiled.id)
-            if !kids.isEmpty { out.append(.folder("Other", kids)) }
+            if !kids.isEmpty { out.append(.folder(String(localized: "Other", comment: "Imported bookmarks: the browser's Other Bookmarks folder"), kids)) }
         }
         if let mobile = byGuid["mobile______"] {
             let kids = children(of: mobile.id)
-            if !kids.isEmpty { out.append(.folder("Mobile", kids)) }
+            if !kids.isEmpty { out.append(.folder(String(localized: "Mobile", comment: "Imported bookmarks: the browser's Mobile Bookmarks folder"), kids)) }
         }
         return out
     }

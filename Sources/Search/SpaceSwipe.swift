@@ -222,7 +222,7 @@ struct NewSpaceCard: View {
     @State private var hovering = false
     @FocusState private var typing: Bool
 
-    private var saying: String {
+    private var saying: LocalizedStringResource {
         shared ? "Signed in wherever your other spaces are." : "Its own cookies and sign-ins, starting from none."
     }
 
@@ -236,7 +236,7 @@ struct NewSpaceCard: View {
                         .frame(width: 170)
                     Segmented(options: [(true, "Signed in"), (false, "Signed out")], selection: $shared)
                         .fixedSize()
-                        .help(saying)
+                        .help(Text(saying))
                     Pill("Cancel") { cancel() }
                     Pill("Create", filled: true) { create() }
                 }
@@ -332,7 +332,7 @@ struct NewSpaceCard: View {
                         choosing = false
                         typing = true
                     }
-                    .help(name)
+                    .help(Text(name))
             }
         }
         .padding(10)

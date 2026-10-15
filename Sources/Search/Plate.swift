@@ -9,14 +9,14 @@ import SwiftUI
 /// The plate: a rounded card with a title, a cross, whatever the panel is
 /// about, and — when there is one — a foot below a hairline.
 struct Plate<Content: View, Foot: View>: View {
-    let title: String
+    let title: LocalizedStringResource
     var width: CGFloat = 560
     let close: () -> Void
     @ViewBuilder let content: () -> Content
     @ViewBuilder let foot: () -> Foot
 
     init(
-        _ title: String,
+        _ title: LocalizedStringResource,
         width: CGFloat = 560,
         close: @escaping () -> Void,
         @ViewBuilder content: @escaping () -> Content,
@@ -68,7 +68,7 @@ struct Plate<Content: View, Foot: View>: View {
 
 extension Plate where Foot == EmptyView {
     init(
-        _ title: String,
+        _ title: LocalizedStringResource,
         width: CGFloat = 560,
         close: @escaping () -> Void,
         @ViewBuilder content: @escaping () -> Content
@@ -102,11 +102,20 @@ struct Rule: View {
 
 /// One thing to set or do: what it is on the left, the control on the right.
 struct Line<Control: View>: View {
-    let title: String
-    let detail: String?
+    let title: LocalizedStringResource
+    let detail: LocalizedStringResource?
     @ViewBuilder let control: () -> Control
 
-    init(_ title: String, _ detail: String? = nil, @ViewBuilder control: @escaping () -> Control) {
+    init(_ title: LocalizedStringResource, @ViewBuilder control: @escaping () -> Control) {
+        self.title = title
+        self.detail = nil
+        self.control = control
+    }
+
+    // Not an optional detail with a default: Swift's string extraction keeps
+    // only the first branch of a `? :` handed to an optional, and the other's
+    // words would never reach the translation.
+    init(_ title: LocalizedStringResource, _ detail: LocalizedStringResource, @ViewBuilder control: @escaping () -> Control) {
         self.title = title
         self.detail = detail
         self.control = control
@@ -136,8 +145,8 @@ struct Line<Control: View>: View {
 
 /// A small heading over a card, for when a panel has more than one.
 struct Caption: View {
-    let text: String
-    init(_ text: String) { self.text = text }
+    let text: LocalizedStringResource
+    init(_ text: LocalizedStringResource) { self.text = text }
     var body: some View {
         Text(text)
             .font(.system(size: 11.5, weight: .medium))
@@ -149,7 +158,7 @@ struct Caption: View {
 /// The field for narrowing a list. The wash, the glass, the caret.
 struct Hunt: View {
     @Binding var text: String
-    var prompt = "Search"
+    var prompt: LocalizedStringResource = "Search"
     var focus: FocusState<Bool>.Binding
 
     var body: some View {
@@ -184,8 +193,8 @@ struct Hunt: View {
 
 /// What a panel says when its list is empty.
 struct Nothing: View {
-    let text: String
-    init(_ text: String) { self.text = text }
+    let text: LocalizedStringResource
+    init(_ text: LocalizedStringResource) { self.text = text }
     var body: some View {
         Text(text)
             .font(.system(size: 13))
@@ -198,11 +207,11 @@ struct Nothing: View {
 
 /// A small text action inside a row — Show, Copy, Remove.
 struct Quick: View {
-    let title: String
+    let title: LocalizedStringResource
     var tint: Color = Palette.ink
     let act: () -> Void
 
-    init(_ title: String, tint: Color = Palette.ink, act: @escaping () -> Void) {
+    init(_ title: LocalizedStringResource, tint: Color = Palette.ink, act: @escaping () -> Void) {
         self.title = title
         self.tint = tint
         self.act = act

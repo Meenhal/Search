@@ -9,7 +9,7 @@ struct HiddenPanel: View {
     @ObservedObject var browser: Browser
 
     var body: some View {
-        Plate(browser.hereHost ?? "This page", width: 380, close: { browser.reviewing = false }) {
+        Plate(browser.hereHost.map { "\($0)" } ?? "This page", width: 380, close: { browser.reviewing = false }) {
             if browser.hereVeils.isEmpty {
                 Card { Nothing("Nothing is hidden here.") }
             } else {

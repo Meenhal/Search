@@ -226,8 +226,8 @@ final class Browser: NSObject, ObservableObject {
             kept ? "Couldn't read all of \(source.name)'s bookmarks: what came from it before was kept"
                 : Bookmarks.count(found) == 0 ? "No bookmarks in \(source.name)"
                 : count == 0 ? "The bookmarks from \(source.name) were all here already"
-                : already == 0 ? "\(count) bookmarks from \(source.name)"
-                : "\(count) new bookmarks from \(source.name), \(already) already here"
+                : already == 0 ? "\(counted(count, .bookmark)) from \(source.name)"
+                : "\(counted(count, .newBookmark)) from \(source.name), \(already.formatted()) already here"
         )
         let urls = Bookmarks.urls(found)
         DispatchQueue.global(qos: .utility).async {
@@ -257,7 +257,7 @@ final class Browser: NSObject, ObservableObject {
     func cancelFileImport() {
         guard fileImport != nil else { return }
         fileImport?.cancelling = true
-        fileImport?.message = "Cancelling…"
+        fileImport?.message = String(localized: "Cancelling…")
         fileImportControl?.cancel()
     }
     /// The sheet opened from Settings › Extensions: only the extensions
@@ -395,13 +395,13 @@ final class Browser: NSObject, ObservableObject {
     var findStatus: String? {
         guard !needle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
               let result = findResult else { return nil }
-        guard result.available else { return "Search unavailable" }
+        guard result.available else { return String(localized: "Search unavailable") }
         if result.nativeFallback {
-            if wholeWords && !result.wholeWordsAvailable { return "Whole words unavailable" }
-            return result.found ? "Match found" : "No matches"
+            if wholeWords && !result.wholeWordsAvailable { return String(localized: "Whole words unavailable") }
+            return result.found ? String(localized: "Match found") : String(localized: "No matches")
         }
-        guard let index = result.index, let count = result.count, count > 0 else { return "No matches" }
-        return "\(index) of \(count)\(result.more ? "+" : "")"
+        guard let index = result.index, let count = result.count, count > 0 else { return String(localized: "No matches") }
+        return String(localized: "\(index) of \(count)\(result.more ? "+" : "")")
     }
 
     func openFind() {
@@ -896,7 +896,7 @@ final class Browser: NSObject, ObservableObject {
         case .success(let found):
             let kept = keep(found)
             ImportRecords.note(name, passwords: kept)
-            announce(kept == 0 ? "Nothing new in \(name)" : "\(kept) passwords from \(name)")
+            announce(kept == 0 ? "Nothing new in \(name)" : "\(counted(kept, .password)) from \(name)")
         case .failure(Chromium.Trouble.noPassphrase):
             announce("\(name) didn't give up its keychain key")
         case .failure(Mozilla.Trouble.primaryPassword):
@@ -930,10 +930,10 @@ final class Browser: NSObject, ObservableObject {
         panel.allowedContentTypes = [.html, .commaSeparatedText, .plainText, .zip, .json]
         panel.canChooseDirectories = true
         panel.allowsMultipleSelection = false
-        panel.prompt = "Bring In"
-        panel.message = "A file another browser exported: bookmarks (.html), passwords (.csv), or Safari's File › Export Browsing Data (.zip)."
+        panel.prompt = String(localized: "Bring In")
+        panel.message = String(localized: "A file another browser exported: bookmarks (.html), passwords (.csv), or Safari's File › Export Browsing Data (.zip).")
         guard panel.runModal() == .OK, let url = panel.url else { return }
-        Task { announce((await takeFile(url)).said) }
+        Task { announce("\((await takeFile(url)).said)") }
     }
 
     /// The file's bookmarks, history and passwords, taken in as a browser's
@@ -952,9 +952,9 @@ final class Browser: NSObject, ObservableObject {
 
     @discardableResult
     func takeFile(_ url: URL) async -> FileTake {
-        guard !Browser.fileImportTerminating, fileImport == nil else { return FileTake(said: "An import is already running", bookmarks: 0, already: 0, places: 0, kept: 0, skipped: 0, cancelled: false) }
+        guard !Browser.fileImportTerminating, fileImport == nil else { return FileTake(said: String(localized: "An import is already running"), bookmarks: 0, already: 0, places: 0, kept: 0, skipped: 0, cancelled: false) }
         let id = UUID()
-        fileImport = FileImportJob(id: id, filename: url.lastPathComponent, message: "Reading…")
+        fileImport = FileImportJob(id: id, filename: url.lastPathComponent, message: String(localized: "Reading…"))
         let control = ImportFile.Control { [weak self] progress in
             DispatchQueue.main.async { [weak self] in
                 guard let self, self.fileImport?.id == id, self.fileImport?.cancelling == false else { return }
@@ -984,7 +984,7 @@ final class Browser: NSObject, ObservableObject {
             try control.checkCancellation()
             let name = found.fromSafari ? "Safari" : url.deletingPathExtension().lastPathComponent
             if !found.bookmarks.isEmpty {
-                fileImport?.message = "Merging bookmarks…"
+                fileImport?.message = String(localized: "Merging bookmarks…")
                 fileImport?.completed = 0
                 fileImport?.total = nil
                 let result = try await bookmarks.takeFile(found.bookmarks, from: name, control: control)
@@ -993,7 +993,7 @@ final class Browser: NSObject, ObservableObject {
                 already = result.already
             }
             if !found.places.isEmpty {
-                fileImport?.message = "Adding history…"
+                fileImport?.message = String(localized: "Adding history…")
                 fileImport?.completed = 0
                 fileImport?.total = found.places.count
                 for batch in stride(from: 0, to: found.places.count, by: 200) {
@@ -1010,7 +1010,7 @@ final class Browser: NSObject, ObservableObject {
                 if places > 0 { history.settle() }
             }
             if !found.passwords.isEmpty && !control.isCancelled {
-                fileImport?.message = "Saving passwords…"
+                fileImport?.message = String(localized: "Saving passwords…")
                 fileImport?.completed = 0
                 fileImport?.total = nil
                 for text in found.passwords {
@@ -1034,23 +1034,24 @@ final class Browser: NSObject, ObservableObject {
                 }
             }
         }
-        func count(_ n: Int, _ one: String, _ many: String) -> String { n == 1 ? "1 \(one)" : "\(n) \(many)" }
         var parts: [String] = []
         if added > 0 || already > 0 {
-            parts.append(already == 0 ? count(added, "bookmark", "bookmarks") : "\(count(added, "new bookmark", "new bookmarks")), \(already) already here")
+            parts.append(already == 0 ? counted(added, .bookmark) : String(localized: "\(counted(added, .newBookmark)), \(already.formatted()) already here"))
         }
-        if places > 0 { parts.append(count(places, "place", "places")) }
+        if places > 0 { parts.append(counted(places, .place)) }
         if kept > 0 || skipped > 0 {
-            parts.append(skipped == 0 ? count(kept, "password", "passwords") : "\(count(kept, "password", "passwords")), \(skipped) skipped")
+            parts.append(skipped == 0 ? counted(kept, .password) : String(localized: "\(counted(kept, .password)), \(skipped.formatted()) skipped"))
         }
         var said = parts.joined(separator: " · ")
         if control.isCancelled {
-            said = said.isEmpty ? (mergedBookmarks ? "Import cancelled after merging bookmarks" : "Import cancelled; nothing was changed") : "Import cancelled after " + said
+            said = said.isEmpty
+                ? (mergedBookmarks ? String(localized: "Import cancelled after merging bookmarks") : String(localized: "Import cancelled; nothing was changed"))
+                : String(localized: "Import cancelled after \(said)")
         }
-        else if failed { said = said.isEmpty ? "That file couldn't be read" : "Import stopped after " + said }
-        else if said.isEmpty { said = mergedBookmarks ? "Bookmark folders imported" : "Nothing to bring in from that file" }
+        else if failed { said = said.isEmpty ? String(localized: "That file couldn't be read") : String(localized: "Import stopped after \(said)") }
+        else if said.isEmpty { said = mergedBookmarks ? String(localized: "Bookmark folders imported") : String(localized: "Nothing to bring in from that file") }
         if safari, kept > 0 {
-            said += " — the exported file holds your passwords in the clear: delete it now"
+            said = String(localized: "\(said) — the exported file holds your passwords in the clear: delete it now")
         }
         return FileTake(said: said, bookmarks: added, already: already, places: places, kept: kept, skipped: skipped, cancelled: control.isCancelled)
     }
@@ -1410,8 +1411,8 @@ final class Browser: NSObject, ObservableObject {
         announce("Link copied")
     }
 
-    func announce(_ text: String, file: URL? = nil) {
-        announcement = text
+    func announce(_ text: LocalizedStringResource, file: URL? = nil) {
+        announcement = String(localized: text)
         announcedFile = file
         hush?.cancel()
         let work = DispatchWorkItem { [weak self] in
@@ -1554,7 +1555,7 @@ final class Browser: NSObject, ObservableObject {
             welcoming = !prefs.welcomed
             newsShowing = WhatsNew.due(prefs: prefs, welcoming: welcoming)
             // Once a day, quietly: is there a newer one?
-            Updater.shared.checkIfDue { [weak self] line in self?.announce(line) }
+            Updater.shared.checkIfDue { [weak self] line in self?.announce("\(line)") }
             FormRelay.passkeysOffered = prefs.passkeys
             // An icon that arrives is put on every tab showing that site, in
             // every window, not only the one that happened to ask for it.
@@ -2910,14 +2911,14 @@ final class Browser: NSObject, ObservableObject {
     /// tabs by how many, or the one tab (or the window) it always did.
     var reopenTitle: String {
         guard let last = ghosts.last, let batch = last.batch,
-              (Browsers.lastClosedAt ?? .distantPast) <= last.at else { return "Reopen Closed Tab" }
+              (Browsers.lastClosedAt ?? .distantPast) <= last.at else { return String(localized: "Reopen Closed Tab") }
         // Clear never takes a tab in a group, so a batch with one is Close
         // Group's, its group still closed or brought back from History.
         if let id = last.groupID, closedGroups[id] != nil || tabGroups.contains(where: { $0.id == id }) {
-            return "Reopen Closed Group"
+            return String(localized: "Reopen Closed Group")
         }
         let count = ghosts.filter { $0.batch == batch }.count
-        return count == 1 ? "Reopen Cleared Tab" : "Reopen \(count) Cleared Tabs"
+        return count == 1 ? String(localized: "Reopen Cleared Tab") : String(localized: "Reopen \(count) Cleared Tabs")
     }
 
     /// Everything one Clear or Close Group closed, back as it was: each tab
@@ -3188,7 +3189,7 @@ final class Browser: NSObject, ObservableObject {
     @discardableResult
     func addTabGroup(containing tab: Tab) -> UUID {
         let id = UUID()
-        tabGroups.append(TabGroup(id: id, name: "Group \(tabGroups.count + 1)", collapsed: false))
+        tabGroups.append(TabGroup(id: id, name: String(localized: "Group \(tabGroups.count + 1)"), collapsed: false))
         editingGroupID = id
         move(tab, toGroup: id)
         // A tab that can't be in a group (a pin, a private one) leaves none behind.
@@ -4483,10 +4484,11 @@ extension Browser: WKNavigationDelegate, WKUIDelegate {
         // Over its own tab only, as a page's own questions are (see ask).
         ask(from: webView, show: {
             let alert = NSAlert()
-            alert.messageText = "Open \u{201C}\(name)\u{201D}?"
-            alert.informativeText = "\(webView.url?.host() ?? "This page") wants to open \(name)."
-            alert.addButton(withTitle: "Open")
-            alert.addButton(withTitle: "Cancel")
+            alert.messageText = String(localized: "Open “\(name)”?")
+            alert.informativeText = webView.url?.host().map { String(localized: "\($0) wants to open \(name).") }
+                ?? String(localized: "This page wants to open \(name).")
+            alert.addButton(withTitle: String(localized: "Open"))
+            alert.addButton(withTitle: String(localized: "Cancel"))
             Dialogs.show(alert, over: webView) { answer in
                 guard answer == .alertFirstButtonReturn else { return }
                 NSWorkspace.shared.open(url)
@@ -4771,7 +4773,7 @@ extension Browser: WKNavigationDelegate, WKUIDelegate {
             host = Browser.extensionName(asker.host)
             site = "\(asker.protocol.lowercased())://\(asker.host.lowercased())"
         } else {
-            host = origin.host.isEmpty ? (tab(for: webView)?.address?.host() ?? "This page") : origin.host
+            host = origin.host.isEmpty ? (tab(for: webView)?.address?.host() ?? String(localized: "This page")) : origin.host
             site = origin.host.isEmpty ? host : "\(origin.protocol)://\(origin.host)" + (origin.port == 0 ? "" : ":\(origin.port)")
         }
         let key = "\(site)|\(type.rawValue)"
@@ -4805,7 +4807,7 @@ extension Browser: WKNavigationDelegate, WKUIDelegate {
         if #available(macOS 15.4, *), let found = Extensions.shared.installed.first(where: { $0.id.lowercased() == id.lowercased() }) {
             return found.name
         }
-        return "An extension"
+        return String(localized: "An extension")
     }
 
     /// A page asking where you are. WebKit asks this through a delegate
@@ -5006,17 +5008,17 @@ extension Browser: WKNavigationDelegate, WKUIDelegate {
     private func message(for code: Int) -> String {
         switch code {
         case NSURLErrorCannotFindHost, NSURLErrorDNSLookupFailed:
-            return "No site at that address."
+            return String(localized: "No site at that address.")
         case NSURLErrorNotConnectedToInternet, NSURLErrorNetworkConnectionLost:
-            return "No connection."
+            return String(localized: "No connection.")
         case NSURLErrorTimedOut:
-            return "The site took too long to answer."
+            return String(localized: "The site took too long to answer.")
         case NSURLErrorCannotConnectToHost:
-            return "The site refused the connection."
+            return String(localized: "The site refused the connection.")
         case NSURLErrorSecureConnectionFailed, NSURLErrorServerCertificateUntrusted:
-            return "The connection isn't secure."
+            return String(localized: "The connection isn't secure.")
         default:
-            return "The page didn't load."
+            return String(localized: "The page didn't load.")
         }
     }
 

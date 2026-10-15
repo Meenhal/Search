@@ -24,7 +24,8 @@ enum When {
 
     private static let plain: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "d MMMM"
+        // In the Mac's own order and words: 14 October, October 14, 14 octobre.
+        formatter.setLocalizedDateFormatFromTemplate("dMMMM")
         return formatter
     }()
 
@@ -33,8 +34,8 @@ enum When {
 
     static func day(_ date: Date) -> String {
         let calendar = Calendar.current
-        if calendar.isDateInToday(date) { return "Today" }
-        if calendar.isDateInYesterday(date) { return "Yesterday" }
+        if calendar.isDateInToday(date) { return String(localized: "Today") }
+        if calendar.isDateInYesterday(date) { return String(localized: "Yesterday") }
         return plain.string(from: date)
     }
 }
@@ -65,7 +66,7 @@ struct HistoryPanel: View {
                             ForEach(lines) { line in
                                 switch line.kind {
                                 case .day(let day):
-                                    Caption(day)
+                                    Caption("\(day)")
                                         .padding(.top, line.id == lines.first?.id ? 0 : 14)
                                         .padding(.bottom, 6)
                                 case .trace(let trace, let first, let last):
@@ -109,7 +110,7 @@ struct HistoryPanel: View {
                 sweeps
             } else {
                 HStack {
-                    Text(traces.count == 1 ? "1 page" : "\(traces.count) pages")
+                    Text(counted(traces.count, .page))
                         .font(.system(size: 12))
                         .foregroundStyle(Palette.muted)
                     Spacer()
@@ -326,18 +327,18 @@ struct DownloadsPanel: View {
 
         private var bytes: String {
             let received = ByteCountFormatter.string(fromByteCount: entry.completedBytes, countStyle: .file)
-            guard entry.totalBytes > 0 else { return received + " downloaded" }
+            guard entry.totalBytes > 0 else { return String(localized: "\(received) downloaded") }
             let total = ByteCountFormatter.string(fromByteCount: entry.totalBytes, countStyle: .file)
-            return "\(received) of \(total)"
+            return String(localized: "\(received) of \(total)")
         }
 
         private var stateLabel: String {
             switch entry.state {
-            case .downloading: return "Downloading"
-            case .pausing: return "Pausing…"
-            case .paused: return "Paused"
-            case .resuming: return "Resuming…"
-            case .failed: return "Failed"
+            case .downloading: return String(localized: "Downloading")
+            case .pausing: return String(localized: "Pausing…")
+            case .paused: return String(localized: "Paused")
+            case .resuming: return String(localized: "Resuming…")
+            case .failed: return String(localized: "Failed")
             }
         }
 
@@ -382,7 +383,7 @@ struct DownloadsPanel: View {
                             .truncationMode(.middle)
                     }
                     if case .failed = entry.state {
-                        Text(entry.errorDescription ?? "The download failed.")
+                        Text(entry.errorDescription ?? String(localized: "The download failed."))
                             .font(.system(size: 11.5))
                             .foregroundStyle(Palette.muted)
                             .fixedSize(horizontal: false, vertical: true)

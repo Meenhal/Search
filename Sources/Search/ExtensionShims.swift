@@ -3871,9 +3871,9 @@ enum ExtensionShims {
             let unreached = origins.filter { context.permissionStatus(for: $0) != .grantedExplicitly }
             guard !missing.isEmpty || !unreached.isEmpty else { return true }
             let every = unreached.contains { $0.matchesAllHosts || $0.matchesAllURLs }
-            let sites = every ? "every website" : unreached.map(\.string).sorted().joined(separator: ", ")
-            let question = unreached.isEmpty ? "asks for more access" : "wants to read and change \(sites)"
-            let detail = missing.isEmpty ? "Until you remove the extension." : missing.map(\.rawValue).sorted().joined(separator: ", ")
+            let sites = every ? String(localized: "every website") : unreached.map(\.string).sorted().joined(separator: ", ")
+            let question = unreached.isEmpty ? String(localized: "asks for more access") : String(localized: "wants to read and change \(sites)")
+            let detail = missing.isEmpty ? String(localized: "Until you remove the extension.") : missing.map(\.rawValue).sorted().joined(separator: ", ")
             guard await owner.ask(question, detail: detail, context: context) else { return false }
             for permission in missing { context.setPermissionStatus(.grantedExplicitly, for: permission) }
             for pattern in unreached { context.setPermissionStatus(.grantedExplicitly, for: pattern) }

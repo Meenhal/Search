@@ -19,6 +19,7 @@ struct SearchApp: App {
     private var browser: Browser { front.browser ?? SceneSlot.shared.browser }
 
     init() {
+        Language.settle()
         // Settings › General › Start with a fresh window: the files are cut
         // down before any window reads its row from them.
         if Store.settings.bool(forKey: Preferences.freshKey) {
@@ -803,6 +804,18 @@ struct ContentView: View {
         }
     }
 
+    /// The question, whole, for each thing a page can ask for: `wants` is
+    /// a word for the code, not for the sentence.
+    private func captureQuestion(_ ask: Browser.CaptureAsk) -> LocalizedStringResource {
+        switch ask.wants {
+        case "location": return "\(ask.host) wants to know your location"
+        case "notifications": return "\(ask.host) wants to send you notifications"
+        case "camera": return "\(ask.host) wants to use your camera"
+        case "microphone": return "\(ask.host) wants to use your microphone"
+        default: return "\(ask.host) wants to use your camera and microphone"
+        }
+    }
+
     /// A page asking to see or hear you. Named by the site, in its own words,
     /// with the answer remembered so it is asked once and not every call.
     private func captureAsking(_ ask: Browser.CaptureAsk) -> some View {
@@ -810,9 +823,7 @@ struct ContentView: View {
             Image(systemName: ask.wants == "location" ? "location" : ask.wants == "microphone" ? "mic" : ask.wants == "notifications" ? "bell" : "video")
                 .font(.system(size: 11, weight: .medium))
                 .foregroundStyle(Palette.muted)
-            Text(ask.wants == "location" ? "\(ask.host) wants to know your location"
-                 : ask.wants == "notifications" ? "\(ask.host) wants to send you notifications"
-                 : "\(ask.host) wants to use your \(ask.wants)")
+            Text(captureQuestion(ask))
                 .font(.system(size: 12.5))
                 .foregroundStyle(Palette.ink)
             Button { ask.once ? browser.allowCaptureOnce() : browser.allowCapture() } label: {
@@ -889,7 +900,7 @@ struct ContentView: View {
 
     /// A dark pill, for the one mode this browser has. It stays up for as long
     /// as the mode does, which is how you know you are still in it.
-    private func hint(_ text: String) -> some View {
+    private func hint(_ text: LocalizedStringResource) -> some View {
         Text(text)
             .font(.system(size: 11.5))
             .foregroundStyle(Palette.ground.opacity(0.92))

@@ -518,7 +518,7 @@ final class Bookmarks: ObservableObject {
     /// A folder of your own, its name asked for as a rename's is: inside
     /// `parent`, or at the top level for nil. An empty name makes none.
     func askNewFolder(in parent: Bookmark.ID?, made: @escaping (Bookmark.ID) -> Void = { _ in }) {
-        Ask.name("New Folder", placeholder: "Folder name", confirm: "Make") { name in
+        Ask.name("New Folder", placeholder: String(localized: "Folder name"), confirm: "Make") { name in
             made(self.insert(.folder(name, []), into: parent).id)
         }
     }
@@ -528,7 +528,7 @@ final class Bookmarks: ObservableObject {
     func askRemove(_ node: Bookmark) {
         guard node.isFolder, let kids = node.children, !kids.isEmpty else { return remove(node.id) }
         let count = Bookmarks.count(kids)
-        let detail = switch count {
+        let detail: LocalizedStringResource = switch count {
         case 0: "The empty folders in it go too."
         case 1: "The bookmark in it goes too."
         default: "The \(count) bookmarks in it go too."
@@ -1056,7 +1056,7 @@ struct BookmarkCard: View {
             }
             Divider()
             Button("New Folder\u{2026}") {
-                Ask.name("New Folder", placeholder: "Name", confirm: "Create") { name in
+                Ask.name("New Folder", placeholder: String(localized: "Name"), confirm: "Create") { name in
                     let made = bookmarks.insert(.folder(name, []), into: nil)
                     bookmarks.move(id, into: made.id)
                 }
@@ -1066,7 +1066,7 @@ struct BookmarkCard: View {
                 Image(systemName: "folder")
                     .font(.system(size: 10.5))
                     .foregroundStyle(Palette.muted)
-                Text(here?.title ?? "Top Level")
+                Text(here?.title ?? String(localized: "Top Level"))
                     .font(.system(size: 12.5))
                     .foregroundStyle(Palette.ink)
                     .lineLimit(1)
@@ -1085,7 +1085,7 @@ struct BookmarkCard: View {
         .menuIndicator(.hidden)
     }
 
-    private func line(_ name: String, @ViewBuilder _ control: () -> some View) -> some View {
+    private func line(_ name: LocalizedStringResource, @ViewBuilder _ control: () -> some View) -> some View {
         HStack(spacing: 10) {
             Text(name)
                 .font(.system(size: 11.5))
@@ -1194,11 +1194,11 @@ struct BookmarksDropdown: View {
 
     private struct Foot: View {
         let symbol: String?
-        let title: String
+        let title: LocalizedStringResource
         let act: () -> Void
         @State private var hovering = false
 
-        init(_ symbol: String?, _ title: String, act: @escaping () -> Void) {
+        init(_ symbol: String?, _ title: LocalizedStringResource, act: @escaping () -> Void) {
             self.symbol = symbol
             self.title = title
             self.act = act
@@ -1286,7 +1286,7 @@ struct BookmarksPanel: View {
                 Pill("File…") { browser.importFile() }
                 Spacer()
                 Pill("New Folder…") { bookmarks.askNewFolder(in: nil) }
-                Text(bookmarks.count == 1 ? "1 bookmark" : "\(bookmarks.count) bookmarks")
+                Text(counted(bookmarks.count, .bookmark))
                     .font(.system(size: 12))
                     .foregroundStyle(Palette.muted)
             }
@@ -1390,7 +1390,7 @@ struct BookmarksPanel: View {
 
         /// The folders it is in, then the site.
         private var whereabouts: String {
-            let folders = path.isEmpty ? "Top level" : path.joined(separator: " \u{203A} ")
+            let folders = path.isEmpty ? String(localized: "Top level") : path.joined(separator: " \u{203A} ")
             guard let host = node.host else { return folders }
             return folders + "  \u{00B7}  " + host
         }
@@ -1452,7 +1452,7 @@ final class BookmarkMenu: NSObject, NSMenuDelegate {
         wrap()
     }
 
-    private var menu: NSMenu? { NSApp.mainMenu?.items.first(where: { $0.title == "Bookmarks" })?.submenu }
+    private var menu: NSMenu? { NSApp.mainMenu?.items.first(where: { $0.title == String(localized: "Bookmarks") })?.submenu }
 
     /// Looks, while the menu is open, after each turn of the run loop.
     private var looking: CFRunLoopObserver?
@@ -1517,7 +1517,7 @@ final class BookmarkMenu: NSObject, NSMenuDelegate {
         let menu = NSMenu(title: folder.title)
         let made = items(for: folder.children ?? [])
         if made.isEmpty {
-            let empty = NSMenuItem(title: "Empty", action: nil, keyEquivalent: "")
+            let empty = NSMenuItem(title: String(localized: "Empty", comment: "A bookmarks folder with nothing in it"), action: nil, keyEquivalent: "")
             empty.isEnabled = false
             menu.addItem(empty)
         }
@@ -1596,7 +1596,7 @@ final class BookmarkMenu: NSObject, NSMenuDelegate {
         menu.removeAllItems()
         let made = items(for: kids)
         if made.isEmpty {
-            let empty = NSMenuItem(title: "Empty", action: nil, keyEquivalent: "")
+            let empty = NSMenuItem(title: String(localized: "Empty", comment: "A bookmarks folder with nothing in it"), action: nil, keyEquivalent: "")
             empty.isEnabled = false
             menu.addItem(empty)
         }

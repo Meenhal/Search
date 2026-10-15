@@ -1,0 +1,7 @@
+/* Search en français: what macOS shows of the app's Info.plist, in its own
+   prompts. The English is in build.sh, where the plist is written. */
+
+"NSCameraUsageDescription" = "Les sites web que vous visitez peuvent demander à utiliser votre caméra. Search vous le demande la première fois pour chaque site et retient votre réponse ; Réglages › Confidentialité permet de l’oublier.";
+"NSMicrophoneUsageDescription" = "Les sites web que vous visitez peuvent demander à utiliser votre micro. Search vous le demande la première fois pour chaque site et retient votre réponse ; Réglages › Confidentialité permet de l’oublier.";
+"NSLocationUsageDescription" = "Les sites web que vous visitez peuvent demander votre position. Search vous le demande chaque fois, sauf si vous choisissez Toujours autoriser pour ce site ; Réglages › Confidentialité permet d’oublier ces choix.";
+"NSDownloadsFolderUsageDescription" = "Les fichiers que vous téléchargez sont enregistrés dans votre dossier Téléchargements.";

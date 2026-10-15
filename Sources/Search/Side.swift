@@ -1010,7 +1010,7 @@ private struct SideRow: View {
 /// A row that is an action rather than a page. Quiet until the pointer is on it.
 struct Quiet: View {
     let icon: String
-    let title: String
+    let title: LocalizedStringResource
     var height: CGFloat = 28
     let act: () -> Void
 
@@ -1113,7 +1113,7 @@ struct Speaker: View {
 struct Door: View {
     let icon: String
     var on = false
-    var help = ""
+    var help: LocalizedStringResource = ""
     let act: () -> Void
 
     @State private var hovering = false
@@ -1134,7 +1134,7 @@ struct Door: View {
         }
         .buttonStyle(.plain)
         .onHover { hovering = $0 }
-        .help(help)
+        .help(Text(help))
         .animation(Motion.quick, value: hovering)
         .animation(Motion.quick, value: on)
     }

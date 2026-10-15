@@ -32,11 +32,11 @@ struct ShortcutsPage: View {
                 let commands = found.filter { $0.section == section }
                 if !commands.isEmpty {
                 VStack(alignment: .leading, spacing: 6) {
-                    Caption(section.rawValue)
+                    Caption(section.title)
                     Card {
                         ForEach(Array(commands.enumerated()), id: \.element.id) { index, command in
                             if index > 0 { Rule() }
-                            Line(command.title) {
+                            Line("\(command.title)") {
                                 KeyBox(browser: browser, store: store, id: command.id)
                             }
                             .contextMenu {
@@ -75,7 +75,7 @@ extension ShortcutsPage {
                 Card {
                     ForEach(Array(commands.enumerated()), id: \.element.id) { index, item in
                         if index > 0 { Rule() }
-                        Line(item.command.title, item.extensionName) {
+                        Line("\(item.command.title)", "\(item.extensionName)") {
                             KeyBox(browser: browser, store: store, id: item.id)
                         }
                         .contextMenu {
@@ -130,11 +130,11 @@ private struct KeyBox: View {
 
     private var label: String {
         if let taking, let other = store.owner(of: taking, except: id) {
-            return "Used by \(other.title) — press again"
+            return String(localized: "Used by \(other.title) — press again")
         }
         if let note { return note }
-        if listening { return "Type a shortcut" }
-        return store.key(for: id)?.display ?? "None"
+        if listening { return String(localized: "Type a shortcut") }
+        return store.key(for: id)?.display ?? String(localized: "None", comment: "No keyboard shortcut")
     }
 
     private func listen() {
@@ -174,7 +174,8 @@ private struct KeyBox: View {
     }
 
     /// Why that key won't do, for a moment, still listening.
-    private func say(_ text: String) {
+    private func say(_ text: LocalizedStringResource) {
+        let text = String(localized: text)
         note = text
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { if note == text { note = nil } }
     }

@@ -47,7 +47,7 @@ struct KeyCombo: Codable, Hashable {
     ]
 
     private static let symbols: [String: String] = [
-        "left": "←", "right": "→", "up": "↑", "down": "↓", "return": "↩", "delete": "⌫", "space": "Space",
+        "left": "←", "right": "→", "up": "↑", "down": "↓", "return": "↩", "delete": "⌫", "space": String(localized: "Space", comment: "The space bar, as a shortcut shows it"),
         "tab": "⇥", "escape": "⎋",
     ]
 
@@ -120,6 +120,19 @@ struct KeyCombo: Codable, Hashable {
 struct Command: Identifiable {
     enum Section: String, CaseIterable {
         case app = "Search", file = "File", edit = "Edit", view = "View", tabs = "Tabs", bookmarks = "Bookmarks", history = "History"
+
+        /// The menu's name in the menu bar.
+        var title: LocalizedStringResource {
+            switch self {
+            case .app: return "Search"
+            case .file: return "File"
+            case .edit: return "Edit"
+            case .view: return "View"
+            case .tabs: return "Tabs"
+            case .bookmarks: return "Bookmarks"
+            case .history: return "History"
+            }
+        }
     }
 
     let id: String
@@ -128,9 +141,10 @@ struct Command: Identifiable {
     let defaultKey: KeyCombo?
     let run: @MainActor (Browser) -> Void
 
-    init(_ id: String, _ title: String, _ section: Section, _ key: KeyCombo?, _ run: @escaping @MainActor (Browser) -> Void) {
+    init(_ id: String, _ title: LocalizedStringResource, _ section: Section, _ key: KeyCombo?, _ run: @escaping @MainActor (Browser) -> Void) {
         self.id = id
-        self.title = title
+        // Resolved once: the list is searched by its words, in the menus' language.
+        self.title = String(localized: title)
         self.section = section
         self.defaultKey = key
         self.run = run

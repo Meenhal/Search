@@ -142,7 +142,7 @@ final class FetchEntry: ObservableObject, Identifiable {
     /// only Retry, to a name of its own, is left.
     func lostPartialFile() {
         resumeData = nil
-        errorDescription = "The file changed while the download was stopped."
+        errorDescription = String(localized: "The file changed while the download was stopped.")
         state = .failed
     }
 
@@ -160,7 +160,7 @@ final class FetchEntry: ObservableObject, Identifiable {
         } else {
             // WKDownload explicitly returns nil when its server cannot
             // produce resume data. Retry stays, where it may.
-            errorDescription = "The server doesn't let this download pause."
+            errorDescription = String(localized: "The server doesn't let this download pause.")
             state = .failed
         }
     }
@@ -219,7 +219,7 @@ final class FetchEntry: ObservableObject, Identifiable {
 
     private static func reason(for error: Error) -> String {
         let text = error.localizedDescription.trimmingCharacters(in: .whitespacesAndNewlines)
-        return text.isEmpty ? "The download failed for an unknown reason." : text
+        return text.isEmpty ? String(localized: "The download failed for an unknown reason.") : text
     }
 
     private func trackPartialFile() {

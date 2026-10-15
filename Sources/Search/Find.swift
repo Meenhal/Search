@@ -111,8 +111,8 @@ struct FindBar: View {
 
     private func step(
         _ icon: String,
-        label: String,
-        help: String,
+        label: LocalizedStringResource,
+        help: LocalizedStringResource,
         action: @escaping () -> Void
     ) -> some View {
         Button(action: action) {
@@ -123,8 +123,8 @@ struct FindBar: View {
                 .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .accessibilityLabel(label)
-        .accessibilityHint(help)
-        .help(help)
+        .accessibilityLabel(Text(label))
+        .accessibilityHint(Text(help))
+        .help(Text(help))
     }
 }

@@ -18,9 +18,9 @@ enum Substitution: String, CaseIterable {
 
     var title: String {
         switch self {
-        case .quotes: return "Smart Quotes"
-        case .dashes: return "Smart Dashes"
-        case .replacement: return "Text Replacement"
+        case .quotes: return String(localized: "Smart Quotes")
+        case .dashes: return String(localized: "Smart Dashes")
+        case .replacement: return String(localized: "Text Replacement")
         }
     }
 

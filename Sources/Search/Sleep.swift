@@ -90,6 +90,29 @@ extension Browser {
         return nil
     }
 
+    /// A reason from `awake(because:)` or `sleep`, in words for Tab › Put
+    /// to Sleep. The reasons themselves stay English: the bench reads them.
+    static func said(_ reason: String) -> String {
+        switch reason {
+        case "on screen": return String(localized: "on screen", comment: "Why a tab stays awake")
+        case "pinned": return String(localized: "pinned", comment: "Why a tab stays awake")
+        case "a bench tab": return String(localized: "a bench tab", comment: "Why a tab stays awake")
+        case "blank": return String(localized: "blank", comment: "Why a tab stays awake")
+        case "already asleep": return String(localized: "already asleep", comment: "Why a tab stays awake")
+        case "no page": return String(localized: "no page", comment: "Why a tab stays awake")
+        case "still loading": return String(localized: "still loading", comment: "Why a tab stays awake")
+        case "playing sound": return String(localized: "playing sound", comment: "Why a tab stays awake")
+        case "its video is out": return String(localized: "its video is out", comment: "Why a tab stays awake")
+        case "on a call": return String(localized: "on a call", comment: "Why a tab stays awake")
+        case "recording the screen": return String(localized: "recording the screen", comment: "Why a tab stays awake")
+        case "downloading": return String(localized: "downloading", comment: "Why a tab stays awake")
+        case "a question waiting": return String(localized: "a question waiting", comment: "Why a tab stays awake")
+        case "the page on screen came from it": return String(localized: "the page on screen came from it", comment: "Why a tab stays awake")
+        case "holding something typed": return String(localized: "holding something typed", comment: "Why a tab stays awake")
+        default: return reason
+        }
+    }
+
     /// Asks the page whether it holds anything typed, pictures it, then lets
     /// it go — looking again at each step, since each takes a moment and you
     /// may have gone back to the tab in the meantime.

@@ -106,11 +106,11 @@ struct PeekPanel: View {
 
     private struct Knob: View {
         let symbol: String
-        let help: String
+        let help: LocalizedStringResource
         let act: () -> Void
         @State private var hovering = false
 
-        init(_ symbol: String, help: String, act: @escaping () -> Void) {
+        init(_ symbol: String, help: LocalizedStringResource, act: @escaping () -> Void) {
             self.symbol = symbol
             self.help = help
             self.act = act
@@ -126,7 +126,7 @@ struct PeekPanel: View {
                     .overlay(Circle().strokeBorder(Palette.hairline, lineWidth: 1))
             }
             .buttonStyle(.plain)
-            .help(help)
+            .help(Text(help))
             .onHover { hovering = $0 }
         }
     }

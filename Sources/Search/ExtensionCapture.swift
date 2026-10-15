@@ -367,10 +367,10 @@ final class ExtensionCapture: NSObject, WKScriptMessageHandlerWithReply, Observa
         let microphone: Bool
 
         var what: String {
-            if site { return "is sharing your screen" }
-            if screen { return "is recording your screen" }
-            if camera && microphone { return "is using your camera and microphone" }
-            return camera ? "is using your camera" : "is using your microphone"
+            if site { return String(localized: "is sharing your screen") }
+            if screen { return String(localized: "is recording your screen") }
+            if camera && microphone { return String(localized: "is using your camera and microphone") }
+            return camera ? String(localized: "is using your camera") : String(localized: "is using your microphone")
         }
     }
 
@@ -399,7 +399,7 @@ final class ExtensionCapture: NSObject, WKScriptMessageHandlerWithReply, Observa
             let before = by[entry.id]
             let site = entry.extensionID == nil
             by[entry.id] = Recording(
-                id: entry.id, name: site ? (web.url.map(SiteCard.site) ?? "A page") : Browser.extensionName(entry.id),
+                id: entry.id, name: site ? (web.url.map(SiteCard.site) ?? String(localized: "A page")) : Browser.extensionName(entry.id),
                 site: site,
                 screen: (before?.screen ?? false) || ExtensionCapture.screen(web),
                 camera: (before?.camera ?? false) || web.cameraCaptureState != .none,

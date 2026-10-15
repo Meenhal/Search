@@ -59,7 +59,7 @@ enum Spaces {
         "music.note", "film", "paintpalette", "camera", "house", "book",
         "graduationcap", "cart", "airplane", "dumbbell", "leaf", "heart",
     ]
-    static let iconNames = [
+    static let iconNames: [LocalizedStringResource] = [
         "Work", "Office", "Desktop", "Laptop", "Code", "Terminal",
         "AI", "Thinking", "Ideas", "Games", "Leisure", "Café",
         "Music", "Film", "Art", "Photos", "Home", "Reading",
@@ -72,7 +72,7 @@ enum Spaces {
     /// list yet.
     static func read() -> [Space] {
         let saved = (try? Data(contentsOf: file)).flatMap { try? JSONDecoder().decode([Space].self, from: $0) } ?? []
-        let first = saved.first(where: \.isFirst) ?? Space(id: Space.firstID, name: "Personal", colour: 0)
+        let first = saved.first(where: \.isFirst) ?? Space(id: Space.firstID, name: String(localized: "Personal", comment: "The first space's name"), colour: 0)
         return [first] + saved.filter { !$0.isFirst }
     }
 
@@ -222,7 +222,7 @@ extension Browser {
         askFocus()
         // Beside the space's icon when the tabs are on screen (SpaceDot);
         // folded away, at the bottom.
-        if folded && !peeking { announce(space.name) }
+        if folded && !peeking { announce("\(space.name)") }
     }
 
     /// Every other space's row, made ahead of time, so the column can show
@@ -380,7 +380,9 @@ struct SpaceDot: View {
         }
         .buttonStyle(.plain)
         .onHover { hovering = $0 }
-        .help("\(browser.space.name) — ⌃1–⌃9, or two fingers \(browser.prefs.sidebar ? "sideways" : "up or down") over the tabs, to switch")
+        .help(browser.prefs.sidebar
+              ? "\(browser.space.name) — ⌃1–⌃9, or two fingers sideways over the tabs, to switch"
+              : "\(browser.space.name) — ⌃1–⌃9, or two fingers up or down over the tabs, to switch")
         .onChange(of: key) { _, now in
             let symbol = symbol
             DispatchQueue.main.async {
@@ -438,10 +440,10 @@ enum SpaceMenu {
 
     private static var actions: [Action] = []
 
-    private static func item(_ title: String, key: String = "", checked: Bool = false, _ run: @escaping () -> Void) -> NSMenuItem {
+    private static func item(_ title: LocalizedStringResource, key: String = "", checked: Bool = false, _ run: @escaping () -> Void) -> NSMenuItem {
         let action = Action(run)
         actions.append(action)
-        let item = NSMenuItem(title: title, action: #selector(Action.fire), keyEquivalent: key)
+        let item = NSMenuItem(title: String(localized: title), action: #selector(Action.fire), keyEquivalent: key)
         item.target = action
         item.keyEquivalentModifierMask = key.isEmpty ? [] : .control
         item.state = checked ? .on : .off
@@ -452,7 +454,7 @@ enum SpaceMenu {
         actions = []
         let menu = NSMenu()
         for (index, space) in browser.spaces.enumerated() {
-            let entry = item(space.name, key: index < 9 ? "\(index + 1)" : "", checked: space.id == browser.spaceID) {
+            let entry = item("\(space.name)", key: index < 9 ? "\(index + 1)" : "", checked: space.id == browser.spaceID) {
                 browser.switchSpace(to: space.id)
             }
             entry.image = NSImage(systemSymbolName: space.symbol, accessibilityDescription: nil)
@@ -468,10 +470,10 @@ enum SpaceMenu {
         let icons = NSMenu()
         for (symbol, name) in zip(Spaces.icons, Spaces.iconNames) {
             let choice = item(name, checked: here.symbol == symbol) { browser.setSpaceIcon(here.id, to: symbol) }
-            choice.image = NSImage(systemSymbolName: symbol, accessibilityDescription: name)
+            choice.image = NSImage(systemSymbolName: symbol, accessibilityDescription: String(localized: name))
             icons.addItem(choice)
         }
-        let icon = NSMenuItem(title: "Icon", action: nil, keyEquivalent: "")
+        let icon = NSMenuItem(title: String(localized: "Icon", comment: "A space's menu: the symbol it wears"), action: nil, keyEquivalent: "")
         icon.submenu = icons
         menu.addItem(icon)
         // The order is the swipe's, and ⌃1–⌃9's.
@@ -480,7 +482,7 @@ enum SpaceMenu {
             if at < browser.spaces.count - 1 { menu.addItem(item("Move Right") { browser.moveSpace(here.id, to: at + 1) }) }
         }
         let folder = here.downloads.map { URL(fileURLWithPath: $0).lastPathComponent }
-        menu.addItem(item(folder.map { "Downloads to “\($0)”…" } ?? "Downloads Folder…") {
+        menu.addItem(item(folder.map { "Downloads to “\($0)”…" as LocalizedStringResource } ?? "Downloads Folder…") {
             Ask.folder { browser.setSpaceDownloads(here.id, to: $0) }
         })
         if folder != nil {
@@ -504,16 +506,16 @@ enum SpaceMenu {
 enum Ask {
     /// `empty`: an empty name is an answer too (a bookmark's, see
     /// BookmarkOutline.rename); otherwise it is taken as no answer.
-    static func name(_ title: String, detail: String? = nil, placeholder: String, initial: String = "", confirm: String, empty: Bool = false, then: @escaping (String) -> Void) {
+    static func name(_ title: LocalizedStringResource, detail: LocalizedStringResource? = nil, placeholder: String, initial: String = "", confirm: LocalizedStringResource, empty: Bool = false, then: @escaping (String) -> Void) {
         let alert = NSAlert()
-        alert.messageText = title
-        if let detail { alert.informativeText = detail }
+        alert.messageText = String(localized: title)
+        if let detail { alert.informativeText = String(localized: detail) }
         let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 240, height: 24))
         field.placeholderString = placeholder
         field.stringValue = initial
         alert.accessoryView = field
-        alert.addButton(withTitle: confirm)
-        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: String(localized: confirm))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         alert.window.initialFirstResponder = field
         show(alert) { ok in
             let name = field.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -525,18 +527,18 @@ enum Ask {
     /// have — for when the column isn't there to hold the card.
     static func newSpace(then: @escaping (String, Bool) -> Void, cancelled: @escaping () -> Void) {
         let alert = NSAlert()
-        alert.messageText = "New Space"
-        alert.informativeText = "Its own tabs. Signed in where your other spaces are, unless it starts afresh."
+        alert.messageText = String(localized: "New Space")
+        alert.informativeText = String(localized: "Its own tabs. Signed in where your other spaces are, unless it starts afresh.")
         let field = NSTextField(frame: NSRect(x: 0, y: 30, width: 260, height: 24))
-        field.placeholderString = "Work"
-        let fresh = NSButton(checkboxWithTitle: "Start signed out, with its own cookies", target: nil, action: nil)
+        field.placeholderString = String(localized: "Work", comment: "A new space's name, as an example")
+        let fresh = NSButton(checkboxWithTitle: String(localized: "Start signed out, with its own cookies"), target: nil, action: nil)
         fresh.frame = NSRect(x: 0, y: 0, width: 260, height: 22)
         let box = NSView(frame: NSRect(x: 0, y: 0, width: 260, height: 56))
         box.addSubview(field)
         box.addSubview(fresh)
         alert.accessoryView = box
-        alert.addButton(withTitle: "Create")
-        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: String(localized: "Create"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         alert.window.initialFirstResponder = field
         show(alert) { ok in
             let name = field.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -545,12 +547,12 @@ enum Ask {
         }
     }
 
-    static func sure(_ title: String, detail: String, confirm: String, then: @escaping () -> Void) {
+    static func sure(_ title: LocalizedStringResource, detail: LocalizedStringResource, confirm: LocalizedStringResource, then: @escaping () -> Void) {
         let alert = NSAlert()
-        alert.messageText = title
-        alert.informativeText = detail
-        alert.addButton(withTitle: confirm).hasDestructiveAction = true
-        alert.addButton(withTitle: "Cancel")
+        alert.messageText = String(localized: title)
+        alert.informativeText = String(localized: detail)
+        alert.addButton(withTitle: String(localized: confirm)).hasDestructiveAction = true
+        alert.addButton(withTitle: String(localized: "Cancel"))
         show(alert) { ok in if ok { then() } }
     }
 
@@ -559,8 +561,8 @@ enum Ask {
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
         panel.canCreateDirectories = true
-        panel.prompt = "Use for This Space"
-        panel.message = "Downloads in this space go here. Cancel keeps the folder it has."
+        panel.prompt = String(localized: "Use for This Space")
+        panel.message = String(localized: "Downloads in this space go here. Cancel keeps the folder it has.")
         guard let window = Links.window else { return }
         panel.beginSheetModal(for: window) { answer in
             if answer == .OK, let url = panel.url { then(url) }

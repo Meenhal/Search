@@ -212,9 +212,9 @@ extension Browser {
 private final class ImageMenuItem: NSMenuItem {
     private let act: () -> Void
 
-    init(_ title: String, act: @escaping () -> Void) {
+    init(_ title: LocalizedStringResource, act: @escaping () -> Void) {
         self.act = act
-        super.init(title: title, action: #selector(run), keyEquivalent: "")
+        super.init(title: String(localized: title), action: #selector(run), keyEquivalent: "")
         target = self
     }
 

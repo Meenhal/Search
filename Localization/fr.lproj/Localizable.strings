@@ -1,0 +1,1284 @@
+/* Search en français.
+
+   Each key is the English the code says; macOS shows this file's words
+   when French comes first in System Settings › General › Language & Region,
+   for the whole Mac or for Search alone, and the English otherwise. A key
+   missing here falls back to its English, so nothing is ever blank.
+
+   Grouped by the file the words first appear in. The vocabulary follows
+   macOS and Safari in French: Réglages, signets, trousseau, clés
+   d'identification. Typography: a no-break space before ? ! : ; and inside
+   « », curly apostrophes. A %@ or %lld keeps its place, or names it
+   (%1$@, %2$@) when French turns the sentence around. */
+
+
+/* AI.swift */
+"On this Mac" = "Sur ce Mac";
+
+/* AIAssist.swift */
+"There's nothing on this page to read." = "Il n’y a rien à lire sur cette page.";
+"on this Mac · %@" = "sur ce Mac · %@";
+"on this Mac · %@ · %@" = "sur ce Mac · %@ · %@";
+"sent to %@ · %@" = "envoyé à %@ · %@";
+"When you ask, Search sends this page's text, its address and your question to %@, which passes them to the model's provider. Their terms and privacy policy apply. Nothing is sent until you ask, never from a private tab, and Search keeps no copy." = "Quand vous posez une question, Search envoie le texte de cette page, son adresse et votre question à %@, qui les transmet au fournisseur du modèle. Leurs conditions et leur politique de confidentialité s’appliquent. Rien n’est envoyé avant que vous ne demandiez, jamais depuis un onglet privé, et Search n’en garde aucune copie.";
+"When you ask, Search sends this page's text, its address and your question to %@. Their terms and privacy policy apply. Nothing is sent until you ask, never from a private tab, and Search keeps no copy." = "Quand vous posez une question, Search envoie le texte de cette page, son adresse et votre question à %@. Leurs conditions et leur politique de confidentialité s’appliquent. Rien n’est envoyé avant que vous ne demandiez, jamais depuis un onglet privé, et Search n’en garde aucune copie.";
+"On Gemini's free tier, outside the EEA, Switzerland and the UK, Google may use this to improve its products, and people may read it. Don't use it on sensitive pages." = "Avec l’offre gratuite de Gemini, hors de l’EEE, de la Suisse et du Royaume-Uni, Google peut s’en servir pour améliorer ses produits, et des personnes peuvent le lire. Ne l’utilisez pas sur des pages sensibles.";
+"Search asks OpenRouter to use only providers that keep nothing (zero data retention)." = "Search demande à OpenRouter de n’utiliser que des fournisseurs qui ne conservent rien (aucune rétention de données).";
+"Choose where the AI runs" = "Choisissez où l’IA s’exécute";
+"Turn on AI in Settings › AI" = "Activez l’IA dans Réglages › IA";
+"AI works on web pages" = "L’IA fonctionne sur les pages web";
+"In a private tab, only an AI on this Mac" = "Dans un onglet privé, seulement une IA sur ce Mac";
+"The model isn't on this Mac yet" = "Le modèle n’est pas encore sur ce Mac";
+"Choose a model for %@" = "Choisissez un modèle pour %@";
+"No key for %@ yet" = "Pas encore de clé pour %@";
+"Summary" = "Résumé";
+"About this page" = "À propos de cette page";
+"Close   esc" = "Fermer   esc";
+"Ask about this page…" = "Poser une question sur cette page…";
+"AI — may be wrong · %@" = "IA — peut se tromper · %@";
+"Reading the page…" = "Lecture de la page…";
+"This page has text written for an AI to follow. The answer may have been steered by it." = "Cette page contient du texte écrit pour être suivi par une IA. La réponse a pu être influencée.";
+"Answers from %@" = "Réponses de %@";
+"Continue" = "Continuer";
+"Cancel" = "Annuler";
+"Not on the page: %@" = "Absent de la page : %@";
+"Use AI on pages" = "Utiliser l’IA sur les pages";
+"Summarize a page, or ask about it, from the View menu. Nothing is sent until you ask" = "Résumez une page ou posez une question à son sujet depuis le menu Présentation. Rien n’est envoyé avant que vous ne demandiez";
+"Where it runs" = "Où elle s’exécute";
+"%@, on this Mac" = "%@, sur ce Mac";
+"Choose…" = "Choisir…";
+"Forget every key" = "Oublier toutes les clés";
+"Deletes them from this Mac's keychain. A key made by signing in with OpenRouter still works until you delete it on openrouter.ai" = "Les supprime du trousseau de ce Mac. Une clé créée en se connectant avec OpenRouter reste valable jusqu’à ce que vous la supprimiez sur openrouter.ai";
+"Forget" = "Oublier";
+"Keys forgotten" = "Clés oubliées";
+"Model" = "Modèle";
+"Needs the Apple Silicon version of Search — this copy runs translated" = "Nécessite la version Apple Silicon de Search — cette copie s’exécute via Rosetta";
+"%@, downloaded once (%@) and checked. Nothing leaves this Mac" = "%1$@, téléchargé une fois (%2$@) et vérifié. Rien ne quitte ce Mac";
+"Download" = "Télécharger";
+"Downloading… %lld%%" = "Téléchargement… %lld %%";
+"Preparing it for this Mac — about twenty seconds, once" = "Préparation pour ce Mac — une vingtaine de secondes, une seule fois";
+"%@, on this Mac. Nothing leaves it" = "%@, sur ce Mac. Rien n’en sort";
+"Remove" = "Supprimer";
+"Try Again" = "Réessayer";
+"A provider you have a key with, or an app on this Mac" = "Un fournisseur dont vous avez une clé, ou une app sur ce Mac";
+"Nothing leaves this Mac. Also in private tabs" = "Rien ne quitte ce Mac. Aussi dans les onglets privés";
+"Your key, kept in this Mac's keychain, sent only to %@. Never from a private tab" = "Votre clé, gardée dans le trousseau de ce Mac, envoyée uniquement à %@. Jamais depuis un onglet privé";
+"Key" = "Clé";
+"%@, in this Mac's keychain" = "%@, dans le trousseau de ce Mac";
+"This copy of Search can't keep keys safely — it isn't the signed release. An app on this Mac still works" = "Cette copie de Search ne peut pas garder de clés en sécurité — ce n’est pas la version signée. Une app sur ce Mac fonctionne quand même";
+"Paste one, or sign in and OpenRouter makes one for you" = "Collez-en une, ou connectez-vous et OpenRouter en crée une pour vous";
+"Paste your API key" = "Collez votre clé d’API";
+"Save" = "Enregistrer";
+"Sign In…" = "Se connecter…";
+"Leave empty for %@" = "Laissez vide pour %@";
+"Asking %@…" = "Interrogation de %@…";
+"%@ isn't running, or has no model yet" = "%@ n’est pas ouvert, ou n’a pas encore de modèle";
+"Look Again" = "Chercher à nouveau";
+"From %@ on this Mac" = "De %@ sur ce Mac";
+"Key kept in the keychain" = "Clé enregistrée dans le trousseau";
+"This copy of Search can't keep keys" = "Cette copie de Search ne peut pas garder de clés";
+"The key wasn't kept" = "La clé n’a pas été enregistrée";
+
+/* AIClient.swift */
+"No key is kept for this provider." = "Aucune clé n’est enregistrée pour ce fournisseur.";
+"That address isn't the provider's." = "Cette adresse n’est pas celle du fournisseur.";
+"The provider answered %lld." = "Le fournisseur a répondu %lld.";
+"The provider's answer couldn't be read." = "La réponse du fournisseur est illisible.";
+"%@ isn't running on this Mac." = "%@ n’est pas ouvert sur ce Mac.";
+"This Mac is offline." = "Ce Mac est hors ligne.";
+"%@ took too long to answer." = "%@ a mis trop de temps à répondre.";
+"The connection to %@ isn't secure." = "La connexion à %@ n’est pas sécurisée.";
+"%@ couldn't be reached." = "Impossible de joindre %@.";
+
+/* AIEngine.swift */
+"The engine's signature doesn't hold up." = "La signature du moteur n’est pas valide.";
+"The engine isn't installed." = "Le moteur n’est pas installé.";
+"The engine's signature doesn't hold up. Remove it in Settings › AI and download it again." = "La signature du moteur n’est pas valide. Supprimez-le dans Réglages › IA et téléchargez-le à nouveau.";
+"The model isn't the one Search expects. Remove it in Settings › AI and download it again." = "Ce n’est pas le modèle attendu par Search. Supprimez-le dans Réglages › IA et téléchargez-le à nouveau.";
+"The engine didn't start." = "Le moteur n’a pas démarré.";
+"The engine couldn't be started." = "Impossible de démarrer le moteur.";
+"The engine stopped." = "Le moteur s’est arrêté.";
+"Stopped." = "Arrêté.";
+"Not a secure address." = "Cette adresse n’est pas sécurisée.";
+"There isn't enough free space on this Mac (%@ needed)." = "Il n’y a pas assez d’espace libre sur ce Mac (%@ nécessaires).";
+"The download was refused." = "Le téléchargement a été refusé.";
+"What arrived isn't what was expected, so it was deleted." = "Le fichier reçu n’est pas celui attendu ; il a été supprimé.";
+
+/* AISignIn.swift */
+"The sign-in took too long — try again." = "La connexion a pris trop de temps — réessayez.";
+"The sign-in didn't come back from OpenRouter." = "OpenRouter n’a pas renvoyé la connexion.";
+"This copy of Search can't keep keys (it isn't the signed release)." = "Cette copie de Search ne peut pas garder de clés (ce n’est pas la version signée).";
+"The keychain refused the key." = "Le trousseau a refusé la clé.";
+"Signed in with OpenRouter" = "Connecté avec OpenRouter";
+"The sign-in didn't work" = "La connexion a échoué";
+
+/* Accounts.swift */
+"Passkey" = "Clé d’identification";
+"No name" = "Sans nom";
+"Passkeys on this Mac" = "Clés d’identification sur ce Mac";
+"From your keychain" = "De votre trousseau";
+
+/* AddressBand.swift */
+"Show the tabs   ⌘S" = "Afficher les onglets   ⌘S";
+"Hide the tabs   ⌘S" = "Masquer les onglets   ⌘S";
+"Change the address   ⌘L" = "Modifier l’adresse   ⌘L";
+
+/* AddressCommands.swift */
+/* Typed alone in the address field to open Settings, in lowercase */
+"settings" = "réglages";
+/* Typed alone in the address field, in lowercase */
+"new tab" = "nouvel onglet";
+/* Typed alone in the address field, in lowercase */
+"new private tab" = "nouvel onglet privé";
+/* Typed alone in the address field, in lowercase */
+"new space" = "nouvel espace";
+/* Typed alone in the address field, in lowercase */
+"bookmarks" = "signets";
+/* Typed alone in the address field, in lowercase */
+"history" = "historique";
+/* Typed alone in the address field, in lowercase */
+"downloads" = "téléchargements";
+/* Typed alone in the address field, in lowercase */
+"passwords" = "mots de passe";
+/* Typed alone in the address field, in lowercase */
+"toggle sidebar" = "barre latérale";
+
+/* App.swift */
+"New Window" = "Nouvelle fenêtre";
+"New Tab" = "Nouvel onglet";
+"New Private Tab" = "Nouvel onglet privé";
+"Open Address…" = "Ouvrir une adresse…";
+"Bring Things Over…" = "Importer…";
+"Close Tab" = "Fermer l’onglet";
+"Share…" = "Partager…";
+"Print…" = "Imprimer…";
+"Find on Page…" = "Rechercher dans la page…";
+"Find Next" = "Rechercher le suivant";
+"Find Previous" = "Rechercher le précédent";
+"Substitutions" = "Substitutions";
+"Show Substitutions" = "Afficher les substitutions";
+"Show Tabs in Sidebar" = "Afficher les onglets dans la barre latérale";
+"Show Sidebar" = "Afficher la barre latérale";
+"Hide Sidebar" = "Masquer la barre latérale";
+"Show Tab Bar" = "Afficher la barre d’onglets";
+"Hide Tab Bar" = "Masquer la barre d’onglets";
+"Tabs Wear" = "Les onglets affichent";
+"Reload Page" = "Recharger la page";
+"Reload Page From Origin" = "Recharger la page depuis l’origine";
+"Reading Mode" = "Mode lecture";
+"Float Video" = "Vidéo flottante";
+"Summarize Page" = "Résumer la page";
+"Ask About This Page…" = "Poser une question sur cette page…";
+"Hide Elements…" = "Masquer des éléments…";
+"Hidden on This Site…" = "Masqués sur ce site…";
+"Zoom In" = "Zoom avant";
+"Zoom Out" = "Zoom arrière";
+"Actual Size" = "Taille réelle";
+"Web Inspector" = "Inspecteur web";
+"JavaScript Console" = "Console JavaScript";
+"Inspect Element" = "Inspecter l’élément";
+"Tabs" = "Onglets";
+"Back" = "Précédent";
+"Forward" = "Suivant";
+"Next Tab" = "Afficher l’onglet suivant";
+"Previous Tab" = "Afficher l’onglet précédent";
+"Search Tabs…" = "Rechercher dans les onglets…";
+"Split Current Page" = "Partager la page actuelle";
+"Focus Left Page" = "Activer la page de gauche";
+"Focus Right Page" = "Activer la page de droite";
+"Swap Pages" = "Intervertir les pages";
+"Separate Split Tabs" = "Séparer les onglets";
+"Close Both Pages" = "Fermer les deux pages";
+"Pin Tab" = "Épingler l’onglet";
+"Pin Tab as Row" = "Épingler l’onglet en ligne";
+"Show Pin as Square" = "Afficher l’épinglé en carré";
+"Show Pin as Row" = "Afficher l’épinglé en ligne";
+"Change Letter" = "Changer la lettre";
+"Unpin Tab" = "Désépingler l’onglet";
+"Rename Tab" = "Renommer l’onglet";
+"Duplicate Tab" = "Dupliquer l’onglet";
+"Copy Address" = "Copier l’adresse";
+"Copy as Markdown Link" = "Copier comme lien Markdown";
+"Paste and Go" = "Coller et ouvrir";
+"Close Other Tabs" = "Fermer les autres onglets";
+"Stop Sound in Tab" = "Couper le son de l’onglet";
+"Bookmarks" = "Signets";
+"Edit Bookmark…" = "Modifier le signet…";
+"Add This Page" = "Ajouter cette page aux signets";
+"Show Bookmarks…" = "Afficher les signets…";
+"Show Bookmarks Bar" = "Afficher la barre des signets";
+"History" = "Historique";
+"Recently Visited" = "Consultés récemment";
+"Recently Closed" = "Fermés récemment";
+"Show History…" = "Afficher l’historique…";
+"Downloads…" = "Téléchargements…";
+"Clear Browsing Data…" = "Effacer les données de navigation…";
+"Clear History" = "Effacer l’historique";
+"Settings…" = "Réglages…";
+"Welcome…" = "Bienvenue…";
+"Passwords…" = "Mots de passe…";
+"Send Feedback…" = "Envoyer des commentaires…";
+"Click anything to hide it   ⌘Z undo   esc done" = "Cliquez sur un élément pour le masquer   ⌘Z annuler   esc terminer";
+"Show in Finder" = "Afficher dans le Finder";
+"%@ wants to know your location" = "%@ souhaite connaître votre position";
+"%@ wants to send you notifications" = "%@ souhaite vous envoyer des notifications";
+"%@ wants to use your camera" = "%@ souhaite utiliser votre caméra";
+"%@ wants to use your microphone" = "%@ souhaite utiliser votre micro";
+"%@ wants to use your camera and microphone" = "%@ souhaite utiliser votre caméra et votre micro";
+"Allow once" = "Autoriser une fois";
+"Allow" = "Autoriser";
+"Always allow" = "Toujours autoriser";
+"Don't allow" = "Ne pas autoriser";
+"Update the password for %@ on %@?" = "Mettre à jour le mot de passe de %1$@ sur %2$@ ?";
+"Save this password for %@?" = "Enregistrer ce mot de passe pour %@ ?";
+"Save the password for %@ on %@?" = "Enregistrer le mot de passe de %1$@ sur %2$@ ?";
+"Update" = "Mettre à jour";
+"Not now" = "Pas maintenant";
+"Never here" = "Jamais sur ce site";
+"Checking for Updates…" = "Recherche de mises à jour…";
+"Check for Updates…" = "Rechercher les mises à jour…";
+"Install Update" = "Installer la mise à jour";
+"Downloading Update…" = "Téléchargement de la mise à jour…";
+"Restart to Update" = "Redémarrer pour mettre à jour";
+"Download Update…" = "Télécharger la mise à jour…";
+"Importing %@, %@" = "Importation de %1$@, %2$@";
+"%@ of %@" = "%1$@ sur %2$@";
+"Cancelling…" = "Annulation…";
+
+/* Bookmarks.swift */
+"Folder name" = "Nom du dossier";
+"New Folder" = "Nouveau dossier";
+"Make" = "Créer";
+"The empty folders in it go too." = "Les dossiers vides qu’il contient seront aussi supprimés.";
+"The bookmark in it goes too." = "Le signet qu’il contient sera aussi supprimé.";
+"The %lld bookmarks in it go too." = "Les %lld signets qu’il contient seront aussi supprimés.";
+"Remove “%@”?" = "Supprimer « %@ » ?";
+"Empty" = "Vide";
+"Rename Folder" = "Renommer le dossier";
+"Rename" = "Renommer";
+"Rename Bookmark" = "Renommer le signet";
+"Without a name, the bookmarks bar shows its icon alone." = "Sans nom, la barre des signets n’affiche que son icône.";
+"Open" = "Ouvrir";
+"Rename…" = "Renommer…";
+"New Folder Inside…" = "Nouveau dossier à l’intérieur…";
+"Move to" = "Déplacer vers";
+"Top Level" = "Premier niveau";
+"Bookmarked" = "Ajouté aux signets";
+"Name" = "Nom";
+"Folder" = "Dossier";
+"Done" = "Terminé";
+"New Folder…" = "Nouveau dossier…";
+"Create" = "Créer";
+"No bookmarks yet" = "Aucun signet pour l’instant";
+"Edit This Bookmark…" = "Modifier ce signet…";
+"Manage Bookmarks…" = "Gérer les signets…";
+"Search bookmarks" = "Rechercher dans les signets";
+"Nothing kept yet. Add this page with ⇧⌘B, or bring yours in below." = "Aucun signet pour l’instant. Ajoutez cette page avec ⇧⌘B, ou importez les vôtres ci-dessous.";
+"Bring in from" = "Importer depuis";
+"Bring in…" = "Importer…";
+"File…" = "Fichier…";
+"Nothing matches." = "Aucun résultat.";
+"Show in Folder" = "Afficher dans le dossier";
+"Top level" = "Premier niveau";
+
+/* BookmarksFile.swift */
+"Reading bookmark file" = "Lecture du fichier de signets";
+"Parsing bookmarks" = "Analyse des signets";
+
+/* Browser.swift */
+"Already a bookmark" = "Déjà dans les signets";
+"Couldn't read all of %@'s bookmarks: what came from it before was kept" = "Impossible de lire tous les signets de %@ : ceux importés auparavant ont été conservés";
+"No bookmarks in %@" = "Aucun signet dans %@";
+"The bookmarks from %@ were all here already" = "Les signets de %@ étaient déjà tous là";
+"%@ from %@" = "%1$@ de %2$@";
+"%@ from %@, %@ already here" = "%1$@ de %2$@, %3$@ déjà présents";
+"Search unavailable" = "Recherche indisponible";
+"Whole words unavailable" = "Mots entiers indisponibles";
+"Match found" = "Résultat trouvé";
+"No matches" = "Aucun résultat";
+"%lld of %lld%@" = "%1$lld sur %2$lld%3$@";
+"Paused" = "En pause";
+"It's back" = "De nouveau visible";
+"%@ is back" = "%@ est de nouveau visible";
+"Everything is back" = "Tout est de nouveau visible";
+"The keychain refused it" = "Le trousseau l’a refusé";
+"Password updated for %@" = "Mot de passe mis à jour pour %@";
+"Password saved for %@" = "Mot de passe enregistré pour %@";
+"Never for %@" = "Jamais pour %@";
+"Couldn't find the sign-in fields anymore" = "Les champs de connexion sont introuvables";
+"Kept for %@" = "Enregistré pour %@";
+"copy the password for %@" = "copier le mot de passe de %@";
+"Password copied" = "Mot de passe copié";
+"Nothing new in %@" = "Rien de nouveau dans %@";
+"%@ didn't give up its keychain key" = "%@ n’a pas cédé sa clé de trousseau";
+"%@ has a primary password — export your passwords from it (Settings › Passwords › ⋯ › Export) and bring in the CSV file" = "%@ a un mot de passe principal — exportez-en vos mots de passe (Paramètres › Mots de passe › ⋯ › Exporter) et importez le fichier CSV";
+"Nothing readable in %@" = "Rien de lisible dans %@";
+"Bring In" = "Importer";
+"A file another browser exported: bookmarks (.html), passwords (.csv), or Safari's File › Export Browsing Data (.zip)." = "Un fichier exporté par un autre navigateur : signets (.html), mots de passe (.csv), ou Fichier › Exporter les données de navigation de Safari (.zip).";
+"An import is already running" = "Une importation est déjà en cours";
+"Reading…" = "Lecture…";
+"Merging bookmarks…" = "Fusion des signets…";
+"Adding history…" = "Ajout de l’historique…";
+"Saving passwords…" = "Enregistrement des mots de passe…";
+"%@, %@ already here" = "%1$@, %2$@ déjà présents";
+"%@, %@ skipped" = "%1$@, %2$@ ignorés";
+"Import cancelled after merging bookmarks" = "Importation annulée après la fusion des signets";
+"Import cancelled; nothing was changed" = "Importation annulée ; rien n’a été modifié";
+"Import cancelled after %@" = "Importation annulée après %@";
+"That file couldn't be read" = "Impossible de lire ce fichier";
+"Import stopped after %@" = "Importation interrompue après %@";
+"Bookmark folders imported" = "Dossiers de signets importés";
+"Nothing to bring in from that file" = "Rien à importer depuis ce fichier";
+"%@ — the exported file holds your passwords in the clear: delete it now" = "%@ — le fichier exporté contient vos mots de passe en clair : supprimez-le maintenant";
+"Signed out of everything" = "Déconnecté de tous les sites";
+"Cache cleared" = "Cache vidé";
+"History cleared" = "Historique effacé";
+"Camera, microphone, location and notification choices forgotten" = "Choix pour la caméra, le micro, la position et les notifications oubliés";
+"Address copied" = "Adresse copiée";
+"Link copied" = "Lien copié";
+"“Let a script drive Search” was turned on outside Settings, and stays off" = "« Laisser un script piloter Search » a été activé hors des Réglages, et reste désactivé";
+"Ads and trackers blocked" = "Publicités et traqueurs bloqués";
+"Blocking off — reload to see the difference" = "Blocage désactivé — rechargez pour voir la différence";
+"Scripts can drive Search — see ./bench" = "Des scripts peuvent piloter Search — voir ./bench";
+"The bench is closed" = "Le banc d’essai est fermé";
+"Passkeys offered again — reload the page" = "Clés d’identification de nouveau proposées — rechargez la page";
+"Sites will ask for a password instead" = "Les sites demanderont plutôt un mot de passe";
+"Autocorrect on" = "Correction automatique activée";
+"Autocorrect off" = "Correction automatique désactivée";
+"Reopen Closed Tab" = "Rouvrir l’onglet fermé";
+"Reopen Closed Group" = "Rouvrir le groupe fermé";
+"Reopen Cleared Tab" = "Rouvrir l’onglet effacé";
+"Reopen %lld Cleared Tabs" = "Rouvrir les %lld onglets effacés";
+"Move Tab?" = "Déplacer l’onglet ?";
+"This page has unsaved form entries. It will reopen in “%@” with that Space’s sign-ins, so the entries may be lost." = "Cette page contient des saisies non enregistrées. Elle va se rouvrir dans « %@ » avec les connexions de cet espace : ces saisies risquent d’être perdues.";
+"Move" = "Déplacer";
+"Moved to %@" = "Déplacé vers %@";
+"Group %lld" = "Groupe %lld";
+"A tab that keeps nothing" = "Un onglet qui ne garde rien";
+"Nothing is playing here" = "Rien n’est en lecture ici";
+"Hidden on this page — ⌘Z puts it back" = "Masqué sur cette page — ⌘Z pour l’afficher";
+"Hidden — ⌘Z puts it back" = "Masqué — ⌘Z pour l’afficher";
+"Couldn't hide that — %@" = "Impossible de masquer cet élément — %@";
+"Nothing to read on this page" = "Rien à lire sur cette page";
+"Open “%@”?" = "Ouvrir « %@ » ?";
+"%@ wants to open %@." = "%1$@ souhaite ouvrir %2$@.";
+"This page wants to open %@." = "Cette page souhaite ouvrir %@.";
+"This page" = "Cette page";
+"An extension" = "Une extension";
+"No site at that address." = "Aucun site à cette adresse.";
+"No connection." = "Pas de connexion.";
+"The site took too long to answer." = "Le site a mis trop de temps à répondre.";
+"The site refused the connection." = "Le site a refusé la connexion.";
+"The connection isn't secure." = "La connexion n’est pas sécurisée.";
+"The page didn't load." = "La page ne s’est pas chargée.";
+"Downloading %@" = "Téléchargement de %@";
+"Download finished" = "Téléchargement terminé";
+"Saved %@" = "%@ enregistré";
+"Download failed" = "Échec du téléchargement";
+
+/* Counted.swift */
+"1 bookmark" = "1 signet";
+"%@ bookmarks" = "%@ signets";
+"1 new bookmark" = "1 nouveau signet";
+"%@ new bookmarks" = "%@ nouveaux signets";
+"1 place" = "1 lieu";
+"%@ places" = "%@ lieux";
+"1 password" = "1 mot de passe";
+"%@ passwords" = "%@ mots de passe";
+"1 account" = "1 compte";
+"%@ accounts" = "%@ comptes";
+"1 space" = "1 espace";
+"%@ spaces" = "%@ espaces";
+"1 new space" = "1 nouvel espace";
+"%@ new spaces" = "%@ nouveaux espaces";
+"1 pin" = "1 épinglé";
+"%@ pins" = "%@ épinglés";
+"1 pinned tab" = "1 onglet épinglé";
+"%@ pinned tabs" = "%@ onglets épinglés";
+"1 profile" = "1 profil";
+"%@ profiles" = "%@ profils";
+"1 page" = "1 page";
+"%@ pages" = "%@ pages";
+
+/* Crx.swift */
+"That isn't a Chrome Web Store link or extension id" = "Ce n’est ni un lien du Chrome Web Store ni un identifiant d’extension";
+"The Chrome Web Store answered %lld" = "Le Chrome Web Store a répondu %lld";
+"The Chrome Web Store has nothing for that id — it may have been taken down, or only exist for old versions of Chrome" = "Le Chrome Web Store n’a rien pour cet identifiant — l’extension a peut-être été retirée, ou n’existe que pour d’anciennes versions de Chrome";
+"What came back isn't a Chrome extension" = "Le fichier reçu n’est pas une extension Chrome";
+"The extension's signature doesn't hold up" = "La signature de l’extension n’est pas valide";
+"The extension couldn't be unpacked" = "Impossible de décompresser l’extension";
+
+/* Design.swift */
+"Light" = "Clair";
+"Dark" = "Sombre";
+"System" = "Système";
+
+/* Dialogs.swift */
+"OK" = "OK";
+"Choose a file for this page" = "Choisissez un fichier pour cette page";
+"Choose a file for %@" = "Choisissez un fichier pour %@";
+"%@ can't prove who it is" = "%@ ne peut pas prouver son identité";
+"Its certificate isn't trusted by this Mac. Someone could be reading what you send. Continue only if you know why it looks like this." = "Son certificat n’est pas approuvé par ce Mac. Quelqu’un pourrait lire ce que vous envoyez. Ne continuez que si vous savez pourquoi.";
+"Go Back" = "Revenir";
+"Continue Anyway" = "Continuer quand même";
+"%@ asks you to sign in" = "%@ vous demande de vous connecter";
+"The site wants a name and a password." = "Le site demande un nom et un mot de passe.";
+"\nThat wasn't accepted — try again." = "\nIdentifiants refusés — réessayez.";
+"Sign In" = "Se connecter";
+"Password" = "Mot de passe";
+"This page says" = "Cette page indique";
+
+/* Engine.swift */
+/* The search engine choice for an address of your own */
+"Custom" = "Personnalisé";
+
+/* ExtensionCapture.swift */
+"is sharing your screen" = "partage votre écran";
+"is recording your screen" = "enregistre votre écran";
+"is using your camera and microphone" = "utilise votre caméra et votre micro";
+"is using your camera" = "utilise votre caméra";
+"is using your microphone" = "utilise votre micro";
+"A page" = "Une page";
+
+/* ExtensionShims.swift */
+"every website" = "tous les sites web";
+"asks for more access" = "demande davantage d’accès";
+"wants to read and change %@" = "souhaite lire et modifier %@";
+"Until you remove the extension." = "Jusqu’à ce que vous supprimiez l’extension.";
+
+/* Extensions.swift */
+"Already installed" = "Déjà installée";
+"Load Extension" = "Charger l’extension";
+"Choose the folder that holds the extension's manifest.json." = "Choisissez le dossier qui contient le manifest.json de l’extension.";
+"That folder has no manifest.json" = "Ce dossier ne contient pas de manifest.json";
+"Already installed. Press Reload to take its changes" = "Déjà installée. Cliquez sur Recharger pour prendre en compte ses modifications";
+"Couldn't install the extension: %@" = "Impossible d’installer l’extension : %@";
+"The folder %@ was loaded from is gone" = "Le dossier d’où %@ a été chargée n’existe plus";
+"%@ wasn't reloaded — its folder now leads somewhere else" = "%@ n’a pas été rechargée — son dossier mène désormais ailleurs";
+"Couldn't copy %@ again: %@" = "Impossible de copier à nouveau %1$@ : %2$@";
+"%@ wasn't reloaded — its manifest couldn't be read" = "%@ n’a pas été rechargée — son manifeste est illisible";
+"%@ wasn't reloaded — it asks for more than before" = "%@ n’a pas été rechargée — elle demande plus d’accès qu’avant";
+"Couldn't replace %@: %@" = "Impossible de remplacer %1$@ : %2$@";
+"%@ reloaded" = "%@ rechargée";
+"%@ couldn't start — see Settings › Extensions" = "%@ n’a pas pu démarrer — voir Réglages › Extensions";
+"%@ is installed" = "%@ est installée";
+"%@ is installed, but WebKit couldn't start it" = "%@ est installée, mais WebKit n’a pas pu la démarrer";
+"Show “%@” in new tabs?" = "Afficher « %@ » dans les nouveaux onglets ?";
+"It asked to replace the new tab page. You can change this later in Settings › Extensions." = "Elle demande à remplacer la page des nouveaux onglets. Vous pourrez changer cela plus tard dans Réglages › Extensions.";
+"Keep It" = "Garder";
+"Don't Allow" = "Refuser";
+"An update to %@" = "Une mise à jour de %@";
+"Run scripts you add to it on websites" = "Exécuter sur les sites web les scripts que vous lui ajoutez";
+"Read and change your history" = "Lire et modifier votre historique";
+"Read and change your bookmarks" = "Lire et modifier vos signets";
+"Manage your downloads" = "Gérer vos téléchargements";
+"Change your privacy settings" = "Modifier vos réglages de confidentialité";
+"Clear your browsing data" = "Effacer vos données de navigation";
+"See your other extensions" = "Voir vos autres extensions";
+"Show notifications" = "Afficher des notifications";
+"See your recently closed tabs" = "Voir vos onglets fermés récemment";
+"See your most visited sites" = "Voir vos sites les plus visités";
+"Read and change your reading list" = "Lire et modifier votre liste de lecture";
+"Open files it downloads" = "Ouvrir les fichiers qu’elle télécharge";
+"Record your screen or a window, when you choose what to share" = "Enregistrer votre écran ou une fenêtre, quand vous choisissez quoi partager";
+"Record a tab, when you ask it to" = "Enregistrer un onglet, quand vous le lui demandez";
+"Read and change everything on every website" = "Lire et modifier tout le contenu de tous les sites web";
+"Read and change what's on %@ and %lld more" = "Lire et modifier le contenu de %1$@ et de %2$lld autres";
+"Read and change what's on %@" = "Lire et modifier le contenu de %@";
+"See your open tabs and their addresses" = "Voir vos onglets ouverts et leurs adresses";
+"Read and change cookies" = "Lire et modifier les cookies";
+"See where you go" = "Voir les pages que vous consultez";
+"See the requests pages make" = "Voir les requêtes des pages";
+"Block or change requests pages make" = "Bloquer ou modifier les requêtes des pages";
+"Write to the clipboard" = "Écrire dans le presse-papiers";
+"Talk to apps on this Mac" = "Communiquer avec des apps de ce Mac";
+"Run scripts in pages" = "Exécuter des scripts dans les pages";
+"Add “%@” to Search?" = "Ajouter « %@ » à Search ?";
+"It doesn't ask for anything special." = "Elle ne demande aucun accès particulier.";
+"It will be able to:" = "Elle pourra :";
+"Add Extension" = "Ajouter l’extension";
+"“%@” wants to record your screen or a window." = "« %@ » souhaite enregistrer votre écran ou une fenêtre.";
+"macOS will ask what to share. Search remembers your answer for %@; Settings › Extensions takes it back." = "macOS vous demandera quoi partager. Search retient votre réponse pour %@ ; vous pouvez la retirer dans Réglages › Extensions.";
+"Extensions" = "Extensions";
+"Unpin" = "Désépingler";
+"Pin to Toolbar" = "Épingler dans la barre d’outils";
+"Options…" = "Options…";
+"Reload" = "Recharger";
+"Remove “%@”…" = "Supprimer « %@ »…";
+"Its settings and data go with it." = "Ses réglages et ses données seront aussi supprimés.";
+"None of your extensions is on" = "Aucune de vos extensions n’est activée";
+"Chrome Web Store…" = "Chrome Web Store…";
+"Load Unpacked…" = "Charger une extension non empaquetée…";
+"Manage Extensions…" = "Gérer les extensions…";
+"Reload from its folder" = "Recharger depuis son dossier";
+"Pin to toolbar" = "Épingler dans la barre d’outils";
+
+/* ExtensionsUI.swift */
+"Chrome extensions" = "Extensions Chrome";
+"Need macOS 15.4 or later — the version whose WebKit can run them." = "Nécessitent macOS 15.4 ou ultérieur — la version dont WebKit sait les exécuter.";
+"Add from the Chrome Web Store" = "Ajouter depuis le Chrome Web Store";
+"Open the Store" = "Ouvrir le Store";
+"Paste a link to an extension, or its id" = "Collez le lien d’une extension, ou son identifiant";
+"Add" = "Ajouter";
+"Or find it in the store and press Add to Search on its page." = "Ou trouvez-la dans le Store et cliquez sur Ajouter à Search sur sa page.";
+"From another browser" = "Depuis un autre navigateur";
+"What Chrome, Arc, Brave and the others added from the Chrome Web Store — installed fresh from the store, you say yes to each one" = "Ce que Chrome, Arc, Brave et les autres ont ajouté depuis le Chrome Web Store — réinstallé depuis le Store, avec votre accord pour chacune";
+"Bring them over…" = "Les importer…";
+"Allow on private tabs" = "Autoriser dans les onglets privés";
+"Off by default - a private tab keeps nothing, extensions included" = "Désactivé par défaut — un onglet privé ne garde rien, extensions comprises";
+"No extensions yet." = "Aucune extension pour l’instant.";
+"Load an unpacked extension" = "Charger une extension non empaquetée";
+"A folder with a manifest.json — your own, or one exported from another browser. Reload picks up what you've changed in it since." = "Un dossier contenant un manifest.json — le vôtre, ou un dossier exporté d’un autre navigateur. Recharger prend en compte vos modifications depuis.";
+"Can record your screen — macOS asks what to share each time" = "Peut enregistrer votre écran — macOS demande quoi partager à chaque fois";
+"More for %@" = "Plus d’options pour %@";
+"Stop Showing in New Tabs" = "Ne plus afficher dans les nouveaux onglets";
+"Show in New Tabs" = "Afficher dans les nouveaux onglets";
+"Options" = "Options";
+"From “%@”" = "Depuis « %@ »";
+"From a folder" = "Depuis un dossier";
+"Version %@" = "Version %@";
+"couldn't start" = "n’a pas pu démarrer";
+"shows in new tabs" = "s’affiche dans les nouveaux onglets";
+"1 warning" = "1 avertissement";
+"%lld warnings" = "%lld avertissements";
+"Adding…" = "Ajout…";
+"Add this extension to Search" = "Ajouter cette extension à Search";
+
+/* Fetching.swift */
+"The file changed while the download was stopped." = "Le fichier a changé pendant l’interruption du téléchargement.";
+"The server doesn't let this download pause." = "Le serveur ne permet pas de mettre ce téléchargement en pause.";
+"The download failed for an unknown reason." = "Le téléchargement a échoué pour une raison inconnue.";
+"Downloads (⇧⌘J)" = "Téléchargements (⇧⌘J)";
+
+/* Find.swift */
+"Find on page" = "Rechercher dans la page";
+"Type text to search this page. Press Return to find the next match." = "Saisissez du texte à rechercher dans cette page. Appuyez sur Retour pour trouver l’occurrence suivante.";
+"Previous match" = "Occurrence précédente";
+"Find the previous match." = "Trouver l’occurrence précédente.";
+"Next match" = "Occurrence suivante";
+"Find the next match." = "Trouver l’occurrence suivante.";
+"Match case" = "Respecter la casse";
+"Match uppercase and lowercase letters exactly." = "Distinguer exactement majuscules et minuscules.";
+"Whole words" = "Mots entiers";
+"Match complete words. This option is unavailable for PDF pages." = "Rechercher des mots complets. Cette option n’est pas disponible pour les PDF.";
+"Search options" = "Options de recherche";
+"Choose whether to match case or whole words." = "Choisissez de respecter la casse ou de chercher des mots entiers.";
+"Close Find on Page" = "Fermer la recherche dans la page";
+"Close the find field and clear its selection." = "Fermer le champ de recherche et effacer sa sélection.";
+
+/* Hidden.swift */
+"Nothing is hidden here." = "Rien n’est masqué ici.";
+"Hidden on this site — rest on a line to see it" = "Masqués sur ce site — survolez une ligne pour voir l’élément";
+"Hide something…" = "Masquer un élément…";
+"Restore all" = "Tout réafficher";
+"Restore" = "Réafficher";
+
+/* ImageMenu.swift */
+"Open Image in New Tab" = "Ouvrir l’image dans un nouvel onglet";
+"Copy Image" = "Copier l’image";
+"Download Image" = "Télécharger l’image";
+"Copy Image Address" = "Copier l’adresse de l’image";
+"Couldn't copy that image" = "Impossible de copier cette image";
+"Image copied" = "Image copiée";
+
+/* Import.swift */
+/* Imported bookmarks: the browser's Other Bookmarks folder */
+"Other" = "Autres signets";
+/* Imported bookmarks: the browser's Mobile Bookmarks folder */
+"Mobile" = "Signets mobiles";
+
+/* ImportFile.swift */
+"%@: Files read" = "%@ : fichiers lus";
+"%@: Scanning folders" = "%@ : parcours des dossiers";
+"%@: Reading CSV" = "%@ : lecture du CSV";
+"%@: File complete" = "%@ : fichier terminé";
+"%@: Reading history" = "%@ : lecture de l’historique";
+"%@: Parsing history" = "%@ : analyse de l’historique";
+"%@: Extracting ZIP" = "%@ : extraction du ZIP";
+"%@: ZIP extracted" = "%@ : ZIP extrait";
+
+/* ImportPanel.swift */
+"Nothing in the other browser changes. Passwords go into your keychain." = "Rien ne change dans l’autre navigateur. Les mots de passe vont dans votre trousseau.";
+"Looking on this Mac…" = "Recherche sur ce Mac…";
+"No other browser found on this Mac." = "Aucun autre navigateur trouvé sur ce Mac.";
+"Bring things over" = "Importer depuis un autre navigateur";
+"Show bookmarks" = "Afficher les signets";
+"Show the bookmarks bar" = "Afficher la barre des signets";
+"Show passwords" = "Afficher les mots de passe";
+"Bringing…" = "Importation…";
+"Bring them in" = "Importer";
+"%@, %@ pinned — each a space here, the favourites as pins, its pinned pages as rows under them, and the ones it filed in a folder as tabs in a group of that name" = "%1$@, %2$@ épinglés — chacun devient un espace ici, les favoris des onglets épinglés, ses pages épinglées des lignes en dessous, et celles rangées dans un dossier des onglets dans un groupe du même nom";
+"%@, %@ pinned — each a space here, the favourites as pins, its pinned tabs asleep in it" = "%1$@, %2$@ épinglés — chacun devient un espace ici, les favoris des onglets épinglés, et ses onglets épinglés y attendent en veille";
+"Safari — macOS keeps its data from other apps: in Safari, File › Export Browsing Data, then bring the file in below." = "Safari — macOS protège ses données des autres apps : dans Safari, choisissez Fichier › Exporter les données de navigation, puis importez le fichier ci-dessous.";
+"Brought before" = "Déjà importé";
+"Profile" = "Profil";
+"Most recent: %@" = "Le plus récent : %@";
+"All profiles" = "Tous les profils";
+"Passwords" = "Mots de passe";
+"None in %@" = "Aucun dans %@";
+"macOS asks once for %@'s keychain key" = "macOS demande une fois la clé de trousseau de %@";
+"Read from %@'s own files, unless it has a primary password" = "Lus dans les fichiers de %@, sauf s’il a un mot de passe principal";
+"In a “%@” folder, or at the top if you have none yet" = "Dans un dossier « %@ », ou au premier niveau si vous n’en avez pas encore";
+"Replace what came from %@ before" = "Remplacer ce qui a été importé de %@";
+"Its bookmarks from %@ go, and these come fresh; passwords only ever add" = "Ses signets du %@ sont remplacés par ceux-ci ; les mots de passe ne font que s’ajouter";
+"Nothing recorded from %@ yet — only what is new comes" = "Rien d’importé de %@ pour l’instant — seul ce qui est nouveau arrive";
+"The last %@ places" = "Les %@ derniers lieux";
+"Spaces and pinned tabs" = "Espaces et onglets épinglés";
+"Keep them as pinned rows" = "Les garder en lignes épinglées";
+"As in Arc: each pinned page a row with its name, under your pins. Turned on, it stays in Settings › Tabs › Pinned rows" = "Comme dans Arc : chaque page épinglée devient une ligne avec son nom, sous vos épinglés. Une fois activé, le réglage reste dans Réglages › Onglets › Lignes épinglées";
+"As in Arc: each pinned page a row with its name, under your pins. Turned on, it stays in Settings › Tabs › Pinned rows; rows show with the tabs down the side" = "Comme dans Arc : chaque page épinglée devient une ligne avec son nom, sous vos épinglés. Une fois activé, le réglage reste dans Réglages › Onglets › Lignes épinglées ; les lignes s’affichent avec les onglets sur le côté";
+"Turn on pinned rows" = "Activer les lignes épinglées";
+"%lld found — installed fresh from the Chrome Web Store, you say yes to each one" = "Trouvées : %lld — réinstallées depuis le Chrome Web Store, avec votre accord pour chacune";
+"Counting…" = "Décompte…";
+"brought %@" = "importé le %@";
+"Nothing to bring in" = "Rien à importer";
+"Nothing new" = "Rien de nouveau";
+"%@ is on this Mac, but nothing of it was found in %@." = "%1$@ est sur ce Mac, mais rien n’en a été trouvé dans %2$@.";
+"%@ (%@ skipped: no address)" = "%1$@ (%2$@ ignorés : sans adresse)";
+"macOS didn't hand over %@'s key — allow it and try again" = "macOS n’a pas fourni la clé de %@ — autorisez-la et réessayez";
+"%@ has a primary password: export your passwords from it and bring in the CSV file" = "%@ a un mot de passe principal : exportez-en vos mots de passe et importez le fichier CSV";
+"No passwords readable in %@" = "Aucun mot de passe lisible dans %@";
+"Couldn't read all of %@'s bookmarks: what came from it before was kept, %@ new" = "Impossible de lire tous les signets de %1$@ : ceux importés auparavant ont été conservés, %2$@ nouveaux";
+"1 extension to confirm" = "1 extension à confirmer";
+"%@ extensions to confirm" = "%@ extensions à confirmer";
+"Arc's spaces and pins were all here already" = "Les espaces et épinglés d’Arc étaient déjà tous là";
+
+/* Keyword.swift */
+"A word to type first, like yt" = "D’abord un mot à saisir, comme yt";
+"One word, with no spaces in it" = "Un seul mot, sans espace";
+"%@ already goes to %@" = "%1$@ mène déjà à %2$@";
+"An http or https address with %s once, where the words go" = "Une adresse http ou https avec %s une seule fois, là où vont les mots";
+
+/* Little.swift */
+"Open in Search" = "Ouvrir dans Search";
+"Open in Search   ⌘O" = "Ouvrir dans Search   ⌘O";
+"Not secure — %@" = "Non sécurisé — %@";
+"Extension page" = "Page d’extension";
+"Not a website" = "Pas un site web";
+
+/* Omnibox.swift */
+"Searching %@" = "Recherche sur %@";
+"Search %@" = "Rechercher sur %@";
+"Tab" = "Tab";
+"Search %@, press Tab" = "Rechercher sur %@, appuyez sur Tab";
+"Enter a web address" = "Saisissez une adresse web";
+
+/* PaneStage.swift */
+"Even Out" = "Égaliser";
+"Separate" = "Séparer";
+"Close Both" = "Fermer les deux";
+"Divider between the pages" = "Séparateur entre les pages";
+
+/* Passwords.swift */
+"Search sites and accounts" = "Rechercher des sites et des comptes";
+"Nothing kept yet. Sign in somewhere and say yes, or bring yours in below." = "Aucun mot de passe pour l’instant. Connectez-vous quelque part et acceptez, ou importez les vôtres ci-dessous.";
+"macOS asks once for that browser's keychain key. Nothing is changed there; everything lands in your own keychain, under Search." = "macOS demande une fois la clé de trousseau de ce navigateur. Rien n’y est modifié ; tout arrive dans votre propre trousseau, sous Search.";
+"No username" = "Sans nom d’utilisateur";
+"Hide" = "Masquer";
+"Show" = "Afficher";
+"Copy" = "Copier";
+"show the password for %@" = "afficher le mot de passe de %@";
+"Site" = "Site";
+"Username" = "Nom d’utilisateur";
+
+/* Peek.swift */
+"Close (esc)" = "Fermer (esc)";
+"Open as a tab (⌘↩)" = "Ouvrir dans un onglet (⌘↩)";
+"Keep beside this page (⌥⌘↩)" = "Garder à côté de cette page (⌥⌘↩)";
+
+/* Plate.swift */
+"Done   esc" = "Terminé   esc";
+
+/* Prefs.swift */
+"Letters" = "Lettres";
+"Site icons" = "Icônes des sites";
+"Left" = "Gauche";
+"Right" = "Droite";
+
+/* Recall.swift */
+"Today" = "Aujourd’hui";
+"Yesterday" = "Hier";
+"Search everywhere you have been" = "Rechercher dans tous les sites visités";
+"Nothing yet." = "Rien pour l’instant.";
+"Clear…" = "Effacer…";
+"Everywhere you have been" = "Tous les sites que vous avez visités";
+"Clear" = "Effacer";
+"Cookies and sign-ins" = "Cookies et connexions";
+"Signs you out of every site" = "Vous déconnecte de tous les sites";
+"Sign out of everything" = "Se déconnecter de tout";
+"Cache" = "Cache";
+"Only what was fetched to draw pages" = "Uniquement ce qui a été chargé pour afficher les pages";
+"Downloads" = "Téléchargements";
+"Nothing downloaded yet." = "Aucun téléchargement pour l’instant.";
+"Current downloads" = "En cours";
+"Completed" = "Terminés";
+"Files land in %@" = "Les fichiers arrivent dans %@";
+"Clearing the list leaves the files where they are" = "Effacer la liste laisse les fichiers où ils sont";
+"Clear list" = "Effacer la liste";
+"%@ downloaded" = "%@ téléchargés";
+"Downloading" = "Téléchargement";
+"Pausing…" = "Mise en pause…";
+"Resuming…" = "Reprise…";
+"Failed" = "Échec";
+"The download failed." = "Le téléchargement a échoué.";
+"Pause" = "Pause";
+"Resume" = "Reprendre";
+"Retry" = "Réessayer";
+"Start the download again from the beginning" = "Recommencer le téléchargement depuis le début";
+
+/* RecordingIndicator.swift */
+"Stop" = "Arrêter";
+"Stop %@" = "Arrêter %@";
+"Recording" = "Enregistrement";
+
+/* Settings.swift */
+"General" = "Général";
+"Shortcuts" = "Raccourcis";
+"Privacy" = "Confidentialité";
+"AI" = "IA";
+"About" = "À propos";
+"Settings" = "Réglages";
+"Open links from other apps" = "Ouvrir les liens des autres apps";
+"Search is the default browser on this Mac" = "Search est le navigateur par défaut de ce Mac";
+"Mail, Slack and the rest still send links elsewhere" = "Mail, Slack et les autres envoient encore leurs liens ailleurs";
+"Make default" = "Définir par défaut";
+"Links now open here" = "Les liens s’ouvrent désormais ici";
+"macOS didn't change it" = "macOS n’a rien changé";
+"Bookmarks, history, passwords and extensions from another browser on this Mac, or from a file it exported" = "Signets, historique, mots de passe et extensions d’un autre navigateur de ce Mac, ou d’un fichier qu’il a exporté";
+"Search with" = "Rechercher avec";
+"Site shortcuts" = "Raccourcis de sites";
+"Appearance" = "Apparence";
+"Light, dark, or whatever the Mac is doing — pages follow it too" = "Clair, sombre, ou comme le Mac — les pages suivent aussi";
+"Page zoom" = "Zoom des pages";
+"Where every site starts. ⌘+ and ⌘− are still remembered for each site." = "Le zoom de départ de chaque site. ⌘+ et ⌘− restent mémorisés site par site.";
+"Correct spelling as you type" = "Corriger l’orthographe pendant la saisie";
+"macOS's autocorrect inside pages — the one that capitalises for you" = "La correction automatique de macOS dans les pages — celle qui met les majuscules pour vous";
+"Peek at a link with a shift-click" = "Aperçu d’un lien avec Maj + clic";
+"Its page opens in a panel over the one you're reading. Escape puts it away; the other button keeps it as a tab" = "La page s’ouvre dans un panneau au-dessus de celle que vous lisez. Échap la referme ; l’autre bouton la garde dans un onglet";
+"Open links from other apps in a small window" = "Ouvrir les liens des autres apps dans une petite fenêtre";
+"To read and close, or keep with Open in Search (⌘O)" = "Pour lire puis fermer, ou garder avec Ouvrir dans Search (⌘O)";
+"Address bar commands" = "Commandes dans la barre d’adresse";
+"A word like \"settings\" or \"new tab\", typed alone in the address field, goes there instead of searching for it" = "Un mot comme « réglages » ou « nouvel onglet », saisi seul dans le champ d’adresse, y mène au lieu de lancer une recherche";
+"Show where links go" = "Afficher la destination des liens";
+"Point at a link and its address shows at the bottom of the page" = "Survolez un lien et son adresse s’affiche en bas de la page";
+"Scroll with the middle button" = "Défiler avec le bouton du milieu";
+"Click the wheel on a page, then move the mouse up or down to scroll, as on Windows. Click again to stop" = "Cliquez avec la molette sur une page, puis déplacez la souris vers le haut ou le bas pour défiler, comme sous Windows. Cliquez à nouveau pour arrêter";
+"Pages at 120 Hz" = "Pages à 120 Hz";
+"Animations and scrolling in pages at up to 120 frames a second on a screen that can, instead of 60 as in Safari. Uses more battery. Open tabs follow when reloaded" = "Animations et défilement jusqu’à 120 images par seconde sur les écrans qui le permettent, au lieu de 60 comme dans Safari. Consomme plus de batterie. Les onglets ouverts suivent une fois rechargés";
+"Hold a swipe to pick from history" = "Maintenir le balayage pour choisir dans l’historique";
+"Swipe back or forward and keep your fingers down: the pages that way appear, and moving up or down picks one to go to" = "Balayez vers l’arrière ou l’avant en gardant les doigts posés : les pages dans cette direction apparaissent, et un mouvement vers le haut ou le bas en choisit une";
+"Flick the floating video to a corner" = "Envoyer la vidéo flottante dans un coin";
+"Two fingers on it send it to the corner or edge they point at, instead of pushing it along; a strong swipe at the side of the screen it is against tucks it in there, a sliver left to bring it back by. Dragging still puts it anywhere" = "Deux doigts dessus l’envoient vers le coin ou le bord visé, au lieu de la pousser ; un balayage franc vers le bord de l’écran où elle se trouve l’y range, en laissant dépasser une languette pour la faire revenir. On peut toujours la faire glisser n’importe où";
+"Videos wait for a click" = "Les vidéos attendent un clic";
+"Videos don't start by themselves, even without sound; they play when you press play. Tabs already open follow once closed and opened again, or after they've slept" = "Les vidéos ne démarrent pas seules, même sans le son ; elles se lancent quand vous appuyez sur lecture. Les onglets déjà ouverts suivent une fois fermés et rouverts, ou après une mise en veille";
+"Float the video when you switch tabs" = "Détacher la vidéo quand vous changez d’onglet";
+"A video playing on YouTube and the like comes out into its floating window when you go to another tab, and back when you return. ⇧⌘P still floats one by hand" = "Une vidéo en lecture sur YouTube et consorts passe dans sa fenêtre flottante quand vous allez sur un autre onglet, et revient quand vous y retournez. ⇧⌘P détache toujours une vidéo à la main";
+"Float the video when you switch apps" = "Détacher la vidéo quand vous changez d’app";
+"A video playing on the site you're on comes out into its floating window as another app comes to the front, and goes back into its tab when you return" = "Une vidéo en lecture sur le site affiché passe dans sa fenêtre flottante quand une autre app passe au premier plan, et retourne dans son onglet quand vous revenez";
+"Let a script drive Search" = "Laisser un script piloter Search";
+"A local socket for testing. Its tabs open beside yours with a flask on them and never take over — see ./bench" = "Un socket local pour les tests. Ses onglets s’ouvrent à côté des vôtres, marqués d’une fiole, et ne prennent jamais la main — voir ./bench";
+"A word before your search goes straight to that site, whatever engine you've picked — \"yt cats\" to YouTube" = "Un mot avant votre recherche l’envoie directement sur ce site, quel que soit le moteur choisi — « yt chats » sur YouTube";
+"A word, then the site's search address with %s where the words go" = "Un mot, puis l’adresse de recherche du site avec %s là où vont les mots";
+"%@ will search %@" = "%1$@ cherchera sur %2$@";
+"Where words that aren't an address go" = "Là où vont les mots qui ne sont pas une adresse";
+"An http or https address with %s where the words go. Until then, Google" = "Une adresse http ou https avec %s là où vont les mots. D’ici là, Google";
+"Words go to %@" = "Les mots vont sur %@";
+"Back, forward and reload on the left" = "Précédent, suivant et recharger à gauche";
+"Beside the window's buttons, before the tabs" = "À côté des boutons de la fenêtre, avant les onglets";
+"Tabs in a sidebar" = "Onglets dans une barre latérale";
+"Down the left instead of across the top. Pull its edge to make it wider; double-click the edge to reset." = "Sur la gauche au lieu d’en haut. Tirez son bord pour l’élargir ; double-cliquez sur le bord pour revenir à la taille d’origine.";
+"Down the right instead of across the top. Pull its edge to make it wider; double-click the edge to reset." = "Sur la droite au lieu d’en haut. Tirez son bord pour l’élargir ; double-cliquez sur le bord pour revenir à la taille d’origine.";
+"Sidebar position" = "Position de la barre latérale";
+"Tabs down the left edge of the window" = "Les onglets le long du bord gauche de la fenêtre";
+"Tabs down the right edge of the window" = "Les onglets le long du bord droit de la fenêtre";
+"Hide the sidebar until the pointer reaches the edge" = "Masquer la barre latérale jusqu’à ce que le pointeur atteigne le bord";
+"The page takes the whole window; push against its left edge for the tabs. ⌘S keeps them out." = "La page occupe toute la fenêtre ; poussez contre son bord gauche pour faire apparaître les onglets. ⌘S les garde affichés.";
+"The page takes the whole window; push against its right edge for the tabs. ⌘S keeps them out." = "La page occupe toute la fenêtre ; poussez contre son bord droit pour faire apparaître les onglets. ⌘S les garde affichés.";
+"Tabs show" = "Les onglets affichent";
+"Beside the title, and on a pinned square" = "À côté du titre, et sur un carré épinglé";
+"Your bookmarks in a row above the page, folders opening as menus. It folds away with the tabs" = "Vos signets alignés au-dessus de la page, les dossiers s’ouvrant en menus. Elle se replie avec les onglets";
+"Show how far you've read" = "Indiquer l’avancée de la lecture";
+"The tab you're on fills with grey as you scroll down the page" = "L’onglet actif se remplit de gris à mesure que vous descendez dans la page";
+"Sleep tabs you aren't using" = "Mettre en veille les onglets inutilisés";
+"After half an hour away they come back where you left them. Pinned tabs, sound, calls and anything typed stay awake." = "Après une demi-heure d’inactivité, ils reviennent là où vous les aviez laissés. Les onglets épinglés, le son, les appels et les saisies restent actifs.";
+"Load background tabs when you go to them" = "Charger les onglets en arrière-plan à l’ouverture";
+"A link opened behind the page, with ⌘-click or the middle button, or a batch of links from another app, waits until you go to its tab. ⇧⌘-click still takes you there at once." = "Un lien ouvert en arrière-plan, avec ⌘ + clic ou le bouton du milieu, ou une série de liens venus d’une autre app, attend que vous alliez sur son onglet. ⇧⌘ + clic vous y emmène toujours tout de suite.";
+"Leave a new tab when the last tab closes" = "Laisser un nouvel onglet quand le dernier se ferme";
+"Close the last tab that isn't pinned and a new tab takes its place, ready for an address. Otherwise you land on a pinned tab." = "Fermez le dernier onglet non épinglé et un nouvel onglet prend sa place, prêt pour une adresse. Sinon, vous arrivez sur un onglet épinglé.";
+"Search a site from the address field" = "Rechercher sur un site depuis le champ d’adresse";
+"Type the start of a site's name, like red or yout, then Tab, and what you type next searches that site. Sites you visit that offer a search join the list." = "Tapez le début du nom d’un site, comme red ou yout, puis Tab : la suite de votre saisie lance une recherche sur ce site. Les sites visités qui proposent une recherche rejoignent la liste.";
+"Start with a fresh window" = "Démarrer avec une fenêtre vierge";
+"Each time Search opens, your pinned tabs are there and last time's other tabs aren't." = "À chaque ouverture de Search, vos onglets épinglés sont là, mais pas les autres onglets de la dernière fois.";
+"Spaces" = "Espaces";
+"Separate sets of tabs, signed in where the others are or starting afresh, switched with ⌃1–⌃9, two fingers sideways over the column, or the space's icon. Mission Control's own ⌃1–⌃9, if you turned them on, take those keys first." = "Des ensembles d’onglets séparés, connectés comme les autres ou repartant de zéro, que l’on change avec ⌃1–⌃9, deux doigts glissés latéralement sur la colonne, ou l’icône de l’espace. Les ⌃1–⌃9 de Mission Control, si vous les avez activés, sont prioritaires.";
+"Tab groups" = "Groupes d’onglets";
+"Named sections in the sidebar. Right-click a tab to start a group; click its heading to hide or show its tabs." = "Des sections nommées dans la barre latérale. Cliquez sur un onglet avec le bouton droit pour créer un groupe ; cliquez sur son titre pour masquer ou afficher ses onglets.";
+"Pinned rows" = "Lignes épinglées";
+"As in Arc: pins as squares for the sites you live in, pins as rows under them for pages you keep, and a line over the rest with Clear. Right-click a tab to pin it as a row." = "Comme dans Arc : des épinglés en carrés pour les sites où vous vivez, des épinglés en lignes en dessous pour les pages que vous gardez, et un trait au-dessus du reste avec Effacer. Cliquez sur un onglet avec le bouton droit pour l’épingler en ligne.";
+"Split View" = "Split View";
+"Show two tabs side by side. Drag a tab onto a page to pair them." = "Afficher deux onglets côte à côte. Faites glisser un onglet sur une page pour les associer.";
+"%@ does the saving — it asked Search not to offer" = "%@ s’occupe de l’enregistrement — il a demandé à Search de ne pas le proposer";
+"Asked once per site, never again for a site you refuse" = "Une fois par site, plus jamais pour un site refusé";
+"Your passwords" = "Vos mots de passe";
+"In the macOS keychain, shown with Touch ID" = "Dans le trousseau macOS, affichés avec Touch ID";
+"Open…" = "Ouvrir…";
+"Offer to save passwords" = "Proposer d’enregistrer les mots de passe";
+"Fill in sign-ins" = "Remplir les identifiants";
+"Click a sign-in box and the accounts kept for the site hang from it" = "Cliquez dans un champ de connexion et les comptes enregistrés pour le site s’affichent en dessous";
+"Offer passkeys" = "Proposer les clés d’identification";
+"Needs an Apple entitlement this build doesn't have — off keeps sites to the password" = "Nécessite une autorisation d’Apple dont cette version ne dispose pas — désactivé, les sites s’en tiennent au mot de passe";
+"macOS was told no — System Settings › Privacy & Security › Passkeys Access for Web Browsers" = "macOS a reçu un refus — Réglages Système › Confidentialité et sécurité › Accès aux clés d’identification pour les navigateurs web";
+"Touch ID or an iCloud passkey, on sites that offer one" = "Touch ID ou une clé d’identification iCloud, sur les sites qui le proposent";
+"Sites never asked" = "Sites exclus";
+"1 site told to stop offering" = "1 site pour lequel ne plus proposer";
+"%@ sites told to stop offering" = "%@ sites pour lesquels ne plus proposer";
+"Every site can ask again" = "Tous les sites peuvent de nouveau demander";
+"Bring yours in" = "Importer les vôtres";
+"From another browser on this Mac — nothing leaves it" = "Depuis un autre navigateur de ce Mac — rien ne quitte le Mac";
+"Import…" = "Importer…";
+"Save to" = "Enregistrer dans";
+"Change…" = "Modifier…";
+"Ask where to save each file" = "Demander où enregistrer chaque fichier";
+"Always show the downloads button" = "Toujours afficher le bouton des téléchargements";
+"Beside the other buttons, even with nothing downloading. Off, it shows only while a file comes in" = "À côté des autres boutons, même sans téléchargement en cours. Désactivé, il n’apparaît que pendant un téléchargement";
+"Block ads and trackers" = "Bloquer les publicités et les traqueurs";
+"Third parties whose only job is to watch" = "Les tiers dont le seul rôle est de vous observer";
+"Nothing is being blocked until this clears — try again, or restart Search" = "Rien n’est bloqué tant que ce n’est pas résolu — réessayez, ou redémarrez Search";
+"Try again" = "Réessayer";
+"Block on %@" = "Bloquer sur %@";
+"Turn off here if the site breaks — the page reloads" = "Désactivez ici si le site ne fonctionne plus — la page se recharge";
+"Prevent cross-site tracking" = "Empêcher le suivi intersite";
+"As in Safari. Off, sites you rarely open keep their sign-ins, and trackers inside other sites can follow you across them again, as in Chrome. Private tabs keep it on" = "Comme dans Safari. Désactivé, les sites peu ouverts restent connectés, mais les traqueurs peuvent vous suivre d’un site à l’autre, comme dans Chrome. Toujours actif en onglet privé";
+"Camera, microphone, location and notifications" = "Caméra, micro, position et notifications";
+"What each site was allowed or refused, and the sites whose videos don't float" = "Ce que chaque site a obtenu ou s’est vu refuser, et les sites dont les vidéos ne flottent pas";
+"Forget choices" = "Oublier les choix";
+"Let sites ask to send notifications" = "Permettre aux sites de demander à envoyer des notifications";
+"A site asks on a card over its page, and only one you allow reaches your Mac's notifications. Private tabs are never asked" = "Un site le demande sur une carte au-dessus de sa page, et seul un site autorisé atteint les notifications de votre Mac. Les onglets privés ne sont jamais sollicités";
+"Every address you have been to" = "Toutes les adresses visitées";
+"by Office Commun · version %@" = "par Office Commun · version %@";
+"Install updates on its own" = "Installer les mises à jour automatiquement";
+"Off, Search still looks every hour and tells you, and installs only when you press Install" = "Désactivé, Search vérifie toujours toutes les heures et vous prévient, mais n’installe que lorsque vous cliquez sur Installer";
+"Found something wrong?" = "Un problème ?";
+"Opens a draft with the version already in it" = "Ouvre un brouillon où figure déjà la version";
+"Send Feedback" = "Envoyer des commentaires";
+"What's new" = "Nouveautés";
+"Every version's notes, newest first" = "Les notes de chaque version, de la plus récente à la plus ancienne";
+"What's New…" = "Nouveautés…";
+"Address" = "Adresse";
+"Switch tab" = "Changer d’onglet";
+"New, close, reopen tab" = "Nouvel onglet, fermer, rouvrir";
+"Paste and go" = "Coller et ouvrir";
+"Copy address" = "Copier l’adresse";
+"Next tab, a tab by its place" = "Onglet suivant, onglet par sa position";
+"Fold the sidebar away" = "Replier la barre latérale";
+"Reading mode" = "Mode lecture";
+"Hide something on this site" = "Masquer un élément sur ce site";
+"Float the video" = "Détacher la vidéo";
+"Clear browsing data" = "Effacer les données de navigation";
+"Updates" = "Mises à jour";
+"Search %@ is downloading…" = "Search %@ est en cours de téléchargement…";
+"Search %@ is ready" = "Search %@ est prêt";
+"Search %@ is out" = "Search %@ est disponible";
+"Checked %@ — every hour on its own" = "Vérifié %@ — automatiquement toutes les heures";
+"Checked every hour on its own" = "Vérifié automatiquement toutes les heures";
+"Quietly, in the background — nothing you have set is touched" = "Discrètement, en arrière-plan — aucun de vos réglages n’est modifié";
+"It's there the next time you open Search" = "Il sera là à la prochaine ouverture de Search";
+"Open the disk image, the same as the first time" = "Ouvrez l’image disque, comme la première fois";
+"Checked and put in place when you press Install" = "Vérifié et mis en place quand vous cliquez sur Installer";
+"Checking…" = "Vérification…";
+"Check now" = "Vérifier maintenant";
+"This is the latest one" = "C’est la dernière version";
+"Relaunch now" = "Relancer maintenant";
+"Downloading…" = "Téléchargement…";
+"Install" = "Installer";
+"Use this folder" = "Utiliser ce dossier";
+"Back to %@" = "Revenir à %@";
+"Can send notifications" = "Peut envoyer des notifications";
+
+/* Shield.swift */
+"Couldn't build the block list" = "Impossible de créer la liste de blocage";
+"WebKit has nowhere to compile it" = "WebKit n’a nulle part où la compiler";
+"Compiling the block list failed" = "La compilation de la liste de blocage a échoué";
+
+/* Shortcuts.swift */
+/* The space bar, as a shortcut shows it */
+"Space" = "Espace";
+"File" = "Fichier";
+"Edit" = "Édition";
+"View" = "Présentation";
+"Hide Sidebar or Tab Bar" = "Masquer la barre latérale ou la barre d’onglets";
+"Focus Other Page" = "Activer l’autre page";
+
+/* ShortcutsPage.swift */
+"Search commands or keys" = "Rechercher des commandes ou des touches";
+"No command called that, or on that key" = "Aucune commande de ce nom, ni sur cette touche";
+"Clear Shortcut" = "Effacer le raccourci";
+"Reset to Default" = "Rétablir la valeur par défaut";
+"Reset All to Defaults" = "Tout rétablir par défaut";
+"Used by %@ — press again" = "Utilisé par %@ — appuyez à nouveau";
+"Type a shortcut" = "Saisissez un raccourci";
+/* No keyboard shortcut */
+"None" = "Aucun";
+"Add ⌘, ⌥ or ⌃" = "Ajoutez ⌘, ⌥ ou ⌃";
+"Can’t be changed" = "Non modifiable";
+"Not for an extension" = "Pas pour une extension";
+"%@ moved from %@" = "%1$@ retiré de %2$@";
+
+/* Side.swift */
+"New tab" = "Nouvel onglet";
+"Close the tabs under the line. Pins and groups stay; ⇧⌘T brings them all back." = "Fermer les onglets sous le trait. Les épinglés et les groupes restent ; ⇧⌘T les rouvre tous.";
+"Unmute Tab" = "Réactiver le son de l’onglet";
+"Mute Tab" = "Couper le son de l’onglet";
+
+/* SiteCard.swift */
+"Zoom" = "Zoom";
+"Zoom Out   ⌘-" = "Zoom arrière   ⌘-";
+"Actual Size   ⌘0" = "Taille réelle   ⌘0";
+"Zoom In   ⌘+" = "Zoom avant   ⌘+";
+"Play Sound by Itself" = "Lire le son automatiquement";
+"from the next page" = "à partir de la page suivante";
+"Don't Float Videos Here" = "Ne pas détacher les vidéos ici";
+"Show Certificate (Not Valid)…" = "Afficher le certificat (non valide)…";
+"Show Certificate…" = "Afficher le certificat…";
+"Connection is not secure" = "La connexion n’est pas sécurisée";
+"This site's certificate isn't trusted by this Mac. Someone could be reading what you send." = "Le certificat de ce site n’est pas approuvé par ce Mac. Quelqu’un pourrait lire ce que vous envoyez.";
+"Parts of this page are not secure" = "Certaines parties de cette page ne sont pas sécurisées";
+"The page came privately, but some of what it shows was fetched over plain http, where anyone on the network could read or change it." = "La page est arrivée de façon chiffrée, mais une partie de son contenu a été chargée en simple http, où n’importe qui sur le réseau pourrait le lire ou le modifier.";
+"Connection is secure" = "La connexion est sécurisée";
+"Your information (for example, passwords or credit card numbers) is private when it is sent to this site." = "Vos informations (par exemple, mots de passe ou numéros de carte bancaire) restent privées quand elles sont envoyées à ce site.";
+"Don't enter passwords or credit card numbers here: anything sent to this site can be read on the way." = "Ne saisissez ni mot de passe ni numéro de carte bancaire ici : tout ce qui est envoyé à ce site peut être lu en chemin.";
+
+/* Sleep.swift */
+/* Why a tab stays awake */
+"on screen" = "affiché à l’écran";
+/* Why a tab stays awake */
+"pinned" = "épinglé";
+/* Why a tab stays awake */
+"a bench tab" = "onglet du banc d’essai";
+/* Why a tab stays awake */
+"blank" = "vide";
+/* Why a tab stays awake */
+"already asleep" = "déjà en veille";
+/* Why a tab stays awake */
+"no page" = "aucune page";
+/* Why a tab stays awake */
+"still loading" = "chargement en cours";
+/* Why a tab stays awake */
+"playing sound" = "lecture de son";
+/* Why a tab stays awake */
+"its video is out" = "sa vidéo est détachée";
+/* Why a tab stays awake */
+"on a call" = "appel en cours";
+/* Why a tab stays awake */
+"recording the screen" = "enregistrement de l’écran";
+/* Why a tab stays awake */
+"downloading" = "téléchargement en cours";
+/* Why a tab stays awake */
+"a question waiting" = "une question en attente";
+/* Why a tab stays awake */
+"the page on screen came from it" = "la page affichée en vient";
+/* Why a tab stays awake */
+"holding something typed" = "contient une saisie";
+
+/* SpaceSwipe.swift */
+"Signed in wherever your other spaces are." = "Connecté partout où le sont vos autres espaces.";
+"Its own cookies and sign-ins, starting from none." = "Ses propres cookies et connexions, en partant de zéro.";
+"Signed in" = "Connecté";
+"Signed out" = "Déconnecté";
+"New space" = "Nouvel espace";
+"Its own tabs." = "Ses propres onglets.";
+"New space — choose its icon" = "Nouvel espace — choisissez son icône";
+"Choose an icon" = "Choisissez une icône";
+
+/* Spaces.swift */
+"Work" = "Travail";
+"Office" = "Bureau";
+"Desktop" = "Ordinateur";
+"Laptop" = "Portable";
+"Code" = "Code";
+"Terminal" = "Terminal";
+"Thinking" = "Réflexion";
+"Ideas" = "Idées";
+"Games" = "Jeux";
+"Leisure" = "Loisirs";
+"Café" = "Café";
+"Music" = "Musique";
+"Film" = "Cinéma";
+"Art" = "Art";
+"Photos" = "Photos";
+"Home" = "Maison";
+"Reading" = "Lecture";
+"Studies" = "Études";
+"Shopping" = "Achats";
+"Travel" = "Voyages";
+"Sport" = "Sport";
+"Nature" = "Nature";
+"Personal" = "Personnel";
+"%@ — ⌃1–⌃9, or two fingers sideways over the tabs, to switch" = "%@ — ⌃1–⌃9, ou deux doigts glissés latéralement sur les onglets, pour changer";
+"%@ — ⌃1–⌃9, or two fingers up or down over the tabs, to switch" = "%@ — ⌃1–⌃9, ou deux doigts glissés vers le haut ou le bas sur les onglets, pour changer";
+"New Space…" = "Nouvel espace…";
+"Rename “%@”…" = "Renommer « %@ »…";
+"Rename Space" = "Renommer l’espace";
+/* A space's menu: the symbol it wears */
+"Icon" = "Icône";
+"Move Left" = "Déplacer vers la gauche";
+"Move Right" = "Déplacer vers la droite";
+"Downloads to “%@”…" = "Téléchargements dans « %@ »…";
+"Downloads Folder…" = "Dossier des téléchargements…";
+"Downloads to the Folder in Settings" = "Téléchargements dans le dossier des Réglages";
+"Delete “%@”…" = "Supprimer « %@ »…";
+"Delete “%@”?" = "Supprimer « %@ » ?";
+"Its tabs close, and its cookies and sign-ins are erased from this Mac. History and bookmarks stay." = "Ses onglets se ferment, et ses cookies et connexions sont effacés de ce Mac. L’historique et les signets restent.";
+"Delete" = "Supprimer";
+"New Space" = "Nouvel espace";
+"Its own tabs. Signed in where your other spaces are, unless it starts afresh." = "Ses propres onglets. Connecté là où le sont vos autres espaces, sauf s’il repart de zéro.";
+"Start signed out, with its own cookies" = "Démarrer déconnecté, avec ses propres cookies";
+"Use for This Space" = "Utiliser pour cet espace";
+"Downloads in this space go here. Cancel keeps the folder it has." = "Les téléchargements de cet espace iront ici. Annuler conserve le dossier actuel.";
+
+/* SplitTabItem.swift */
+"Split tabs" = "Onglets partagés";
+"Close the left page" = "Fermer la page de gauche";
+"Close the right page" = "Fermer la page de droite";
+"Focused page" = "Page active";
+"Click to focus this page; right-click for tab actions" = "Cliquez pour activer cette page ; clic droit pour les actions de l’onglet";
+"Focus page" = "Activer la page";
+"Close tab" = "Fermer l’onglet";
+"Asking a question" = "Pose une question";
+
+/* SplitView.swift */
+"Click to focus this page" = "Cliquez pour activer cette page";
+"Page" = "Page";
+"Or bring in an open tab" = "Ou faites venir un onglet ouvert";
+"Bring this tab into the split" = "Placer cet onglet dans la vue partagée";
+"This page asks" = "Cette page demande";
+"%@ asks" = "%@ demande";
+
+/* Stage.swift */
+"This page is playing in the floating window." = "Cette page est lue dans la fenêtre flottante.";
+
+/* StoreRelay.swift */
+"Added to Search" = "Ajoutée à Search";
+"Add to Search" = "Ajouter à Search";
+
+/* Substitutions.swift */
+"Smart Quotes" = "Guillemets intelligents";
+"Smart Dashes" = "Tirets intelligents";
+"Text Replacement" = "Remplacement de texte";
+
+/* Tab.swift */
+"Open Link in New Tab and Go to It" = "Ouvrir le lien dans un nouvel onglet et y aller";
+"Open Link in New Tab" = "Ouvrir le lien dans un nouvel onglet";
+"Search with %@" = "Rechercher avec %@";
+
+/* TabBar.swift */
+"Back   ⌘[" = "Précédent   ⌘[";
+"Forward   ⌘]" = "Suivant   ⌘]";
+"Stop   ⌘." = "Arrêter   ⌘.";
+"Reload   ⌘R" = "Recharger   ⌘R";
+"Move to Group" = "Déplacer vers le groupe";
+"New Group" = "Nouveau groupe";
+"Remove from Group" = "Retirer du groupe";
+"Pin" = "Épingler";
+"Pin as Row" = "Épingler en ligne";
+"Show as Square" = "Afficher en carré";
+"Show as Row" = "Afficher en ligne";
+"Back to Pinned Page" = "Revenir à la page épinglée";
+"Move to Space" = "Déplacer vers l’espace";
+"Pages moved to a Space with different sign-ins reopen there." = "Les pages déplacées vers un espace aux connexions différentes s’y rouvrent.";
+"Open in Split View" = "Ouvrir dans Split View";
+"Move to New Window" = "Placer dans une nouvelle fenêtre";
+"Move to Window" = "Déplacer vers la fenêtre";
+"Duplicate" = "Dupliquer";
+"Site Information…" = "Informations sur le site…";
+"Put to Sleep" = "Mettre en veille";
+"Stays awake: %@" = "Reste actif : %@";
+
+/* TabGroups.swift */
+"Group name" = "Nom du groupe";
+"Rename Group" = "Renommer le groupe";
+"Expand Group" = "Déplier le groupe";
+"Collapse Group" = "Replier le groupe";
+"Ungroup Tabs" = "Dissocier les onglets";
+"Close Group" = "Fermer le groupe";
+
+/* TabSwitcher.swift */
+"Switch to %@" = "Aller à %@";
+"Selected" = "Sélectionné";
+
+/* Updater.swift */
+"Search %@ is ready — relaunch to use it" = "Search %@ est prêt — relancez pour l’utiliser";
+"Checking for updates…" = "Recherche de mises à jour…";
+"Search is up to date" = "Search est à jour";
+"Search %@ is out — choose Install Update in the Search menu" = "Search %@ est disponible — choisissez Installer la mise à jour dans le menu Search";
+"Downloading Search %@…" = "Téléchargement de Search %@…";
+"That download didn't check out — get Search from officecommun.com/search" = "Ce téléchargement n’a pas passé la vérification — téléchargez Search sur officecommun.com/search";
+"Search %@ is ready — it's there the next time you open it" = "Search %@ est prêt — il sera là à la prochaine ouverture";
+"Search %@ is out — choose Download Update in the Search menu" = "Search %@ est disponible — choisissez Télécharger la mise à jour dans le menu Search";
+
+/* Vault.swift */
+"Reading password CSV…" = "Lecture du CSV de mots de passe…";
+
+/* Welcome.swift */
+"A browser with nothing in the way. Four megabytes, the engine already in your Mac, and as little around the page as we could manage." = "Un navigateur qui ne vous encombre pas. Quatre mégaoctets, le moteur déjà présent dans votre Mac, et aussi peu que possible autour de la page.";
+"Bring things over." = "Importez vos affaires.";
+"Passwords go into your keychain, bookmarks into the menu, and history means the address field already knows where you go. Nothing in the other browser changes." = "Les mots de passe vont dans votre trousseau, les signets dans le menu, et grâce à l’historique le champ d’adresse sait déjà où vous allez. Rien ne change dans l’autre navigateur.";
+"No other browser found on this Mac — nothing to bring." = "Aucun autre navigateur trouvé sur ce Mac — rien à importer.";
+"From %@" = "Depuis %@";
+"macOS will ask once for that browser's keychain key" = "macOS demandera une fois la clé de trousseau de ce navigateur";
+"Folders and all, behind the bookmark button" = "Dossiers compris, derrière le bouton des signets";
+"The last few thousand places, for finishing addresses" = "Les quelques milliers de derniers lieux, pour compléter les adresses";
+"From a file another browser exported…" = "Depuis un fichier exporté par un autre navigateur…";
+"Two ways to hold it." = "Deux façons de l’organiser.";
+"Titles across the top, or down the side. The grey slides to the tab you pick either way, and you can change your mind with ⇧⌘S." = "Les titres en haut, ou sur le côté. Dans les deux cas, le gris glisse vers l’onglet choisi, et vous pouvez changer d’avis avec ⇧⌘S.";
+"Tab strip" = "Barre d’onglets";
+"Sidebar" = "Barre latérale";
+"Tabs wear" = "Les onglets affichent";
+"Links from other apps." = "Les liens des autres apps.";
+"A click in Mail, in Slack, in a PDF — macOS sends it to whichever browser is the default. It can be this one." = "Un clic dans Mail, dans Slack, dans un PDF — macOS l’envoie au navigateur par défaut. Ce peut être celui-ci.";
+"Search is the default browser" = "Search est le navigateur par défaut";
+"Make Search the default" = "Faire de Search le navigateur par défaut";
+"macOS asks in its own dialog" = "macOS vous le demande dans sa propre fenêtre";
+"A few things worth knowing" = "Quelques astuces";
+"A new tab. Type a place, or words to search." = "Un nouvel onglet. Tapez une adresse, ou des mots à rechercher.";
+"Every open tab, by name." = "Tous les onglets ouverts, par nom.";
+"Settings, including passwords and updates." = "Les réglages, dont les mots de passe et les mises à jour.";
+"Spaces: separate tabs and sign-ins. Turn them on in Settings › Tabs." = "Les espaces : des onglets et des connexions séparés. Activez-les dans Réglages › Onglets.";
+"Split a page in two; ⌃⌘← and ⌃⌘→ go from one page to the other. Turn Split View on in Settings › Tabs." = "Partager la fenêtre en deux ; ⌃⌘← et ⌃⌘→ passent d’une page à l’autre. Activez Split View dans Réglages › Onglets.";
+"Links from other apps can open in a small window. Settings › General." = "Les liens des autres apps peuvent s’ouvrir dans une petite fenêtre. Réglages › Général.";
+"AI summaries and questions about a page — off until you turn it on in Settings › AI." = "Résumés et questions sur une page par l’IA — désactivé jusqu’à ce que vous l’activiez dans Réglages › IA.";
+"Skip" = "Passer";
+"Start browsing" = "Commencer à naviguer";
+"passwords: macOS didn't hand over the key — allow it and try again" = "mots de passe : macOS n’a pas fourni la clé — autorisez-la et réessayez";
+"passwords: %@ has a primary password — export them from it and bring in the CSV" = "mots de passe : %@ a un mot de passe principal — exportez-les et importez le CSV";
+"passwords: nothing readable" = "mots de passe : rien de lisible";
+
+/* WhatsNew.swift */
+"AI on pages" = "L’IA sur les pages";
+"Summarize a page or ask about it. Choose where it runs in Settings › AI." = "Résumez une page ou posez une question à son sujet. Choisissez où l’IA s’exécute dans Réglages › IA.";
+"Two tabs side by side: drag a tab to the edge of a page, or press ⌥⌘N." = "Deux onglets côte à côte : faites glisser un onglet au bord d’une page, ou appuyez sur ⌥⌘N.";
+"The start of a site's name, then Tab: red, Tab, and your words search Reddit." = "Le début du nom d’un site, puis Tab : red, Tab, et vos mots sont recherchés sur Reddit.";
+"Pins as rows with their names, under the squares, as in Arc. Right-click a tab to pin it as a row." = "Des épinglés en lignes avec leur nom, sous les carrés, comme dans Arc. Cliquez sur un onglet avec le bouton droit pour l’épingler en ligne.";
+"Your pinned tabs, and none of last time's others." = "Vos onglets épinglés, sans les autres onglets de la dernière fois.";
+"Named sections of tabs. Right-click a tab to start one." = "Des sections d’onglets nommées. Cliquez sur un onglet avec le bouton droit pour en créer une.";
+"Sidebar on the right" = "Barre latérale à droite";
+"The tabs down the right edge of the window." = "Les onglets le long du bord droit de la fenêtre.";
+"Videos don't start by themselves, even without sound." = "Les vidéos ne démarrent pas seules, même sans le son.";
+"Your downloads one click away, beside the other buttons." = "Vos téléchargements à un clic, à côté des autres boutons.";
+"Separate sets of tabs, each with its own sign-ins. ⌃1–⌃9 to switch." = "Des ensembles d’onglets séparés, chacun avec ses connexions. ⌃1–⌃9 pour passer de l’un à l’autre.";
+"A sidebar that hides" = "Une barre latérale qui se masque";
+"The page takes the whole window; the tabs come out at the edge." = "La page occupe toute la fenêtre ; les onglets apparaissent au bord.";
+"Bookmarks bar" = "Barre des signets";
+"Your bookmarks in a row above the page." = "Vos signets alignés au-dessus de la page.";
+"A playing video follows you out into a small window." = "Une vidéo en lecture vous suit dans une petite fenêtre.";
+"Smoother scrolling and animations on screens that can. Uses more battery." = "Un défilement et des animations plus fluides sur les écrans qui le permettent. Consomme plus de batterie.";
+"Click the wheel, then move the mouse to scroll, as on Windows." = "Cliquez avec la molette, puis déplacez la souris pour défiler, comme sous Windows.";
+"14 October 2026" = "14 octobre 2026";
+"Split View, pinned rows, notifications and screen recorders. What's new is off until you turn it on, and the card after the update offers it." = "Split View, lignes épinglées, notifications et enregistreurs d’écran. Les nouveautés restent désactivées jusqu’à ce que vous les activiez, et la carte qui suit la mise à jour vous les propose.";
+"With the tabs down the side, the page sits in the window as a card, a little apart from the column." = "Avec les onglets sur le côté, la page se pose dans la fenêtre comme une carte, un peu à l’écart de la colonne.";
+"Split View: two tabs side by side. Drag a tab to the left or right edge of a page, choose Open in Split View in its menu, or press ⌥⌘N." = "Split View : deux onglets côte à côte. Faites glisser un onglet vers le bord gauche ou droit d’une page, choisissez Ouvrir dans Split View dans son menu, ou appuyez sur ⌥⌘N.";
+"Pinned rows, as in Arc: a pin can be a row with its name, under the squares, and Clear closes the tabs below." = "Lignes épinglées, comme dans Arc : un épinglé peut devenir une ligne avec son nom, sous les carrés, et Effacer ferme les onglets en dessous.";
+"Websites can send notifications and ask for your location, as in Safari, site by site." = "Les sites web peuvent envoyer des notifications et demander votre position, comme dans Safari, site par site.";
+"Loom and other screen recorders work: macOS asks what to share each time, and a pill says who is recording, with Stop." = "Loom et les autres enregistreurs d’écran fonctionnent : macOS demande quoi partager à chaque fois, et une pastille indique qui enregistre, avec un bouton Arrêter.";
+"Search a site straight from the address field, as in Arc: type its name, then Tab." = "Recherchez sur un site directement depuis le champ d’adresse, comme dans Arc : tapez son nom, puis Tab.";
+"Passkeys show under the sign-in field, beside your saved passwords." = "Les clés d’identification s’affichent sous le champ de connexion, à côté de vos mots de passe enregistrés.";
+"Sign-ins that ask for your name first, or for a password alone, offer your saved accounts too." = "Les connexions qui demandent d’abord votre nom, ou un mot de passe seul, proposent aussi vos comptes enregistrés.";
+"Your Mac's text replacements work in pages, and Edit › Substitutions turns them, smart quotes and smart dashes on or off." = "Les remplacements de texte de votre Mac fonctionnent dans les pages, et Édition › Substitutions active ou désactive ceux-ci, les guillemets et les tirets intelligents.";
+"Find says “3 of 17”, paints every match, and can match case or whole words." = "La recherche indique « 3 sur 17 », surligne chaque occurrence, et sait respecter la casse ou chercher des mots entiers.";
+"Downloads pause and resume." = "Les téléchargements se mettent en pause et reprennent.";
+"Open Link in New Tab leaves you where you are; hold ⌥ to go to it." = "Ouvrir le lien dans un nouvel onglet vous laisse où vous êtes ; maintenez ⌥ pour y aller.";
+"Search can start with a fresh window: your pinned tabs, and none of last time's others." = "Search peut démarrer avec une fenêtre vierge : vos onglets épinglés, sans les autres onglets de la dernière fois.";
+"Intel Macs get a download of their own." = "Les Mac Intel ont leur propre téléchargement.";
+"Search is built for size, so all of this fits in 6.8 MB, and pages that change all the time, like a chat writing its answer, stay quick." = "Search est conçu pour rester léger : tout cela tient en 6,8 Mo, et les pages qui changent sans cesse, comme un chat qui rédige sa réponse, restent rapides.";
+"An extension's popup window opens as a small window, as in Chrome: a password manager's vault, a sign-in." = "La fenêtre surgissante d’une extension s’ouvre en petite fenêtre, comme dans Chrome : le coffre d’un gestionnaire de mots de passe, une connexion.";
+"Esc closes a new tab you haven't used, and words typed into a new tab wait for you." = "Échap ferme un nouvel onglet inutilisé, et les mots tapés dans un nouvel onglet vous attendent.";
+"Tampermonkey installs scripts from a link, and SingleFile saves pages again." = "Tampermonkey installe des scripts depuis un lien, et SingleFile enregistre de nouveau les pages.";
+"Close Group in a tab group's menu, and one ⇧⌘T brings the whole group back." = "Fermer le groupe dans le menu d’un groupe d’onglets, et un seul ⇧⌘T rouvre tout le groupe.";
+"Don't Float Videos Here, in a site's card." = "Ne pas détacher les vidéos ici, dans la fiche d’un site.";
+"Bringing Arc over keeps its shape: pinned pages as pinned rows, its folders as named tab groups." = "L’importation d’Arc garde son organisation : les pages épinglées en lignes épinglées, ses dossiers en groupes d’onglets nommés.";
+"Too many pinned extensions no longer push the column off screen." = "Trop d’extensions épinglées ne poussent plus la colonne hors de l’écran.";
+"Empty a bookmark's name and it is its icon alone on the bookmarks bar." = "Videz le nom d’un signet et il n’apparaît plus que par son icône dans la barre des signets.";
+"A live video, on X and elsewhere, no longer jumps every few seconds." = "Une vidéo en direct, sur X et ailleurs, ne saute plus toutes les quelques secondes.";
+"A site's icon follows the page: GitHub's in the dark, a chat's unread count, and each port of localhost its own." = "L’icône d’un site suit la page : celle de GitHub en mode sombre, le nombre de messages non lus d’un chat, et une icône par port de localhost.";
+"Pins brought over from Arc wear their icons straight away." = "Les épinglés importés d’Arc affichent leur icône immédiatement.";
+"The tabs come back after a video's full screen." = "Les onglets reviennent après le plein écran d’une vidéo.";
+"A folder in the bookmarks list opens whole." = "Un dossier de la liste des signets s’ouvre en entier.";
+"Signing in with a passkey works on GitHub again." = "La connexion avec une clé d’identification fonctionne de nouveau sur GitHub.";
+"Bitwarden's passkey window, its sync and its narrow popup." = "La fenêtre de clés d’identification de Bitwarden, sa synchronisation et sa fenêtre étroite.";
+"Keys in games no longer make the Mac beep." = "Les touches dans les jeux ne font plus biper le Mac.";
+"History keeps localhost:3000 and localhost:4000 apart." = "L’historique distingue localhost:3000 et localhost:4000.";
+"Copy Image works on WhatsApp Web's photos." = "Copier l’image fonctionne sur les photos de WhatsApp Web.";
+"Signing in to Claude's extension finishes on claude.ai." = "La connexion à l’extension Claude aboutit sur claude.ai.";
+"The Bookmarks menu keeps its bookmarks while a tab's title keeps changing." = "Le menu Signets garde ses signets pendant que le titre d’un onglet change sans cesse.";
+"Popovers keep their rounded corners on macOS 15." = "Les fenêtres contextuelles gardent leurs coins arrondis sur macOS 15.";
+"Security hardening from a third careful private report, and many smaller fixes." = "Renforcement de la sécurité suite à un troisième signalement privé et minutieux, et de nombreuses petites corrections.";
+"27 September 2026" = "27 septembre 2026";
+"Several windows, and a lot to discover. Most of what's new is off until you turn it on, and the card after the update offers it." = "Plusieurs fenêtres, et beaucoup à découvrir. La plupart des nouveautés restent désactivées jusqu’à ce que vous les activiez, et la carte qui suit la mise à jour vous les propose.";
+"Several windows. ⌘N opens one with its own tabs; drag a tab out of the row, or use Move to Window in its menu, and it moves with its page as it is. Pinned tabs are the same in every window." = "Plusieurs fenêtres. ⌘N en ouvre une avec ses propres onglets ; faites glisser un onglet hors de la rangée, ou utilisez Déplacer vers la fenêtre dans son menu, et il part avec sa page telle quelle. Les onglets épinglés sont les mêmes dans toutes les fenêtres.";
+"Tab groups, and a sidebar on the right." = "Des groupes d’onglets, et une barre latérale à droite.";
+"⌃Tab shows your recent tabs as pictures, the last one first: a quick ⌃Tab goes back to the tab you were on." = "⌃Tab affiche vos onglets récents en vignettes, le dernier en premier : un ⌃Tab rapide revient à l’onglet précédent.";
+"Your own keyboard shortcuts, in Settings › Shortcuts." = "Vos propres raccourcis clavier, dans Réglages › Raccourcis.";
+"Downloads show while they happen: a small circle fills beside the other buttons, and the Finder and the Dock show the progress too. The button can stay there for good." = "Les téléchargements s’affichent pendant qu’ils se font : un petit cercle se remplit à côté des autres boutons, et le Finder et le Dock montrent aussi la progression. Le bouton peut rester là en permanence.";
+"Bring things over from Firefox, Zen, Helium, Comet, Opera, Chrome's other channels and Arc, its spaces and pinned tabs included, or from an exported file." = "Importez depuis Firefox, Zen, Helium, Comet, Opera, les autres canaux de Chrome et Arc, espaces et onglets épinglés compris, ou depuis un fichier exporté.";
+"Site shortcuts: a word of your own before a search sends it to that site, like yt cats to YouTube." = "Raccourcis de sites : un mot de votre choix avant une recherche l’envoie sur ce site, comme yt chats sur YouTube.";
+"Bookmarks in the order you choose, folders of your own, and a card to name a bookmark as you add it." = "Les signets dans l’ordre de votre choix, vos propres dossiers, et une carte pour nommer un signet en l’ajoutant.";
+"Videos can wait for a click, and every site can start at a zoom of your choice." = "Les vidéos peuvent attendre un clic, et chaque site peut s’ouvrir au zoom de votre choix.";
+"A double-click on a pinned tab takes it back to the page it was pinned at." = "Un double-clic sur un onglet épinglé le ramène à la page où il a été épinglé.";
+"Hold a back or forward swipe to pick a page from history." = "Maintenez un balayage vers l’arrière ou l’avant pour choisir une page dans l’historique.";
+"Scrolling asks far less of the window, and a tab still loading no longer keeps the Mac busy." = "Le défilement sollicite beaucoup moins la fenêtre, et un onglet en cours de chargement n’occupe plus le Mac.";
+"Where links go, peeking at a link with a shift-click, and flicking the floating video to a corner are now on." = "La destination des liens, l’aperçu d’un lien avec Maj + clic et l’envoi de la vidéo flottante dans un coin sont désormais activés.";
+"Tab managers and other extensions see every tab, in every window." = "Les gestionnaires d’onglets et autres extensions voient tous les onglets, dans toutes les fenêtres.";
+"Window › Move & Resize and the Mac's tiling work with Search's window." = "Fenêtre › Déplacer et redimensionner et la disposition en mosaïque du Mac fonctionnent avec la fenêtre de Search.";
+"⌘K always opens the list of your tabs, whatever the page." = "⌘K ouvre toujours la liste de vos onglets, quelle que soit la page.";
+"⌘← and ⌘→ go back and forward again." = "⌘← et ⌘→ reviennent en arrière et avancent de nouveau.";
+"Links from Notion and other apps bring Search to the front." = "Les liens venant de Notion et d’autres apps font passer Search au premier plan.";
+"Addresses a dev server prints, like 0.0.0.0:3000, open." = "Les adresses affichées par un serveur de développement, comme 0.0.0.0:3000, s’ouvrent.";
+"The tabs you had at quit are the ones that come back." = "Les onglets ouverts au moment de quitter sont bien ceux qui reviennent.";
+"The × closes a tab in the tab bar folded away with ⌘S." = "Le × ferme un onglet dans la barre d’onglets repliée avec ⌘S.";
+"1Password, Bitwarden, NordPass, Passbolt, iCloud Passwords and the Claude extension each get their fixes." = "1Password, Bitwarden, NordPass, Passbolt, Mots de passe iCloud et l’extension Claude reçoivent chacun leurs corrections.";
+"And many smaller fixes." = "Et de nombreuses petites corrections.";
+"24 September 2026" = "24 septembre 2026";
+"Security, and the mouse wheel." = "Sécurité, et molette de la souris.";
+"Copying a saved password asks for Touch ID." = "Copier un mot de passe enregistré demande Touch ID.";
+"A mouse wheel scrolls smoothly again on x.com and pages like it." = "La molette de la souris défile de nouveau en douceur sur x.com et les pages du même genre.";
+"History opens at once." = "L’historique s’ouvre instantanément.";
+"Music keeps playing when you switch spaces." = "La musique continue quand vous changez d’espace.";
+"Pop-ups need a click." = "Les fenêtres surgissantes nécessitent un clic.";
+"The holes found in this week's reviews: an extension could read files outside its own folder, and a page or an ad could open another app without asking." = "Les failles trouvées lors des revues de cette semaine : une extension pouvait lire des fichiers hors de son propre dossier, et une page ou une publicité pouvait ouvrir une autre app sans demander.";
+"Bitwarden signs in to a self-hosted server, and extension popups hear what changes while they're open." = "Bitwarden se connecte à un serveur auto-hébergé, et les fenêtres des extensions sont informées des changements pendant qu’elles sont ouvertes.";
+"A link from Mail brings Search to the front, and a full-screen video no longer goes black." = "Un lien venant de Mail fait passer Search au premier plan, et une vidéo en plein écran ne devient plus noire.";
+"Your extensions may each ask once more for their permissions at their next update." = "Vos extensions pourront redemander leurs autorisations une fois, à leur prochaine mise à jour.";
+"Passkeys, password managers and Google." = "Clés d’identification, gestionnaires de mots de passe et Google.";
+"A site's passkey button brings up the Mac's own passkey sheet: Touch ID, your iPhone, a security key." = "Le bouton de clé d’identification d’un site ouvre la fenêtre du Mac prévue à cet effet : Touch ID, votre iPhone, une clé de sécurité.";
+"Search can be the Mac's default browser." = "Search peut être le navigateur par défaut du Mac.";
+"Each off until you turn it on in Settings: a bookmarks bar, a peek at a link with a shift-click, the video that follows you to another app, pages at 120 Hz, and where a link goes." = "Chacun désactivé jusqu’à ce que vous l’activiez dans les Réglages : une barre des signets, l’aperçu d’un lien avec Maj + clic, la vidéo qui vous suit dans une autre app, les pages à 120 Hz, et la destination des liens.";
+"Mute a tab, share a page, copy a link as Markdown, the mouse's back and forward buttons, and spaces in the bar across the top." = "Couper le son d’un onglet, partager une page, copier un lien en Markdown, les boutons précédent et suivant de la souris, et les espaces dans la barre du haut.";
+"Faster to open, and new tabs in about 10 ms." = "Plus rapide à ouvrir, et de nouveaux onglets en 10 ms environ.";
+"Pages see nothing of Search that Safari doesn't show them, and a saved password is offered only on its own site." = "Les pages ne voient rien de Search que Safari ne leur montre pas, et un mot de passe enregistré n’est proposé que sur son propre site.";
+"1Password, Bitwarden and Proton Pass." = "1Password, Bitwarden et Proton Pass.";
+"If passkeys still fail after the update, restart your Mac once." = "Si les clés d’identification échouent encore après la mise à jour, redémarrez votre Mac une fois.";
+"23 September 2026" = "23 septembre 2026";
+"The first update, made of a day of your replies and pull requests." = "La première mise à jour, faite d’une journée de vos réponses et de vos pull requests.";
+"Each off until you turn it on in Settings: Spaces, a sidebar that hides until the pointer reaches the edge, and the search engine of your choice." = "Chacun désactivé jusqu’à ce que vous l’activiez dans les Réglages : les espaces, une barre latérale masquée jusqu’à ce que le pointeur atteigne le bord, et le moteur de recherche de votre choix.";
+"⌘S folds the sidebar away, a middle-click closes a tab, a tab can be renamed, and the Web Inspector is in the View menu." = "⌘S replie la barre latérale, un clic du milieu ferme un onglet, un onglet peut être renommé, et l’Inspecteur web est dans le menu Présentation.";
+"Search opens again on macOS 14." = "Search s’ouvre de nouveau sur macOS 14.";
+"Signing in to Google no longer reloads the page over and over with iCloud Passwords installed." = "La connexion à Google ne recharge plus la page en boucle quand Mots de passe iCloud est installé.";
+"⌘1–⌘9 on every keyboard layout, Tab between a form's fields, dragging tabs, a double-click along the top to fill the screen, and the Mac's beep while typing." = "⌘1–⌘9 sur toutes les dispositions de clavier, Tab entre les champs d’un formulaire, le glisser des onglets, un double-clic en haut pour remplir l’écran, et le bip du Mac pendant la saisie.";
+"The first version. A browser for the Mac with nothing in the way." = "La première version. Un navigateur pour Mac qui ne vous encombre pas.";
+"Tabs in a row or down the side, pinned tabs that keep their place, and one field for addresses and searches." = "Des onglets en rangée ou sur le côté, des onglets épinglés qui gardent leur place, et un seul champ pour les adresses et les recherches.";
+"Ads blocked before they load; passwords and passkeys in your keychain." = "Les publicités bloquées avant leur chargement ; les mots de passe et les clés d’identification dans votre trousseau.";
+"Anything on a page can be hidden; articles open in a reading mode and videos float." = "Tout élément d’une page peut être masqué ; les articles s’ouvrent en mode lecture et les vidéos se détachent.";
+"Chrome extensions from the Chrome Web Store, on macOS 15.4 or later." = "Les extensions Chrome du Chrome Web Store, sur macOS 15.4 ou ultérieur.";
+"Tabs you haven't looked at for half an hour sleep and give their memory back." = "Les onglets que vous n’avez pas regardés depuis une demi-heure se mettent en veille et libèrent leur mémoire.";
+"It runs on the engine already in macOS and weighs 2.9 MB." = "Il s’appuie sur le moteur déjà présent dans macOS et pèse 2,9 Mo.";
+"New in Search %@" = "Nouveau dans Search %@";
+"From earlier versions, in case you missed them" = "Des versions précédentes, au cas où vous les auriez manquées";
+"Everything that's new…" = "Toutes les nouveautés…";
+"Close" = "Fermer";
+"What's New" = "Nouveautés";
+"New" = "Nouveau";
+"Better" = "Amélioré";
+"Fixed" = "Corrigé";
+
+/* Windows.swift */
+"Window" = "Fenêtre";

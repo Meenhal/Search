@@ -84,8 +84,8 @@ struct WelcomePanel: View {
             let unreadable = Chromium.unreadable()
             if sources.isEmpty {
                 Text(unreadable.isEmpty
-                     ? "No other browser found on this Mac — nothing to bring."
-                     : unreadable.map { "\($0.source.name) is on this Mac, but nothing of it was found in \($0.looked)." }.joined(separator: "\n"))
+                     ? String(localized: "No other browser found on this Mac — nothing to bring.")
+                     : unreadable.map { String(localized: "\($0.source.name) is on this Mac, but nothing of it was found in \($0.looked).") }.joined(separator: "\n"))
                     .font(.system(size: 13))
                     .foregroundStyle(Palette.faint)
                     .fixedSize(horizontal: false, vertical: true)
@@ -93,7 +93,7 @@ struct WelcomePanel: View {
                 VStack(alignment: .leading, spacing: 14) {
                     if sources.count > 1 {
                         Segmented(
-                            options: sources.map { ($0, $0.name) },
+                            options: sources.map { ($0, "\($0.name)" as LocalizedStringResource) },
                             selection: Binding(get: { source ?? sources[0] }, set: { source = $0 })
                         )
                     } else {
@@ -243,25 +243,25 @@ struct WelcomePanel: View {
                     case .success(let found):
                         let kept = browser.keep(found)
                         ImportRecords.note(source.name, passwords: kept)
-                        lines.append("\(kept) passwords")
+                        lines.append(counted(kept, .password))
                     case .failure(Chromium.Trouble.noPassphrase):
-                        lines.append("passwords: macOS didn't hand over the key — allow it and try again")
+                        lines.append(String(localized: "passwords: macOS didn't hand over the key — allow it and try again"))
                     case .failure(Mozilla.Trouble.primaryPassword):
-                        lines.append("passwords: \(source.name) has a primary password — export them from it and bring in the CSV")
+                        lines.append(String(localized: "passwords: \(source.name) has a primary password — export them from it and bring in the CSV"))
                     case .failure:
-                        lines.append("passwords: nothing readable")
+                        lines.append(String(localized: "passwords: nothing readable"))
                     }
                     group.leave()
                 }
             }
         }
         if wantsBookmarks {
-            lines.append("\(browser.takeBookmarks(from: source, profile: profile).added) bookmarks")
+            lines.append(counted(browser.takeBookmarks(from: source, profile: profile).added, .bookmark))
         }
         if wantsHistory {
             group.enter()
             browser.takePlaces(from: source, profile: profile) { count in
-                lines.append("\(count) places")
+                lines.append(counted(count, .place))
                 group.leave()
             }
         }
@@ -277,7 +277,7 @@ struct WelcomePanel: View {
         withAnimation(Motion.settle) { browser.welcoming = false }
     }
 
-    private func heading(_ title: String, _ line: String) -> some View {
+    private func heading(_ title: LocalizedStringResource, _ line: LocalizedStringResource) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(.system(size: 26, weight: .medium))
@@ -305,12 +305,12 @@ struct WelcomePanel: View {
     }
 
     private struct Big: View {
-        let title: String
+        let title: LocalizedStringResource
         var filled = false
         let act: () -> Void
         @State private var hovering = false
 
-        init(_ title: String, filled: Bool = false, act: @escaping () -> Void) {
+        init(_ title: LocalizedStringResource, filled: Bool = false, act: @escaping () -> Void) {
             self.title = title
             self.filled = filled
             self.act = act
@@ -332,11 +332,11 @@ struct WelcomePanel: View {
     }
 
     private struct Choice: View {
-        let title: String
-        let detail: String
+        let title: LocalizedStringResource
+        let detail: LocalizedStringResource
         @Binding var on: Bool
 
-        init(_ title: String, _ detail: String, on: Binding<Bool>) {
+        init(_ title: LocalizedStringResource, _ detail: LocalizedStringResource, on: Binding<Bool>) {
             self.title = title
             self.detail = detail
             _on = on
@@ -356,7 +356,7 @@ struct WelcomePanel: View {
 
     /// One of the two ways, as a small drawing of the window.
     private struct Way: View {
-        let title: String
+        let title: LocalizedStringResource
         let sidebar: Bool
         let chosen: Bool
         let pick: () -> Void
@@ -420,8 +420,8 @@ struct WelcomePanel: View {
 
     private struct Key: View {
         let keys: String
-        let what: String
-        init(_ keys: String, _ what: String) { self.keys = keys; self.what = what }
+        let what: LocalizedStringResource
+        init(_ keys: String, _ what: LocalizedStringResource) { self.keys = keys; self.what = what }
         var body: some View {
             HStack(spacing: 10) {
                 Text(keys)

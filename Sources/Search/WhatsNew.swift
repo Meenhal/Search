@@ -16,8 +16,8 @@ import SwiftUI
 enum WhatsNew {
     /// A switch the card offers: the same setting as in Settings.
     struct Toggle {
-        let title: String
-        let detail: String
+        let title: LocalizedStringResource
+        let detail: LocalizedStringResource
         /// The version it came in.
         let since: String
         let get: @MainActor (Preferences) -> Bool
@@ -116,12 +116,12 @@ enum WhatsNew {
     /// What a version brought, for Settings › About › What's New…
     struct Notes {
         let version: String
-        let date: String
+        let date: LocalizedStringResource
         /// A sentence or two: what the version is about.
-        let headline: String
-        let new: [String]
-        let better: [String]
-        let fixed: [String]
+        let headline: LocalizedStringResource
+        let new: [LocalizedStringResource]
+        let better: [LocalizedStringResource]
+        let fixed: [LocalizedStringResource]
     }
 
     /// Newest first.
@@ -370,7 +370,7 @@ struct ReleaseNotesPanel: View {
                 Text("Search \(note.version)")
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(Palette.ink)
-                if !note.date.isEmpty {
+                if !note.date.key.isEmpty {
                     Text(note.date)
                         .font(.system(size: 12))
                         .foregroundStyle(Palette.faint)
@@ -387,16 +387,16 @@ struct ReleaseNotesPanel: View {
     }
 
     @ViewBuilder
-    private func list(_ title: String, _ lines: [String]) -> some View {
+    private func list(_ title: LocalizedStringResource, _ lines: [LocalizedStringResource]) -> some View {
         if !lines.isEmpty {
             VStack(alignment: .leading, spacing: 5) {
                 Text(title)
                     .font(.system(size: 11.5, weight: .medium))
                     .foregroundStyle(Palette.muted)
-                ForEach(lines, id: \.self) { line in
+                ForEach(lines.indices, id: \.self) { index in
                     HStack(alignment: .firstTextBaseline, spacing: 8) {
                         Text("•").foregroundStyle(Palette.faint)
-                        Text(line)
+                        Text(lines[index])
                             .foregroundStyle(Palette.ink)
                             .fixedSize(horizontal: false, vertical: true)
                     }

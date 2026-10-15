@@ -15,7 +15,7 @@ enum Glyph: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
-    var title: String {
+    var title: LocalizedStringResource {
         switch self {
         case .letters: return "Letters"
         case .icons: return "Site icons"
@@ -29,7 +29,7 @@ enum SidebarPosition: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
-    var title: String {
+    var title: LocalizedStringResource {
         switch self {
         case .left: return "Left"
         case .right: return "Right"

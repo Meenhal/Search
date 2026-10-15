@@ -125,7 +125,7 @@ struct ExtensionsPage: View {
                     VStack(spacing: 0) {
                         ForEach(Array(ids.enumerated()), id: \.element) { index, id in
                             if index > 0 { Rule() }
-                            Line(Browser.extensionName(id), "Can record your screen — macOS asks what to share each time") {
+                            Line("\(Browser.extensionName(id))", "Can record your screen — macOS asks what to share each time") {
                                 Pill("Remove") { ExtensionCapture.forget(id) }
                             }
                         }
@@ -212,16 +212,16 @@ struct ExtensionsPage: View {
         /// Where it was loaded from, by the folder's name — the whole path
         /// is in the tooltip.
         private var folder: String {
-            item.source.map { "From “\(URL(fileURLWithPath: $0).lastPathComponent)”" } ?? "From a folder"
+            item.source.map { String(localized: "From “\(URL(fileURLWithPath: $0).lastPathComponent)”") } ?? String(localized: "From a folder")
         }
 
         private func detail(_ context: WKWebExtensionContext?) -> String {
-            var parts = ["Version \(item.version)", item.fromStore ? "Chrome Web Store" : folder]
-            if item.enabled, context == nil { parts.append("couldn't start") }
+            var parts = [String(localized: "Version \(item.version)"), item.fromStore ? "Chrome Web Store" : folder]
+            if item.enabled, context == nil { parts.append(String(localized: "couldn't start")) }
             if context?.overrideNewTabPageURL != nil, Store.settings.object(forKey: "extensions.newtab.\(item.id)") as? Bool == true {
-                parts.append("shows in new tabs")
+                parts.append(String(localized: "shows in new tabs"))
             }
-            if let errors = context?.errors, !errors.isEmpty { parts.append("\(errors.count) warning\(errors.count == 1 ? "" : "s")") }
+            if let errors = context?.errors, !errors.isEmpty { parts.append(errors.count == 1 ? String(localized: "1 warning") : String(localized: "\(errors.count) warnings")) }
             return parts.joined(separator: " · ")
         }
     }

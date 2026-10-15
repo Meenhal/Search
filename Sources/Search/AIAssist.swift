@@ -59,7 +59,7 @@ final class Assistant: ObservableObject, Identifiable {
             self.addressed = self.read?.addressed ?? false
             self.reading = false
             guard self.read != nil else {
-                self.trouble = "There's nothing on this page to read."
+                self.trouble = String(localized: "There's nothing on this page to read.")
                 return
             }
             if summary { self.ask(.summary) }
@@ -70,8 +70,8 @@ final class Assistant: ObservableObject, Identifiable {
 
     /// Where it ran, for the foot of every answer.
     var place: String {
-        provider == .thisMac ? "on this Mac · \(model)"
-            : provider.isLocal ? "on this Mac · \(provider.name) · \(model)" : "sent to \(provider.name) · \(model)"
+        provider == .thisMac ? String(localized: "on this Mac · \(model)")
+            : provider.isLocal ? String(localized: "on this Mac · \(provider.name) · \(model)") : String(localized: "sent to \(provider.name) · \(model)")
     }
 
     func submit() {
@@ -165,14 +165,14 @@ enum AIAssist {
     /// What a provider off this Mac is sent, said once, the first time it is
     /// used — and a word on what it does with it where that matters.
     static func notice(for provider: AIProvider) -> String {
-        var text = "When you ask, Search sends this page's text, its address and your question to \(provider.host)"
-        text += provider == .openRouter ? ", which passes them to the model's provider." : "."
-        text += " Their terms and privacy policy apply. Nothing is sent until you ask, never from a private tab, and Search keeps no copy."
+        var text = provider == .openRouter
+            ? String(localized: "When you ask, Search sends this page's text, its address and your question to \(provider.host), which passes them to the model's provider. Their terms and privacy policy apply. Nothing is sent until you ask, never from a private tab, and Search keeps no copy.")
+            : String(localized: "When you ask, Search sends this page's text, its address and your question to \(provider.host). Their terms and privacy policy apply. Nothing is sent until you ask, never from a private tab, and Search keeps no copy.")
         switch provider {
         case .gemini:
-            text += "\n\nOn Gemini's free tier, outside the EEA, Switzerland and the UK, Google may use this to improve its products, and people may read it. Don't use it on sensitive pages."
+            text += "\n\n" + String(localized: "On Gemini's free tier, outside the EEA, Switzerland and the UK, Google may use this to improve its products, and people may read it. Don't use it on sensitive pages.")
         case .openRouter:
-            text += "\n\nSearch asks OpenRouter to use only providers that keep nothing (zero data retention)."
+            text += "\n\n" + String(localized: "Search asks OpenRouter to use only providers that keep nothing (zero data retention).")
         default:
             break
         }
@@ -307,7 +307,7 @@ struct AssistantPanel: View {
                 Text("Reading the page…").font(.system(size: 12.5)).foregroundStyle(Palette.muted)
             }
             if assistant.addressed, assistant.notice == nil {
-                caution("This page has text written for an AI to follow. The answer may have been steered by it.")
+                caution(String(localized: "This page has text written for an AI to follow. The answer may have been steered by it."))
             }
             ForEach(assistant.turns) { turn in
                 TurnView(turn: turn).id(turn.id)
@@ -388,7 +388,7 @@ struct AssistantPanel: View {
                     HStack(alignment: .firstTextBaseline, spacing: 6) {
                         Image(systemName: "exclamationmark.triangle")
                             .font(.system(size: 10, weight: .medium))
-                        Text(verbatim: "Not on the page: " + turn.strays.joined(separator: ", "))
+                        Text(verbatim: String(localized: "Not on the page: \(turn.strays.joined(separator: ", "))"))
                             .font(.system(size: 11.5))
                             .fixedSize(horizontal: false, vertical: true)
                     }
@@ -425,12 +425,12 @@ struct AISettings: View {
                 Card {
                     Line("Where it runs", place) {
                         if drawn {
-                            Stand(prefs.aiProvider.map { $0.isLocal ? "\($0.name), on this Mac" : $0.name } ?? "Choose…", menu: true)
+                            Stand(prefs.aiProvider.map { $0.isLocal ? String(localized: "\($0.name), on this Mac") : $0.name } ?? String(localized: "Choose…"), menu: true)
                         } else {
                         Picker("", selection: Binding(get: { prefs.aiProvider }, set: { prefs.aiProvider = $0 })) {
                             Text("Choose…").tag(AIProvider?.none)
                             ForEach(AIProvider.allCases.filter { $0 != .thisMac || engine.available || prefs.aiProvider == .thisMac }) { provider in
-                                Text(provider == .thisMac ? provider.name : provider.isLocal ? "\(provider.name), on this Mac" : provider.name)
+                                Text(provider == .thisMac ? provider.name : provider.isLocal ? String(localized: "\(provider.name), on this Mac") : provider.name)
                                     .tag(AIProvider?.some(provider))
                             }
                         }
@@ -486,14 +486,14 @@ struct AISettings: View {
                     Pill("Remove") { engine.remove() }
                 }
             case .failed(let why):
-                Line("Model", why) {
+                Line("Model", "\(why)") {
                     Pill("Try Again") { engine.install() }
                 }
             }
         }
     }
 
-    private var place: String {
+    private var place: LocalizedStringResource {
         guard let provider = prefs.aiProvider else { return "A provider you have a key with, or an app on this Mac" }
         return provider.isLocal
             ? "Nothing leaves this Mac. Also in private tabs"

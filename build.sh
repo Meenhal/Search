@@ -77,6 +77,17 @@ cp "$BINARY" "$APP/Contents/MacOS/$NAME"
 # The AppleScript dictionary (Scripting.swift): read-only, tabs' addresses
 # and titles. The plist below points to it.
 cp Search.sdef "$APP/Contents/Resources/"
+# The French (Language.swift): macOS picks it when French comes first among
+# the Mac's languages. Binary, as Xcode would ship it: smaller, and read
+# without parsing text. English needs no file — the code's own words are the
+# keys — only its folder, so the app counts as speaking it.
+mkdir -p "$APP/Contents/Resources/en.lproj"
+for LPROJ in Localization/*.lproj; do
+  mkdir -p "$APP/Contents/Resources/$(basename "$LPROJ")"
+  for STRINGS in "$LPROJ"/*.strings; do
+    plutil -convert binary1 "$STRINGS" -o "$APP/Contents/Resources/$(basename "$LPROJ")/$(basename "$STRINGS")"
+  done
+done
 
 # Symbols stay out of the app. The linker leaves every function's name and a
 # map back to the source in the binary — 15,000 entries, more than half of
@@ -135,6 +146,12 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <key>CFBundleDisplayName</key><string>$NAME</string>
   <key>CFBundleExecutable</key><string>$NAME</string>
   <key>CFBundleIdentifier</key><string>com.officecommun.search</string>
+  <!-- The languages Search speaks, English the one it falls back to. Listed,
+       Search also appears under System Settings › General › Language &
+       Region › Applications, to be given one of them whatever the Mac's. -->
+  <key>CFBundleDevelopmentRegion</key><string>en</string>
+  <key>CFBundleLocalizations</key>
+  <array><string>en</string><string>fr</string></array>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleShortVersionString</key><string>$VERSION</string>
   <key>CFBundleVersion</key><string>$BUILD</string>
