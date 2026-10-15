@@ -2583,24 +2583,7 @@ final class Browser: NSObject, ObservableObject {
             rememberSession()
             return
         }
-        // Never two empty tabs. One already open anywhere in the row comes to
-        // its end and is the one opened, with whatever was typed into it and
-        // never gone to cleared away — a row of identical empty tabs is what
-        // pressing ⌘T twice, or holding it, used to leave.
-        if let blank = tabs.last(where: { $0.isBlank && !$0.bench && !$0.shy && split(for: $0) == nil }) {
-            if let end = tabs.indices.last, tabs.firstIndex(where: { $0.id == blank.id }) != end {
-                move(blank, to: end)
-            }
-            if activeID != blank.id { leaving() }
-            activeID = blank.id
-            summoning = false
-            typed = ""
-            blank.draft = ""
-            editing = false
-            focusRequest += 1
-            rememberSession()
-            return
-        }
+        // A new tab each time, even beside an empty one: as many as you open.
         let tab = Tab(configuration: Web.configuration(space: spaceID))
         adopt(tab)
         leaving()
@@ -2698,8 +2681,27 @@ final class Browser: NSObject, ObservableObject {
         return true
     }
 
+    /// The blank tab closed with nothing else to land on, with Leave a new
+    /// tab when the last tab closes on: a fresh blank tab takes its place,
+    /// as one does for the last page closed, rather than the window going.
+    /// Nothing to bring back with ⇧⌘T, so nothing is remembered.
+    private func renew(_ tab: Tab, at index: Int) {
+        let fresh = Tab(configuration: Web.configuration(space: spaceID))
+        prepare(fresh)
+        tab.close()
+        tabs[index] = fresh
+        activeID = fresh.id
+        typed = ""
+        // The caret stays in the field, as a new tab puts it there.
+        editing = false
+        focusRequest += 1
+        removeEmptyGroup(tab.groupID)
+        rememberSession()
+    }
+
     /// ⌘W, or the cross on the tab. Closing the last one leaves a blank tab
-    /// behind; closing that blank tab closes the window.
+    /// behind; closing that blank tab closes the window, or with Leave a new
+    /// tab when the last tab closes, a fresh one takes its place (renew).
     func close(_ tab: Tab) {
         guard let index = tabs.firstIndex(where: { $0.id == tab.id }) else { return }
         let pair = split(for: tab)
@@ -2734,7 +2736,7 @@ final class Browser: NSObject, ObservableObject {
 
         if tabs.count == 1 {
             if tab.isBlank {
-                NSApp.keyWindow?.performClose(nil)
+                if prefs.newTabAfterLast { renew(tab, at: 0) } else { NSApp.keyWindow?.performClose(nil) }
             } else {
                 let fresh = Tab(configuration: Web.configuration(space: spaceID))
                 remember(tab, at: 0)
@@ -2743,6 +2745,8 @@ final class Browser: NSObject, ObservableObject {
                 tabs = [fresh]
                 activeID = fresh.id
                 typed = ""
+                editing = false
+                focusRequest += 1
                 removeEmptyGroup(tab.groupID)
             }
             return
@@ -2757,7 +2761,20 @@ final class Browser: NSObject, ObservableObject {
         if prefs.newTabAfterLast, activeID == tab.id,
            !tabs.contains(where: { $0.id != tab.id && $0.pin == nil }) {
             if tab.isBlank {
-                NSApp.keyWindow?.performClose(nil)
+                // Pins still open beside it: back to the latest of them, so
+                // ⌘W can put them down one by one. Only once they are all
+                // down does the blank tab stay (renew) — the last pin put
+                // down opens one (see the pin case above).
+                let open = tabs.filter { $0.id != tab.id && $0.pin != nil && !$0.asleep }
+                if let back = open.max(by: { $0.touched < $1.touched }) {
+                    tab.close()
+                    tabs.remove(at: index)
+                    removeEmptyGroup(tab.groupID)
+                    select(back)
+                    rememberSession()
+                    return
+                }
+                renew(tab, at: index)
                 return
             }
             let fresh = Tab(configuration: Web.configuration(space: spaceID))
@@ -2767,6 +2784,8 @@ final class Browser: NSObject, ObservableObject {
             tabs[index] = fresh
             activeID = fresh.id
             typed = ""
+            editing = false
+            focusRequest += 1
             removeEmptyGroup(tab.groupID)
             rememberSession()
             return

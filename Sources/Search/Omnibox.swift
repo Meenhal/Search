@@ -420,23 +420,35 @@ struct AddressField: NSViewRepresentable {
 
         if coordinator.answered != browser.focusRequest {
             coordinator.answered = browser.focusRequest
-            DispatchQueue.main.async {
-                field.window?.makeFirstResponder(field)
-                guard let editor = field.currentEditor() as? NSTextView else { return }
-                // The system paints selected text as a block of accent colour,
-                // which over this pale field is the loudest thing in the
-                // window. A tenth of the ink says "selected" quietly enough.
-                editor.selectedTextAttributes = [
-                    .backgroundColor: NSColor(Palette.ink.opacity(0.12)),
-                    .foregroundColor: Palette.NS.ink,
-                ]
-                // A draft come back to its blank tab is carried on, not typed
-                // over: the caret after it. An address ⌘L raises is selected whole.
-                if browser.active?.isBlank == true, !browser.typed.isEmpty {
-                    coordinator.select(from: browser.typed.count, in: field)
-                } else {
-                    editor.selectAll(nil)
-                }
+            AddressField.focus(field, coordinator, browser: browser)
+        }
+    }
+
+    /// The caret into the field, once it is in a window. A blank tab that
+    /// takes another's place (⌘W on the last one, Browser.renew) brings a
+    /// new field in with its pane, and the first try could come before the
+    /// pane was in the window: no window, nothing focused, and the request
+    /// already counted as answered. So it tries again, a few frames on.
+    private static func focus(_ field: NSTextField, _ coordinator: Coordinator, browser: Browser, tries: Int = 12) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + (tries == 12 ? 0 : 0.03)) {
+            guard let window = field.window, window.makeFirstResponder(field),
+                  let editor = field.currentEditor() as? NSTextView else {
+                if tries > 0, browser.fieldShowing { focus(field, coordinator, browser: browser, tries: tries - 1) }
+                return
+            }
+            // The system paints selected text as a block of accent colour,
+            // which over this pale field is the loudest thing in the
+            // window. A tenth of the ink says "selected" quietly enough.
+            editor.selectedTextAttributes = [
+                .backgroundColor: NSColor(Palette.ink.opacity(0.12)),
+                .foregroundColor: Palette.NS.ink,
+            ]
+            // A draft come back to its blank tab is carried on, not typed
+            // over: the caret after it. An address ⌘L raises is selected whole.
+            if browser.active?.isBlank == true, !browser.typed.isEmpty {
+                coordinator.select(from: browser.typed.count, in: field)
+            } else {
+                editor.selectAll(nil)
             }
         }
     }
