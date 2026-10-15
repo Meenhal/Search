@@ -82,16 +82,17 @@ struct SplitTabItem: View {
     private var cross: some View {
         if interactive, let id = hovered, let tab = [left, right].first(where: { $0.id == id }),
            browser.editingTab == nil {
+            // As the column's own rows have it (SideRow).
             Image(systemName: "xmark")
-                .font(.system(size: 8, weight: .semibold))
-                .foregroundStyle(Palette.muted)
-                .frame(width: 15, height: 15)
-                .background(Palette.ink.opacity(0.07), in: Circle())
+                .font(.system(size: 11, weight: .medium))
+                .foregroundStyle(Palette.ink.opacity(0.75))
+                .frame(width: 24, height: 24)
+                .background(Palette.ink.opacity(0.07), in: RoundedRectangle(cornerRadius: 6, style: .continuous))
                 .overlay {
                     CloseClick(armed: true) { browser.close(tab) }
                         .frame(width: 30, height: 28)
                 }
-                .padding(.trailing, 7)
+                .padding(.trailing, 5)
                 .transition(.opacity)
                 .help(tab.id == left.id ? "Close the left page" : "Close the right page")
         }
@@ -243,7 +244,7 @@ private struct SplitTabHalf: View {
             .font(.system(size: 8, weight: .semibold))
             .foregroundStyle(Palette.muted)
             .frame(width: 15, height: 15)
-            .background(hovering ? Palette.ink.opacity(0.07) : .clear, in: Circle())
+            .background(hovering ? Palette.ink.opacity(0.07) : .clear, in: RoundedRectangle(cornerRadius: 4, style: .continuous))
             .opacity(hovering ? 1 : 0)
             .overlay {
                 CloseClick(armed: hovering) { browser.close(tab) }

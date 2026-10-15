@@ -908,7 +908,7 @@ private struct SideRow: View {
                 // The cross takes this place while the pointer is here; the
                 // speaker moves one place in, clear of the cross's reach.
                 .opacity(hovering && !speaker ? 0 : 1)
-                .padding(.trailing, hovering && speaker ? 23 : 0)
+                .padding(.trailing, hovering && speaker ? 28 : 0)
             }
         }
         .padding(.leading, 10)
@@ -925,7 +925,7 @@ private struct SideRow: View {
                     Rectangle()
                     LinearGradient(colors: [.black, .clear], startPoint: .leading, endPoint: .trailing)
                         .frame(width: 16)
-                    Color.clear.frame(width: 26)
+                    Color.clear.frame(width: 32)
                 }
             }
         }
@@ -935,22 +935,24 @@ private struct SideRow: View {
                     if hovering {
                         // A pinned row is put down, not closed (see
                         // Browser.close), and says so, as Arc's does.
+                        // As large as Dia's: a glyph you can read and a
+                        // square you can aim at.
                         Image(systemName: tab.pin != nil ? "minus" : "xmark")
-                            .font(.system(size: 8, weight: .semibold))
-                            .foregroundStyle(Palette.muted)
-                            .frame(width: 15, height: 15)
-                            .background(Palette.ink.opacity(0.07), in: Circle())
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundStyle(Palette.ink.opacity(0.75))
+                            .frame(width: 24, height: 24)
+                            .background(Palette.ink.opacity(0.07), in: RoundedRectangle(cornerRadius: 6, style: .continuous))
                             .transition(.opacity)
                     }
                 }
-                .frame(width: 15, height: 15)
+                .frame(width: 24, height: 24)
                 .overlay {
                     Color.clear
                         .frame(width: 30, height: SideBar.row)
                         .contentShape(Rectangle())
                         .onTapGesture { if hovering { close() } }
                 }
-                .padding(.trailing, 7)
+                .padding(.trailing, 5)
             }
         }
         .animation(Motion.quick, value: tab.loading)

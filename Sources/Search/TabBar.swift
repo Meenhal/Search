@@ -588,7 +588,7 @@ private struct TabPill: View {
                         .font(.system(size: 8, weight: .semibold))
                         .foregroundStyle(Palette.muted)
                         .frame(width: 15, height: 15)
-                        .background(Palette.ink.opacity(0.07), in: Circle())
+                        .background(Palette.ink.opacity(0.07), in: RoundedRectangle(cornerRadius: 4, style: .continuous))
                         .transition(.opacity)
                 } else if tab.loading {
                     Ring()
@@ -667,7 +667,7 @@ private struct TabPill: View {
                             .font(.system(size: 8, weight: .semibold))
                             .foregroundStyle(Palette.muted)
                             .frame(width: 15, height: 15)
-                            .background(Palette.ink.opacity(0.07), in: Circle())
+                            .background(Palette.ink.opacity(0.07), in: RoundedRectangle(cornerRadius: 4, style: .continuous))
                             .transition(.opacity)
                     } else if tab.loading {
                         Ring().transition(.opacity)
