@@ -29,10 +29,11 @@ struct SideBar: View {
 
     @State private var groupFrames: [UUID: CGRect] = [:]
 
-    private static let row: CGFloat = 28
-    private static let gap: CGFloat = 2
-    private static let square: CGFloat = 34
-    private static let pinGap: CGFloat = 4
+    // Sized as in Dia: roomier rows and taller pins than the strip's.
+    fileprivate static let row: CGFloat = 34
+    private static let gap: CGFloat = 3
+    private static let square: CGFloat = 40
+    private static let pinGap: CGFloat = 6
 
     private var onRight: Bool { prefs.sidePosition == .right }
     private var innerEdge: Alignment { onRight ? .leading : .trailing }
@@ -699,7 +700,7 @@ private struct SideRow: View {
                         .help("Recording")
                 }
                 Text(tab.label)
-                    .font(.system(size: 12.5))
+                    .font(.system(size: 13))
                     .lineLimit(1)
                     .truncationMode(.tail)
                     .foregroundStyle(colour)
@@ -724,7 +725,7 @@ private struct SideRow: View {
         }
         .padding(.leading, 10)
         .padding(.trailing, status ? 7 : 10)
-        .frame(height: 28)
+        .frame(height: SideBar.row)
         .frame(maxWidth: .infinity, alignment: .leading)
         // The title keeps its length under the pointer and fades out
         // beneath the cross, rather than being cut shorter, so its end
@@ -757,7 +758,7 @@ private struct SideRow: View {
                 .frame(width: 15, height: 15)
                 .overlay {
                     Color.clear
-                        .frame(width: 30, height: 28)
+                        .frame(width: 30, height: SideBar.row)
                         .contentShape(Rectangle())
                         .onTapGesture { if hovering { close() } }
                 }
@@ -832,7 +833,7 @@ struct Quiet: View {
                     .font(.system(size: 10, weight: .medium))
                     .frame(width: 15)
                 Text(title)
-                    .font(.system(size: 12.5))
+                    .font(.system(size: 13))
                 Spacer(minLength: 0)
             }
             .foregroundStyle(hovering ? Palette.ink.opacity(0.7) : Palette.faint)

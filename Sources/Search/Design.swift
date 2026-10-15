@@ -161,8 +161,9 @@ enum Metrics {
     static let plusWidth: CGFloat = 30
     /// The address field, in both the places it shows up.
     static let fieldWidth: CGFloat = 560
-    /// The column of titles down the left, in the way that has one.
-    static let side: CGFloat = 232
+    /// The column of titles down the left, in the way that has one. Dia's
+    /// width, measured off a screenshot of it.
+    static let side: CGFloat = 188
     static let sideMin: CGFloat = 176
     static let sideMax: CGFloat = 440
 }
