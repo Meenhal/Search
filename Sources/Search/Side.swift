@@ -602,6 +602,12 @@ private struct PinSquare: View {
     /// stretching to chase the width.
     private var scale: CGFloat { min(width, height) }
 
+    /// The site's colour, for the live square, when it is drawn as its icon.
+    private var tint: Color? {
+        guard prefs.glyph == .icons, let icon = tab.icon, let colour = IconTint.colour(of: icon) else { return nil }
+        return Color(nsColor: colour)
+    }
+
     var body: some View {
         Group {
             if browser.editingPin == tab.id {
@@ -621,15 +627,25 @@ private struct PinSquare: View {
         .frame(width: width, height: height)
         .background {
             if live {
-                // Darker than the resting squares' grey by as much as a live
-                // row is darker than the white it sits on (Drice: the live
-                // pin barely showed among the others).
+                // Filled with the site's own colour, as in Dia, when its icon
+                // has one (IconTint). Otherwise darker than the resting
+                // squares' grey by as much as a live row is darker than the
+                // white it sits on (Drice: the live pin barely showed among
+                // the others).
                 RoundedRectangle(cornerRadius: scale * 9 / 34, style: .continuous)
-                    .fill(Palette.sidePinLive)
+                    .fill(tint ?? Palette.sidePinLive)
+                    .overlay {
+                        if tint != nil {
+                            RoundedRectangle(cornerRadius: scale * 9 / 34, style: .continuous)
+                                .strokeBorder(.white.opacity(0.28), lineWidth: 1)
+                        }
+                    }
                     .matchedGeometryEffect(id: "live", in: pill)
             } else {
                 RoundedRectangle(cornerRadius: scale * 9 / 34, style: .continuous)
-                    .fill(hovering ? Palette.sideHover : Palette.sideTile)
+                    .fill(tab.asleep
+                          ? (hovering ? Palette.sideHover : Palette.sideTile)
+                          : (hovering ? Palette.sideTileOpenHover : Palette.sideTileOpen))
             }
         }
         .contentShape(RoundedRectangle(cornerRadius: scale * 9 / 34, style: .continuous))
