@@ -110,7 +110,11 @@ struct SettingsPanel: View {
                 .frame(height: 30)
                 .background(
                     RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .fill(on ? Palette.ground : (hovering ? Palette.hover : .clear))
+                        // Wash, not hover: the rail is already about hover's grey,
+                        // and a hover in it didn't show.
+                        .fill(on ? Palette.ground : (hovering ? Palette.wash : .clear))
+                        // At once, not faded: a fade from .clear passes through dark grey.
+                        .animation(nil, value: hovering)
                         .shadow(color: .black.opacity(on ? 0.06 : 0), radius: 3, y: 1)
                 )
                 .contentShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
@@ -856,7 +860,12 @@ struct Steps: View {
                     .font(.system(size: 9, weight: .semibold))
                     .foregroundStyle(to == nil ? Palette.faint : Palette.ink)
                     .frame(width: 20, height: 20)
-                    .background(hovering && to != nil ? Palette.hover : .clear, in: Circle())
+                    // At once, not faded: a fade from .clear passes through dark grey.
+                    .background {
+                        Circle()
+                            .fill(hovering && to != nil ? Palette.hover : .clear)
+                            .animation(nil, value: hovering)
+                    }
                     .contentShape(Circle())
             }
             .buttonStyle(.plain)

@@ -658,6 +658,8 @@ struct FetchDoor: View {
                 .background(
                     RoundedRectangle(cornerRadius: 8, style: .continuous)
                         .fill(hovering ? Palette.hover : .clear)
+                        // At once, not faded: a fade from .clear passes through dark grey.
+                        .animation(nil, value: hovering)
                 )
                 .contentShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             }

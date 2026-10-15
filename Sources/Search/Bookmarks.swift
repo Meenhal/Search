@@ -896,7 +896,8 @@ struct BookmarkOutline: View {
             .padding(.leading, CGFloat(depth) * 18 + 10)
             .padding(.trailing, 10)
             .padding(.vertical, 6)
-            .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(wash))
+            // At once, not faded: a fade from .clear passes through dark grey.
+            .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(wash).animation(nil, value: hovering))
             .overlay(alignment: aim == .before ? .top : .bottom) {
                 if aim == .before || aim == .after {
                     // Below an open folder is its first child's place.
@@ -1375,7 +1376,8 @@ struct BookmarksPanel: View {
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 9)
-            .background(hovering ? Palette.hover : .clear)
+            // At once, not faded: a fade from .clear passes through dark grey.
+            .background { (hovering ? Palette.hover : Color.clear).animation(nil, value: hovering) }
             .contentShape(Rectangle())
             .onTapGesture { open?() ?? show() }
             .onHover { hovering = $0 }

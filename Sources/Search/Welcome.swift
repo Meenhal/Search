@@ -402,6 +402,8 @@ struct WelcomePanel: View {
                 .background(
                     RoundedRectangle(cornerRadius: 14, style: .continuous)
                         .fill(chosen ? Palette.wash : (hovering ? Palette.hover : .clear))
+                        // At once, not faded: a fade from .clear passes through dark grey.
+                        .animation(nil, value: hovering)
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: 14, style: .continuous)

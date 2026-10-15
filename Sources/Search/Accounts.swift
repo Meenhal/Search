@@ -81,7 +81,8 @@ struct AccountList: View {
                 }
                 .padding(.horizontal, 10)
                 .padding(.vertical, 7)
-                .background(hovering ? Palette.hover : .clear)
+                // At once, not faded: a fade from .clear passes through dark grey.
+                .background { (hovering ? Palette.hover : Color.clear).animation(nil, value: hovering) }
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)

@@ -75,7 +75,8 @@ struct HiddenPanel: View {
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 9)
-            .background(hovering ? Palette.hover : .clear)
+            // At once, not faded: a fade from .clear passes through dark grey.
+            .background { (hovering ? Palette.hover : Color.clear).animation(nil, value: hovering) }
             .contentShape(Rectangle())
             .onHover { inside in
                 hovering = inside

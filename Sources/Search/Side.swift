@@ -842,6 +842,8 @@ struct Quiet: View {
             .background(
                 RoundedRectangle(cornerRadius: 9, style: .continuous)
                     .fill(hovering ? Palette.sideHover : .clear)
+                    // At once, not faded: a fade from .clear passes through dark grey.
+                    .animation(nil, value: hovering)
             )
             .contentShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
         }
@@ -934,6 +936,8 @@ struct Door: View {
                 .background(
                     RoundedRectangle(cornerRadius: 8, style: .continuous)
                         .fill(on ? Palette.sideWash : (hovering ? Palette.sideHover : .clear))
+                        // At once, not faded: a fade from .clear passes through dark grey.
+                        .animation(nil, value: hovering)
                 )
                 .contentShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         }

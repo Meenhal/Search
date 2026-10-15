@@ -115,7 +115,8 @@ struct PasswordsPanel: View {
                 }
                 .padding(.horizontal, 14)
                 .padding(.vertical, 10)
-                .background(open ? Palette.wash.opacity(0.6) : (hovering ? Palette.hover : .clear))
+                // At once, not faded: a fade from .clear passes through dark grey.
+                .background { (open ? Palette.wash.opacity(0.6) : (hovering ? Palette.hover : Color.clear)).animation(nil, value: hovering) }
                 .contentShape(Rectangle())
                 .onTapGesture(perform: toggle)
                 .onHover { hovering = $0 }
@@ -178,7 +179,12 @@ struct PasswordsPanel: View {
             }
             .padding(.horizontal, 10)
             .padding(.vertical, 7)
-            .background(hovering ? Palette.hover : .clear, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+            // At once, not faded: a fade from .clear passes through dark grey.
+            .background {
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .fill(hovering ? Palette.hover : .clear)
+                    .animation(nil, value: hovering)
+            }
             .contentShape(Rectangle())
             .onHover { hovering = $0 }
             .animation(Motion.quick, value: hovering)
